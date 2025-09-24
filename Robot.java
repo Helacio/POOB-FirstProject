@@ -26,8 +26,8 @@ public class Robot
     public Robot(int start, String color)
     {
         
-        locationActual = start; 
-        initialStart = start; 
+        this.locationActual = start; 
+        this.initialStart = start; 
         
         this.cabeza = new Rectangle();
         this.boca = new Rectangle();
@@ -74,6 +74,7 @@ public class Robot
         
         cuerpo.moveHorizontal(-83);
         cuerpo.moveVertical(61);
+        
         
         /*
         if (start > 0 && color != null) {
@@ -151,20 +152,27 @@ public class Robot
         return initialStart;
     }
 
-    private void setPosition(int x, int y) {
-        // Mueve todas las partes del robot al punto (x, y)
-        cabeza.setXPosition(50 + y);
-        cabeza.setYPosition(50 + x);
-        boca.setXPosition(53 + y);
-        boca.setYPosition(53 + x);
-        antena.setXPosition(55 + y);
-        antena.setYPosition(55 + x);
-        cuerpo.setXPosition(57 + y);
-        cuerpo.setYPosition(57 + x);
-        ojoIzq.setXPosition(55 + y);
-        ojoIzq.setYPosition(55 + x);
-        ojoDer.setXPosition(60 + y); 
-        ojoDer.setYPosition(60 + x);
+    public void setPosition(int x, int y) {
+        cabeza.setXPosition(50 + y * 40);
+        cabeza.setYPosition(50 + x * 40);
+        boca.setXPosition(53 + y * 40);
+        boca.setYPosition(60 + x * 40);
+        antena.setXPosition(55 + y * 40);
+        antena.setYPosition(43 + x * 40);
+        cuerpo.setXPosition(57 + y * 40);
+        cuerpo.setYPosition(76 + x * 40);
+        ojoIzq.setXPosition(55 + y * 40);
+        ojoIzq.setYPosition(55 + x * 40);
+        ojoDer.setXPosition(60 + y * 40);
+        ojoDer.setYPosition(55 + x * 40);
+        
+        cuerpo.makeVisible();
+        cabeza.makeVisible();
+        antena.makeVisible();
+        boca.makeVisible();
+        ojoIzq.makeVisible();
+        ojoDer.makeVisible();
     }
     
+
 }

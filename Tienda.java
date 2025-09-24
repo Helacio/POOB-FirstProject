@@ -27,6 +27,7 @@ public class Tienda
         this.cuerpo = new Rectangle();
         this.puerta = new Rectangle();
         this.techo = new Triangle();
+        this.distanciaX = distanciaX;
         
         cuerpo.changeSize(30, 40);
         puerta.changeSize(20, 15);
@@ -52,25 +53,10 @@ public class Tienda
         puerta.changeColor("red");
         techo.changeColor("blue");
         
-        cuerpo.makeVisible();
-        puerta.makeVisible();
-        techo.makeVisible();
-        
-        System.out.println(cuerpo.getXPosition());
-        System.out.println(cuerpo.getYPosition());
-        System.out.println(puerta.getXPosition());
-        System.out.println(puerta.getYPosition());
-        System.out.println(techo.getXPosition());
-        System.out.println(techo.getYPosition());
         
         this.tenges = tenges;
         initialTenges = tenges; /* el tienda guarda un dinero inicial para al 
             final del dia reabastecer su dinero */
-        
-        
-            
-        
-        
     }
     
     /**
@@ -101,12 +87,12 @@ public class Tienda
         int fila = posX;
         int columna = posY;  
         
-        cuerpo.setXPosition(50 + fila * 40);
+        cuerpo.setXPosition(50 + columna * 40);
         cuerpo.setYPosition(60 + fila * 40);
-        techo.setXPosition(70 +fila * 40);
-        techo.setYPosition(45 + columna * 40);
-        puerta.setXPosition(63 + fila * 40);
-        puerta.setYPosition(70 + columna * 40);
+        techo.setXPosition(70 +columna * 40);
+        techo.setYPosition(45 + fila * 40);
+        puerta.setXPosition(63 + columna * 40);
+        puerta.setYPosition(70 + fila * 40);
         cuerpo.makeVisible();
         puerta.makeVisible();
         techo.makeVisible();
