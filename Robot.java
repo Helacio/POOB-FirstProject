@@ -88,13 +88,6 @@ public class Robot
             
             cabeza.changeColor(color);
             */
-            cuerpo.makeVisible();
-            cabeza.makeVisible();
-            antena.makeVisible();
-            boca.makeVisible();
-            ojoIzq.makeVisible();
-            ojoDer.makeVisible();
-        
     }
 
     /**
@@ -103,11 +96,12 @@ public class Robot
     public void resetRobot() {
         locationActual = initialStart;
         gains = 0;
-    }
+        }
     
     public void resetPositionRob() {
         locationActual = initialStart;
     }
+    
     /**
      * Mueve el robot y calcula la ganancia que obtiene
      * @param Esto es la tienda a la que va a saquear el robot
@@ -119,16 +113,23 @@ public class Robot
         Tienda tienda = tiendas.get(idTienda); 
         ArrayList<Point> camino = simulador.getRutaDeSeda().getCamino();
         gains = tienda.getTenges() - Math.abs(locationActual - tienda.getDistanciaX());
-        locationActual = tienda.getDistanciaX();
         
-        for(int i = 0; i<=idTienda; i++){
-            Point paso = camino.get(i);
-            int x = paso.x * 40;
-            int y = paso.y * 40;
-            setPosition(x, y);
+        if (locationActual < tienda.getDistanciaX()) {
+            for(int i = locationActual; i <= tienda.getDistanciaX(); i++){
+                Point paso = camino.get(i);
+                setPosition(paso.x, paso.y);
+                Canvas.getCanvas().wait(100);
+                this.nMovimientos++;
+            }
+        } else {
+            for(int i = locationActual; i >= tienda.getDistanciaX(); i--){
+                Point paso = camino.get(i);
+                setPosition(paso.x, paso.y);
+                Canvas.getCanvas().wait(100);
+                this.nMovimientos++;
+            }
         }
-        this.nMovimientos++;
-
+        locationActual = tienda.getDistanciaX();
     }
     
     public void makeInvisible() {
