@@ -189,6 +189,19 @@ public class Rectangle{
         }
     }
     
+    public int getXPosition(){
+        return xPosition;
+    }
+     public int getYPosition(){
+        return yPosition;
+    }
 
+    public void setXPosition(int x){
+        this.xPosition = x;
+    }
+
+    public void setYPosition(int y){
+        this.yPosition = y;
+    }
 }
 

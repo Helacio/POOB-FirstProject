@@ -9,7 +9,7 @@ import java.awt.*;
 
 public class Triangle{
     
-    public static int VERTICES=3;
+    public static int VERTICES = 3;
     
     private int height;
     private int width;
@@ -199,7 +199,7 @@ public class Triangle{
         int[] xpoints = { (int) newX1, (int) newX2, (int) newX3 };
         int[] ypoints = { (int) newY1, (int) newY2, (int) newY3 };
         
-        canvas.draw(this, color, new Polygon(xpoints, ypoints, 3));
+        canvas.draw(this, color, new Polygon(xpoints, ypoints, VERTICES));
         canvas.wait(10);
         }
     }
@@ -212,5 +212,20 @@ public class Triangle{
             Canvas canvas = Canvas.getCanvas();
             canvas.erase(this);
         }
+    }
+
+    public int getXPosition(){
+        return xPosition;
+    }
+     public int getYPosition(){
+        return yPosition;
+    }
+
+    public void setXPosition(int x){
+        this.xPosition = x;
+    }
+
+    public void setYPosition(int y){
+        this.yPosition = y;
     }
 }

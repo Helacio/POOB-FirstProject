@@ -1,9 +1,0 @@
-#BlueJ class context
-comment0.target=Tablero
-comment1.params=
-comment1.target=Tablero()
-comment2.params=longitud
-comment2.target=void\ crearRutaDeSeda(int)
-comment3.params=k
-comment3.target=int[]\ buscarPosicion(int)
-numComments=4
