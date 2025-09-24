@@ -56,7 +56,7 @@ public class Simulador
     public void addTienda(int longitud) {
         Random random = new Random();
         
-        int posRandomTien = random.nextInt(longitud+1);
+        int posRandomTien = random.nextInt(longitud);
         
         if (numRandomTiendas.containsKey(posRandomTien)) {
             addTienda(longitud);
@@ -72,10 +72,9 @@ public class Simulador
         colors.remove(colors.get(posColorRandomTien));
         int indice = newTienda.getDistanciaX(); // atributo de la tienda
         Point pos = rutaDeSeda.getCamino().get(indice);     // posición en la ruta
-        System.out.println("PosicionRandom" + posRandomTien);
+        
         int fila = pos.x;
         int col = pos.y;
-        System.out.println(pos.x + " " + pos.y);
         newTienda.ubicarTienda(fila, col);
         
     }
@@ -88,11 +87,12 @@ public class Simulador
     
     public void addRobot(int longitud) { 
         Random random = new Random();
-        int posRandomRob = random.nextInt(100+1);
+        int posRandomRob = random.nextInt(longitud);
         
-        if (numRandomRobots.containsKey(posRandomRob)) {
+        if (numRandomRobots.containsKey(posRandomRob) || numRandomTiendas.containsKey(posRandomRob)) {
             addRobot(longitud);
-        }
+            return;
+        }  
         
         int ColorRandomRob = random.nextInt(colors.size());
         
@@ -100,6 +100,13 @@ public class Simulador
         robots.put(robots.size(), newRobot);
         
         colors.remove(colors.get(ColorRandomRob));
+        int indice = newRobot.getInitialStart(); // atributo de la tienda
+        System.out.println(posRandomRob);
+        Point pos = rutaDeSeda.getCamino().get(indice);// posición en la ruta
+        
+        int fila = pos.x;
+        int col = pos.y;
+        newRobot.setPosition(fila, col);
     }
     
     
