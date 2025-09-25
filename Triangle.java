@@ -7,26 +7,20 @@ import java.awt.*;
  * @version 1.0  (15 July 2000)
  */
 
-public class Triangle{
+public class Triangle extends Shape{
     
     public static int VERTICES = 3;
     
     private int height;
     private int width;
-    private int xPosition;
-    private int yPosition;
-    private String color;
-    private boolean isVisible;
     private double rotationAngle;
     /**
      * Create a new triangle at default position with default color.
      */
     public Triangle(){
+        super(140, 15, "green");
         height = 30;
         width = 40;
-        xPosition = 140;
-        yPosition = 15;
-        color = "green";
         isVisible = false;
         rotationAngle = 0.0;
     }
@@ -47,9 +41,7 @@ public class Triangle{
         isVisible = false;
     }
     
-    /**
-     * Move the triangle a few pixels to the right.
-     */
+    
     public void moveRight(){
         moveHorizontal(20);
     }
@@ -150,23 +142,26 @@ public class Triangle{
     /**
      * Change the color. 
      * @param color the new color. Valid colors are "red", "yellow", "blue", "green",
-     * "magenta" and "black".
+     * "black", "white", "magenta", "orange", "pink", "cyan", "gray", "lightGray",
+     * "darkGray", "brown" and "maroon".
      */
     public void changeColor(String newColor){
         color = newColor;
         draw();
     }
     
+    
     public void rotate(double angle) {
-    erase();
-    rotationAngle = angle;
-    draw();
-}
+        erase();
+        rotationAngle = angle;
+        draw();
+    }
 
     /*
      * Draw the triangle with current specifications on screen.
      */
-    private void draw(){
+    @Override
+    public void draw(){
         if(isVisible) {
         Canvas canvas = Canvas.getCanvas();
         
@@ -203,29 +198,5 @@ public class Triangle{
         canvas.wait(10);
         }
     }
-
-    /*
-     * Erase the triangle on screen.
-     */
-    private void erase(){
-        if(isVisible) {
-            Canvas canvas = Canvas.getCanvas();
-            canvas.erase(this);
-        }
-    }
-
-    public int getXPosition(){
-        return xPosition;
-    }
-     public int getYPosition(){
-        return yPosition;
-    }
-
-    public void setXPosition(int x){
-        this.xPosition = x;
-    }
-
-    public void setYPosition(int y){
-        this.yPosition = y;
-    }
+    
 }
