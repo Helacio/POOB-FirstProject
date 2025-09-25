@@ -22,12 +22,13 @@ public class Simulador
     private HashMap<Integer, Tienda> numRandomTiendas;
     private HashMap<Integer, Robot> numRandomRobots; 
     private ArrayList<String> colors; 
+    private int longitud;
     /**
      * Constructor for objects of class Simulador
      */
 
 
-        public Simulador(int longitud)
+    public Simulador(int longitud)
     {
         colors = new ArrayList<>(Arrays.asList("red", "black", 
         "blue", "yellow", "magenta", "white", "orange", "pink",
@@ -39,6 +40,8 @@ public class Simulador
         tiendas = new HashMap<>();
         robots = new HashMap<>();
         
+        this.longitud = longitud;
+        
         RutaDeSeda rutaDeSeda = new RutaDeSeda(longitud);
         this.rutaDeSeda = rutaDeSeda;
         visible = true;
@@ -49,17 +52,17 @@ public class Simulador
 
 
     /**
-     * Agrega una tienda en una posicion aleatorea con un color aleatoreo
+     * Add a shop in a random position with a random color
      * 
      */
     
-    public void addTienda(int longitud) {
+    public void addTienda() {
         Random random = new Random();
         
         int posRandomTien = random.nextInt(longitud);
         
         if (numRandomTiendas.containsKey(posRandomTien)) {
-            addTienda(longitud);
+            addTienda();
         }
         
         int posColorRandomTien = random.nextInt(colors.size());
@@ -81,16 +84,16 @@ public class Simulador
     
     
     /**
-     * Agrega un robot en una posición aleatorea con un color aleatoreo
+     * Add a robot in a random position with a random color
      * 
      */
     
-    public void addRobot(int longitud) { 
+    public void addRobot() { 
         Random random = new Random();
         int posRandomRob = random.nextInt(longitud);
         
         if (numRandomRobots.containsKey(posRandomRob) || numRandomTiendas.containsKey(posRandomRob)) {
-            addRobot(longitud);
+            addRobot();
             return;
         }  
         
@@ -111,9 +114,9 @@ public class Simulador
     
     
     /**
-     * Elimina un robot en especifico
+     * Delete a specific robot 
      * 
-     * @param Se da el id de un robot de la tabla de robots para eliminarlo 
+     * @param it gives robot's id from HashMap of robots to delete it
      */
     public void removeRobot(int idRobot) {  
         Robot robotToRemove = robots.get(idRobot);
@@ -123,9 +126,9 @@ public class Simulador
     }
     
     /**
-     * Elimina una tienda en especifico
+     * Delete a specific shop
      * 
-     * @param Se da el id de una tienda de la tabla de tiendas para eliminarla 
+     * @param It gives a shop's id from HashMap of tiendas to delete it 
      */
     public void removeTienda(int idTienda) {
         Tienda tiendaToRemove = tiendas.get(idTienda);
@@ -135,13 +138,13 @@ public class Simulador
     }
     
     /**
-     * Reinicia a su origen las posiciones de los robots y los tenges que tenian las tiendas en un principio
+     * Reset the skillroad, set the robot positions and shop's tenges given at the start of day
      * 
     */
     
     public void resetRutaRutaDeSeda() {
         for (Robot r : robots.values()) {
-            r.resetPositionRob();
+            r.resetRobot(rutaDeSeda);
         }
         
         for (Tienda t : tiendas.values()) {
@@ -160,9 +163,7 @@ public class Simulador
     
     
     /**
-     * Establece las tiendas con los tenges que iniciaron al principio del dia
-     * 
-     * 
+     * Set shops with Tenge starting from the beginning of the day.
      */
     public void reabastecerTiendas() {
         for (Tienda t : tiendas.values()) {
@@ -171,19 +172,17 @@ public class Simulador
     }
     
     /**
-     * Hace que todos los robots que se crearon en el dia vuelvan a sus posiciones inicial
+     * Make reset the all robots position 
      * 
      */
-    public void retonarRobots() {
+    public void resetearRobots() {
         for (Robot r : robots.values()) {
-            r.resetPositionRob();
+            r.resetRobot(rutaDeSeda);
         }
     }
     
     /**
-     * Mueve el robot a una casilla en especifico 
-     * 
-     * @param Brinda la casilla a la que se va a mover el robot 
+     * Move a robot to a specific cell
      */
     public void moveRobot(int idRobot, int idTienda) {
         
@@ -191,6 +190,12 @@ public class Simulador
         
         robot.moveRobot(this, idTienda);
     }
+    
+    /**
+     * Get the gains from all robots
+     * 
+     * @return Give the totally gains from all robots
+     */
     
     public int getGains() {
         
@@ -204,7 +209,7 @@ public class Simulador
     }
     
     /**
-     * Se obtiene informacion de la ruta de seda
+     * Give information about sillRoad
      * 
      */
     public void getInfoRutaSeda() {
@@ -237,6 +242,7 @@ public class Simulador
         }
         
     }
+    
     public RutaDeSeda getRutaDeSeda() {
         return rutaDeSeda;
     }

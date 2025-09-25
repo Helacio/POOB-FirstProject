@@ -40,7 +40,7 @@ public class Robot
         ojoDer.makeInvisible();
         
         cabeza.changeSize(20, 20);
-        cabeza.changeColor("black");
+        cabeza.changeColor(color);
         
         ojoIzq.changeColor("white");
         ojoIzq.changeSize(3);
@@ -93,14 +93,15 @@ public class Robot
     /**
      * Set the robot in their initial position
      */
-    public void resetRobot() {
+    public void resetRobot(RutaDeSeda rutaDeSeda) {
         locationActual = initialStart;
+        ArrayList<Point> camino = rutaDeSeda.getCamino();
+        Point pair = camino.get(initialStart);
         gains = 0;
+        int x = (int) pair.getX();
+        int y = (int) pair.getY();
+        this.setPosition(x, y);
         }
-    
-    public void resetPositionRob() {
-        locationActual = initialStart;
-    }
     
     /**
      * Mueve el robot y calcula la ganancia que obtiene
@@ -112,7 +113,7 @@ public class Robot
         HashMap<Integer, Tienda> tiendas = simulador.getTiendas();
         Tienda tienda = tiendas.get(idTienda); 
         ArrayList<Point> camino = simulador.getRutaDeSeda().getCamino();
-        gains = tienda.getTenges() - Math.abs(locationActual - tienda.getDistanciaX());
+        this.gains = tienda.getTenges() - Math.abs(this.locationActual - tienda.getDistanciaX());
         
         if (locationActual < tienda.getDistanciaX()) {
             for(int i = locationActual; i <= tienda.getDistanciaX(); i++){
