@@ -28,7 +28,7 @@ public class Simulador
      */
 
 
-        public Simulador(int longitud)
+    public Simulador(int longitud)
     {
         colors = new ArrayList<>(Arrays.asList("red", "black", 
         "blue", "yellow", "magenta", "white", "orange", "pink",
@@ -144,7 +144,7 @@ public class Simulador
     
     public void resetRutaRutaDeSeda() {
         for (Robot r : robots.values()) {
-            r.resetPositionRob();
+            r.resetRobot(rutaDeSeda);
         }
         
         for (Tienda t : tiendas.values()) {
@@ -164,8 +164,6 @@ public class Simulador
     
     /**
      * Set shops with Tenge starting from the beginning of the day.
-     * 
-     * 
      */
     public void reabastecerTiendas() {
         for (Tienda t : tiendas.values()) {
@@ -177,9 +175,9 @@ public class Simulador
      * Make reset the all robots position 
      * 
      */
-    public void retonarRobots() {
+    public void resetearRobots() {
         for (Robot r : robots.values()) {
-            r.resetPositionRob();
+            r.resetRobot(rutaDeSeda);
         }
     }
     

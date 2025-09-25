@@ -9,9 +9,6 @@
 public abstract class Shape
 {
     // instance variables - replace the example below with your own
-    
-    protected int x;
-    protected int y;
     protected String color;
     protected boolean isVisible;
     protected int xPosition;

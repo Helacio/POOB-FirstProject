@@ -93,14 +93,15 @@ public class Robot
     /**
      * Set the robot in their initial position
      */
-    public void resetRobot() {
+    public void resetRobot(RutaDeSeda rutaDeSeda) {
         locationActual = initialStart;
+        ArrayList<Point> camino = rutaDeSeda.getCamino();
+        Point pair = camino.get(initialStart);
         gains = 0;
+        int x = (int) pair.getX();
+        int y = (int) pair.getY();
+        this.setPosition(x, y);
         }
-    
-    public void resetPositionRob() {
-        locationActual = initialStart;
-    }
     
     /**
      * Mueve el robot y calcula la ganancia que obtiene
