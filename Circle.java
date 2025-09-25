@@ -11,7 +11,6 @@ import java.awt.geom.*;
 public class Circle extends Shape{
 
     public static final double PI=3.1416;
-    
     private int diameter;
     private boolean isVisible;
     
@@ -21,7 +20,6 @@ public class Circle extends Shape{
         diameter = 30;
         isVisible = true;
     }
-
     
     @Override
     public void draw(){
