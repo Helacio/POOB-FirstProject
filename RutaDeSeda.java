@@ -107,5 +107,4 @@ public class RutaDeSeda {
     public ArrayList<Point> getCamino(){
         return camino;
     }
-    
 }
