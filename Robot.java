@@ -93,9 +93,9 @@ public class Robot
     /**
      * Set the robot in their initial position
      */
-    public void resetRobot(RutaDeSeda rutaDeSeda) {
+    public void resetRobot(SilkRoad rutaDeSeda) {
         locationActual = initialStart;
-        ArrayList<Point> camino = rutaDeSeda.getCamino();
+        ArrayList<Point> camino = rutaDeSeda.getWay();
         Point pair = camino.get(initialStart);
         gains = 0;
         int x = (int) pair.getX();
@@ -108,29 +108,29 @@ public class Robot
      * @param Esto es la tienda a la que va a saquear el robot
      * 
      */
-    public void moveRobot(Simulador simulador, int idTienda) {
+    public void moveRobot(Simulator simulador, int idTienda) {
         
-        HashMap<Integer, Tienda> tiendas = simulador.getTiendas();
-        Tienda tienda = tiendas.get(idTienda); 
-        ArrayList<Point> camino = simulador.getRutaDeSeda().getCamino();
-        this.gains = tienda.getTenges() - Math.abs(this.locationActual - tienda.getDistanciaX());
+        HashMap<Integer, Shop> tiendas = simulador.getTiendas();
+        Shop tienda = tiendas.get(idTienda); 
+        ArrayList<Point> camino = simulador.getRutaDeSeda().getWay();
+        this.gains = tienda.getTenges() - Math.abs(this.locationActual - tienda.getDistance());
         
-        if (locationActual < tienda.getDistanciaX()) {
-            for(int i = locationActual; i <= tienda.getDistanciaX(); i++){
+        if (locationActual < tienda.getDistance()) {
+            for(int i = locationActual; i <= tienda.getDistance(); i++){
                 Point paso = camino.get(i);
                 setPosition(paso.x, paso.y);
                 Canvas.getCanvas().wait(100);
                 this.nMovimientos++;
             }
         } else {
-            for(int i = locationActual; i >= tienda.getDistanciaX(); i--){
+            for(int i = locationActual; i >= tienda.getDistance(); i--){
                 Point paso = camino.get(i);
                 setPosition(paso.x, paso.y);
                 Canvas.getCanvas().wait(100);
                 this.nMovimientos++;
             }
         }
-        locationActual = tienda.getDistanciaX();
+        locationActual = tienda.getDistance();
     }
     
     public void makeInvisible() {

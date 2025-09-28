@@ -9,34 +9,34 @@ import java.awt.Point;
  */
 
 
-public class RutaDeSeda {
+public class SilkRoad {
     private static final int n = 15; // tamaño fijo 15x15 matriz
-    private int longitud;
-    private ArrayList<Point> camino; // ArrayList permite guardar las coordenadas de la matriz
-    private int tamañoCelda = 40;
-    private ArrayList<Rectangle> celdas;
+    private int lenght;
+    private ArrayList<Point> wayCoordinates; // ArrayList permite guardar las coordenadas de la matriz
+    private int cellSize = 40;
+    private ArrayList<Rectangle> cells;
     private boolean finish = false;
     /**
      * Constructor for objects of class RutaDeSeda
      */
-    public RutaDeSeda (int longitud) {
-        this.longitud = longitud;
-        camino = generarEspiral();
-        crearRutaDeSeda(this.longitud);
+    public SilkRoad (int lenghtX) {
+        this.lenght = lenghtX;
+        wayCoordinates = generateSpiral();
+        createSilkRoad(this.lenght);
     }
     
     /**
      * Generar Espiral
      * matriz será de 15x15, 225 pasos por mucho en la ruta de seda
      */
-    public ArrayList<Point> generarEspiral() {
+    public ArrayList<Point> generateSpiral() {
         ArrayList<Point> camino = new ArrayList<>();
         int valor = 1;
         
         int top = 0, inferior = n - 1;
         int left = 0, right = n - 1;
 
-        while (top <= inferior && left <= right && camino.size() < longitud) {
+        while (top <= inferior && left <= right && camino.size() < lenght) {
             // Moverse de izquierda a derecha
             for(int j = left; j <= right; j++) {
                 camino.add(new Point(top, j));
@@ -44,14 +44,14 @@ public class RutaDeSeda {
             top++;
 
             // Moverse al llegar al "tope" de arriba hacia abajo
-            for(int i = top; i <= inferior && camino.size() < longitud; i++) {
+            for(int i = top; i <= inferior && camino.size() < lenght; i++) {
                 camino.add(new Point(i, right));
             }
             right--;
 
             // Moverse al llegar al "tope" de derecha a izquierda
             if(top <= inferior) {
-                for (int j = right; j >= left && camino.size() < longitud; j--) {
+                for (int j = right; j >= left && camino.size() < lenght; j--) {
                     camino.add(new Point(inferior, j));
                 }
                 inferior--;
@@ -59,7 +59,7 @@ public class RutaDeSeda {
 
             // Moverse al llegar al "tope" de abajo hacia arriba
             if(left <= right) {
-                for (int i = inferior; i >= top && camino.size() < longitud; i--) {
+                for (int i = inferior; i >= top && camino.size() < lenght; i--) {
                     camino.add(new Point(i, left));
                 }
                 left++;
@@ -68,43 +68,43 @@ public class RutaDeSeda {
         return camino;
     }
     
-    public void crearRutaDeSeda(int longitud) {
-        celdas = new ArrayList<>();
-        if (longitud > camino.size()) {
-            longitud = camino.size();
+    public void createSilkRoad(int lenghtX) {
+        cells = new ArrayList<>();
+        if (lenghtX > wayCoordinates.size()) {
+            lenghtX = wayCoordinates.size();
         }
 
-        for (int k = 0; k < longitud; k++) {
-            Point pos = camino.get(k);
+        for (int k = 0; k < lenghtX; k++) {
+            Point pos = wayCoordinates.get(k);
             int fila = pos.x;
             int col = pos.y;
 
             Rectangle celda = new Rectangle();
-            celda.changeSize(tamañoCelda, tamañoCelda);
-            celda.moveHorizontal(col * tamañoCelda);
-            celda.moveVertical(fila * tamañoCelda);
+            celda.changeSize(cellSize, cellSize);
+            celda.moveHorizontal(col * cellSize);
+            celda.moveVertical(fila * cellSize);
             celda.changeColor("lightGray");
             celda.makeVisible();
-            celdas.add(celda);
+            cells.add(celda);
         }
     }
     
-    public int getLongitudRuta() {
-        return longitud;
+    public int getLenRoad() {
+        return lenght;
     }
     
     /**
      * Borra las celdas del canvas pero siguen existiendo
      */
-    public void cleanRuta(){
-        if (celdas != null) {
-        for (Rectangle r : celdas) {
+    public void cleanRoad(){
+        if (cells != null) {
+        for (Rectangle r : cells) {
             r.makeInvisible();
             }
         }
     }
 
-    public ArrayList<Point> getCamino(){
-        return camino;
+    public ArrayList<Point> getWay(){
+        return wayCoordinates;
     }
 }

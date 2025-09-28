@@ -6,43 +6,43 @@ import javax.swing.JOptionPane;
 import java.awt.Point;
 
 /**
- * Write a description of class Simulador here.
+ * Write a description of class Simulator here.
  * * @author SanchezVillagran 
  * @version (a version number or a date)
  */
-public class Simulador
+public class Simulator
 {
     // instance variables - replace the example below with your own
     
-    private HashMap<Integer, Tienda> tiendas;
+    private HashMap<Integer, Shop> shops;
     private HashMap<Integer, Robot> robots;
-    private RutaDeSeda rutaDeSeda;
+    private SilkRoad rutaDeSeda;
     private boolean visible;
     private boolean finish;
-    private HashMap<Integer, Tienda> numRandomTiendas;
+    private HashMap<Integer, Shop> numRandomShops;
     private HashMap<Integer, Robot> numRandomRobots; 
     private ArrayList<String> colors; 
-    private int longitud;
+    private int len;
     /**
-     * Constructor for objects of class Simulador
+     * Constructor for objects of class Simulator
      */
 
 
-    public Simulador(int longitud)
+    public Simulator(int len)
     {
         colors = new ArrayList<>(Arrays.asList("red", "black", 
         "blue", "yellow", "magenta", "white", "orange", "pink",
         "cyan", "gray", "lightGray", "darkGray", "brown", "maroon"));
         
-        numRandomTiendas = new HashMap<>();
+        numRandomShops = new HashMap<>();
         numRandomRobots = new HashMap<>();
         
-        tiendas = new HashMap<>();
+        shops = new HashMap<>();
         robots = new HashMap<>();
         
-        this.longitud = longitud;
+        this.len = len;
         
-        RutaDeSeda rutaDeSeda = new RutaDeSeda(longitud);
+        SilkRoad rutaDeSeda = new SilkRoad(len);
         this.rutaDeSeda = rutaDeSeda;
         visible = true;
         finish = false;
@@ -56,29 +56,29 @@ public class Simulador
      * 
      */
     
-    public void addTienda() {
+    public void addShop() {
         Random random = new Random();
         
-        int posRandomTien = random.nextInt(longitud);
+        int posRandomTien = random.nextInt(len);
         
-        if (numRandomTiendas.containsKey(posRandomTien)) {
-            addTienda();
+        if (numRandomShops.containsKey(posRandomTien)) {
+            addShop();
         }
         
         int posColorRandomTien = random.nextInt(colors.size());
         int randomTenges = random.nextInt((int)Math.pow(10, 8)) + 1;
         
-        Tienda newTienda = new Tienda(posRandomTien, colors.get(posColorRandomTien), randomTenges); 
-        tiendas.put(tiendas.size(), newTienda);
-        numRandomTiendas.put(posRandomTien, newTienda);
+        Shop newTienda = new Shop(posRandomTien, colors.get(posColorRandomTien), randomTenges); 
+        shops.put(shops.size(), newTienda);
+        numRandomShops.put(posRandomTien, newTienda);
         
         colors.remove(colors.get(posColorRandomTien));
-        int indice = newTienda.getDistanciaX(); // atributo de la tienda
-        Point pos = rutaDeSeda.getCamino().get(indice);     // posición en la ruta
+        int indice = newTienda.getDistance(); // atributo de la tienda
+        Point pos = rutaDeSeda.getWay().get(indice);     // posición en la ruta
         
         int fila = pos.x;
         int col = pos.y;
-        newTienda.ubicarTienda(fila, col);
+        newTienda.setUbication(fila, col);
         
     }
     
@@ -90,9 +90,9 @@ public class Simulador
     
     public void addRobot() { 
         Random random = new Random();
-        int posRandomRob = random.nextInt(longitud);
+        int posRandomRob = random.nextInt(len);
         
-        if (numRandomRobots.containsKey(posRandomRob) || numRandomTiendas.containsKey(posRandomRob)) {
+        if (numRandomRobots.containsKey(posRandomRob) || numRandomShops.containsKey(posRandomRob)) {
             addRobot();
             return;
         }  
@@ -105,7 +105,7 @@ public class Simulador
         colors.remove(colors.get(ColorRandomRob));
         int indice = newRobot.getInitialStart(); // atributo de la tienda
         System.out.println(posRandomRob);
-        Point pos = rutaDeSeda.getCamino().get(indice);// posición en la ruta
+        Point pos = rutaDeSeda.getWay().get(indice);// posición en la ruta
         
         int fila = pos.x;
         int col = pos.y;
@@ -128,11 +128,11 @@ public class Simulador
     /**
      * Delete a specific shop
      * 
-     * @param It gives a shop's id from HashMap of tiendas to delete it 
+     * @param It gives a shop's id from HashMap of shops to delete it 
      */
     public void removeTienda(int idTienda) {
-        Tienda tiendaToRemove = tiendas.get(idTienda);
-        tiendas.remove(idTienda);
+        Shop tiendaToRemove = shops.get(idTienda);
+        shops.remove(idTienda);
         tiendaToRemove.makeInvisible();
         tiendaToRemove = null;
     }
@@ -147,8 +147,8 @@ public class Simulador
             r.resetRobot(rutaDeSeda);
         }
         
-        for (Tienda t : tiendas.values()) {
-            t.reabastecer();
+        for (Shop t : shops.values()) {
+            t.reset();
         }
     }
     
@@ -157,17 +157,17 @@ public class Simulador
         return robots;
     }
     
-    public HashMap<Integer, Tienda> getTiendas() {
-        return tiendas;
+    public HashMap<Integer, Shop> getTiendas() {
+        return shops;
     }
     
     
     /**
      * Set shops with Tenge starting from the beginning of the day.
      */
-    public void reabastecerTiendas() {
-        for (Tienda t : tiendas.values()) {
-            t.reabastecer();
+    public void resetShops() {
+        for (Shop t : shops.values()) {
+            t.reset();
         }
     }
     
@@ -175,7 +175,7 @@ public class Simulador
      * Make reset the all robots position 
      * 
      */
-    public void resetearRobots() {
+    public void resetRobots() {
         for (Robot r : robots.values()) {
             r.resetRobot(rutaDeSeda);
         }
@@ -213,9 +213,9 @@ public class Simulador
      * 
      */
     public void getInfoRutaSeda() {
-        System.out.println("La longitud de la ruta de seda es " + rutaDeSeda.getLongitudRuta());
+        System.out.println("La longitud de la ruta de seda es " + rutaDeSeda.getLenRoad());
         System.out.println("Numero de robots es " + robots.size());
-        System.out.println("Numero de tiendas es " + tiendas.size());
+        System.out.println("Numero de tiendas es " + shops.size());
     }
     
     public void makeVisible() {
@@ -243,7 +243,7 @@ public class Simulador
         
     }
     
-    public RutaDeSeda getRutaDeSeda() {
+    public SilkRoad getRutaDeSeda() {
         return rutaDeSeda;
     }
     

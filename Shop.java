@@ -5,11 +5,11 @@
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Tienda
+public class Shop
 {
     // instance variables - replace the example below with your own
-    private int numeroTienda;
-    private int distanciaX;
+    private int numberShop;
+    private int distance;
     private int tenges;
     private int initialTenges;
     private int vecesDesocupada;
@@ -20,14 +20,14 @@ public class Tienda
     /**
      * Constructor for objects of class Tienda
      */
-    public Tienda(int distanciaX, String color, int tenges)
+    public Shop(int distanceX, String color, int tenges)
     {
         
-        this.numeroTienda = numeroTienda;
+        this.numberShop = numberShop;
         this.cuerpo = new Rectangle();
         this.puerta = new Rectangle();
         this.techo = new Triangle();
-        this.distanciaX = distanciaX;
+        this.distance = distanceX;
         
         cuerpo.changeSize(30, 40);
         puerta.changeSize(20, 15);
@@ -39,20 +39,9 @@ public class Tienda
         puerta.moveVertical(20);
         puerta.moveHorizontal(13);
         
-    /*
-        if (distanciaX > 0) {
-        cuerpo.moveHorizontal(distanciaX);
-        puerta.moveHorizontal(distanciaX);
-        techo.moveHorizontal(distanciaX-70);
-        this.distanciaX = distanciaX;
-    }
-    */
-        
-        
         cuerpo.changeColor(color);
         puerta.changeColor("red");
         techo.changeColor("blue");
-        
         
         this.tenges = tenges;
         initialTenges = tenges; /* el tienda guarda un dinero inicial para al 
@@ -63,14 +52,14 @@ public class Tienda
      * Restablece la tienda, es decir coloca lo que tiene la tienda (tenges) en 0
      * 
      */
+
     
-    
-    public void reabastecer() {
+    public void reset() {
         tenges = initialTenges;
     }
     
-    public int getDistanciaX() {
-        return distanciaX;
+    public int getDistance() {
+        return distance;
     }
     
     public int getTenges() {
@@ -83,7 +72,7 @@ public class Tienda
         techo.makeInvisible();
     }
 
-    public void ubicarTienda(int posX, int posY){
+    public void setUbication(int posX, int posY){
         int fila = posX;
         int columna = posY;  
         

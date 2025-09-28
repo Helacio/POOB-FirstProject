@@ -1,18 +1,18 @@
 #BlueJ class context
-comment0.target=Tienda
+comment0.target=Shop
 comment0.text=\r\n\ Write\ a\ description\ of\ class\ Tienda\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
-comment1.params=distanciaX\ color\ tenges
-comment1.target=Tienda(int,\ java.lang.String,\ int)
+comment1.params=distanceX\ color\ tenges
+comment1.target=Shop(int,\ java.lang.String,\ int)
 comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Tienda\r\n
 comment2.params=
-comment2.target=void\ reabastecer()
+comment2.target=void\ reset()
 comment2.text=\r\n\ Restablece\ la\ tienda,\ es\ decir\ coloca\ lo\ que\ tiene\ la\ tienda\ (tenges)\ en\ 0\r\n\ \r\n
 comment3.params=
-comment3.target=int\ getDistanciaX()
+comment3.target=int\ getDistance()
 comment4.params=
 comment4.target=int\ getTenges()
 comment5.params=
 comment5.target=void\ makeInvisible()
 comment6.params=posX\ posY
-comment6.target=void\ ubicarTienda(int,\ int)
+comment6.target=void\ setUbication(int,\ int)
 numComments=7
