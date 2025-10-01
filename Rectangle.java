@@ -46,5 +46,13 @@ public class Rectangle extends Figure{
         width = newWidth;
         draw();
     }
+    
+    public int getHeight(){
+        return this.height;
+    }
+    
+    public int getWidht(){
+        return this.width;
+    }
 }
 
