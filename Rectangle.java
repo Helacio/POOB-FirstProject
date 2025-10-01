@@ -9,7 +9,7 @@ import java.awt.*;
 
 
  
-public class Rectangle extends Shape{
+public class Rectangle extends Figure{
 
     public static final int EDGES = 4;
     
@@ -33,7 +33,9 @@ public class Rectangle extends Shape{
     public void draw() {
         if(isVisible) {
             Canvas canvas = Canvas.getCanvas();
-            canvas.draw(this, color, new java.awt.Rectangle(xPosition, yPosition, width, height));
+            canvas.draw(this, color,
+                new java.awt.Rectangle(xPosition, yPosition, 
+                                       width, height));
             canvas.wait(10);
         }
     }

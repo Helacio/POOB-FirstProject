@@ -17,9 +17,7 @@ public class SilkRoad
         "blue", "yellow", "magenta", "white", "orange", "pink",
         "cyan", "gray", "lightGray", "darkGray", "brown", "maroon"));
     public static final int CELLSIZE = 40;
-    
     private static final int n = 15;
-    
     private HashMap<Integer, Shop> shops;
     private HashMap<Integer, Robot> robots;
     private boolean visible;
@@ -109,7 +107,7 @@ public class SilkRoad
             int col = pos.y;
 
             Rectangle cell = new Rectangle();
-            // CORRECCIÓN: Uso de CELLSIZE
+
             cell.changeSize(CELLSIZE, CELLSIZE);
             cell.moveHorizontal(col * CELLSIZE);
             cell.moveVertical(row * CELLSIZE);
@@ -151,24 +149,20 @@ public class SilkRoad
             addShop();
         }
         
-        // CORRECCIÓN: Uso de COLORS
         int randomShopColorPos = random.nextInt(COLORS.size());
         int randomTenges = random.nextInt((int)Math.pow(10, 8)) + 1;
         
-        // CORRECCIÓN: Uso de COLORS
         Shop newShop = new Shop(randomShopPos, COLORS.get(randomShopColorPos), randomTenges); 
         shops.put(shops.size(), newShop);
         randomShopsNum.put(randomShopPos, newShop);
         
-        // CORRECCIÓN: Uso de COLORS
         COLORS.remove(COLORS.get(randomShopColorPos));
-        int index = newShop.getDistanceX(); // shop's attribute
-        Point pos = path.get(index);        // position on the road
+        int index = newShop.getDistanceX();
+        Point pos = path.get(index);
         
         int row = pos.x;
         int col = pos.y;
         newShop.locateShop(row, col);
-        
     }
     
     
@@ -185,18 +179,15 @@ public class SilkRoad
             return;
         }  
         
-        // CORRECCIÓN: Uso de COLORS
         int randomRobotColor = random.nextInt(COLORS.size());
         
-        // CORRECCIÓN: Uso de COLORS
         Robot newRobot = new Robot(randomRobotPos, COLORS.get(randomRobotColor));
         robots.put(robots.size(), newRobot);
         
-        // CORRECCIÓN: Uso de COLORS
         COLORS.remove(COLORS.get(randomRobotColor));
-        int index = newRobot.getInitialStart(); // robot's attribute
-        System.out.println(randomRobotPos);
-        Point pos = path.get(index);// position on the road
+        int index = newRobot.getInitialStart();// atributo de la tienda
+        System.out.println(randomRobotPos);// posición en la ruta
+        Point pos = path.get(index);
         
         int row = pos.x;
         int col = pos.y;
@@ -206,7 +197,7 @@ public class SilkRoad
     
     /**
      * Delete a specific robot 
-     * * @param it gives robot's id from HashMap of robots to delete it
+     * @param it gives robot's id from HashMap of robots to delete it
      */
     public void removeRobot(int robotId) { 
         Robot robotToRemove = robots.get(robotId);
@@ -217,7 +208,7 @@ public class SilkRoad
     
     /**
      * Delete a specific shop
-     * * @param It gives a shop's id from HashMap of shops to delete it 
+     * @param It gives a shop's id from HashMap of shops to delete it 
      */
     public void removeShop(int shopId) {
         Shop shopToRemove = shops.get(shopId);
@@ -228,7 +219,7 @@ public class SilkRoad
     
     /**
      * Reset the silkRoad, set the robot positions and shop's tenges given at the start of day
-     * */
+     */
     
     public void resetSilkRoad() {
         for (Robot r : robots.values()) {
@@ -240,15 +231,19 @@ public class SilkRoad
         }
     }
     
-    
+    /**
+     * Get all robots created
+     */
     public HashMap<Integer, Robot> getRobots() {
         return robots;
     }
     
+    /**
+     * Get all the shopds reated
+     */
     public HashMap<Integer, Shop> getShops() {
         return shops;
     }
-    
     
     /**
      * Set shops with Tenge starting from the beginning of the day.
@@ -285,36 +280,49 @@ public class SilkRoad
      */
     
     public int getGains() {
-        
         int totalGains = 0;
-        
         for (Robot r : robots.values()) {
             totalGains += r.getGain();
         }
-        
         return totalGains;
     }
     
     /**
      * Give information about SilkRoad
-     * */
+     */
     public void getSilkRoadInfo() {
         System.out.println("The length of the Silk Road is " + len);
         System.out.println("Number of robots is " + robots.size());
         System.out.println("Number of shops is " + shops.size());
     }
     
+    /**
+     * Change all the silk road to visible
+     */
     public void makeVisible() {
+         if (visible == false) {
+            for (Rectangle cell : cells) {
+                cell.makeVisible();
+            }
+        }
         visible = true;
     }
     
+    /**
+     * Change all the silk road to invisible
+     */
     public void makeInvisible() {
+        if (visible == true) {
+            for (Rectangle cell : cells) {
+                cell.makeInvisible();
+            }
+        }
         visible = false;
     }
     
     /**
      * The simulator finishes and a completion window appears.
-     * */
+     */
     
     public void finishSimulator() {
         this.finished = true;
@@ -325,9 +333,11 @@ public class SilkRoad
 
             System.exit(0);
         }
-        
     }
     
+    /**
+     * Get the SilkRoad
+     */
     public SilkRoad getSilkRoad() {
         return this;
     }

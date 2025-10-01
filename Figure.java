@@ -6,7 +6,7 @@
  * @version (a version number or a date)
  */
 
-public abstract class Shape
+public abstract class Figure
 {
     // instance variables - replace the example below with your own
     protected String color;
@@ -14,7 +14,7 @@ public abstract class Shape
     protected int xPosition;
     protected int yPosition;
     
-    protected Shape(int x, int y, String color)
+    protected Figure(int x, int y, String color)
     {
         this.xPosition = x;
         this.yPosition = y;

@@ -7,7 +7,7 @@ import java.awt.*;
  * @version 1.0  (15 July 2000)
  */
 
-public class Triangle extends Shape{
+public class Triangle extends Figure{
     
     public static int VERTICES = 3;
     
@@ -82,7 +82,7 @@ public class Triangle extends Shape{
         int[] ypoints = { (int) newY1, (int) newY2, (int) newY3 };
         
         canvas.draw(this, color, new Polygon(xpoints, ypoints, VERTICES));
-        canvas.wait(10); 
+        canvas.wait(10);
         }
     }
     

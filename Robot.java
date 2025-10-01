@@ -8,7 +8,7 @@ public class Robot
     private int initialStart;
     private int gains;
     private int nMoves = 0;
-    private ArrayList<Shape> figureRobot;
+    private ArrayList<Figure> figureRobot;
     
     /**
      * Constructor for objects of class Robot
@@ -18,71 +18,59 @@ public class Robot
     public Robot(int start, String color)
     {
         this.figureRobot = new ArrayList<>();
-        
         this.actualLocation = start;
         this.initialStart = start;
         
         // Creation and addition of shapes:
-        this.figureRobot.add(new Circle());    // 0: leftEye
-        this.figureRobot.add(new Circle());    // 1: rightEye
+        this.figureRobot.add(new Circle()); // 0: leftEye
+        this.figureRobot.add(new Circle()); // 1: rightEye
         this.figureRobot.add(new Rectangle()); // 2: head
-        this.figureRobot.add(new Triangle());  // 3: body
+        this.figureRobot.add(new Triangle()); // 3: body
         this.figureRobot.add(new Rectangle()); // 4: mouth
         this.figureRobot.add(new Rectangle()); // 5: antenna
         
-        figureRobot.get(0).makeInvisible();
-        figureRobot.get(1).makeInvisible();
         
-        // head (Index 2) setup: REQUIRES CASTING (Rectangle)
+        //Modifying head
         ((Rectangle)figureRobot.get(2)).changeSize(20, 20);
         figureRobot.get(2).changeColor(color);
+        ((Rectangle)figureRobot.get(2)).changeSize(15,15);
         
-        // leftEye (Index 0) setup: REQUIRES CASTING (Circle)
+        //Modifyng leftEye
         figureRobot.get(0).changeColor("white");
         ((Circle)figureRobot.get(0)).changeSize(3);
         figureRobot.get(0).moveVertical(5);
         figureRobot.get(0).moveHorizontal(5);
+        figureRobot.get(0).makeInvisible();
         
-        // rightEye (Index 1) setup: REQUIRES CASTING (Circle)
+        //Modifying rightEye
         figureRobot.get(1).changeColor("white");
         ((Circle)figureRobot.get(1)).changeSize(3);
         figureRobot.get(1).moveVertical(5);
         figureRobot.get(1).moveHorizontal(10);
+        figureRobot.get(1).makeInvisible();
         
-        // body (Index 3) setup: REQUIRES CASTING (Triangle)
+        //Modifyng body
         ((Triangle)figureRobot.get(3)).changeSize(10, 15);
         ((Triangle)figureRobot.get(3)).rotate(Math.PI);
         figureRobot.get(3).moveHorizontal(-83);
         figureRobot.get(3).moveVertical(61);
         
-        // mouth (Index 4) setup: REQUIRES CASTING (Rectangle)
+        //Modifying mouth
         ((Rectangle)figureRobot.get(4)).changeSize(3, 10);
         figureRobot.get(4).moveVertical(10);
         figureRobot.get(4).moveHorizontal(3);
         figureRobot.get(4).changeColor("white");
         
-        // antenna (Index 5) setup: REQUIRES CASTING (Rectangle)
+        //Modifying antenna
         ((Rectangle)figureRobot.get(5)).changeSize(7, 5);
         figureRobot.get(5).moveVertical(-7);
         figureRobot.get(5).moveHorizontal(5);
         figureRobot.get(5).changeColor("red");
-        
-        // Additional head setup: REQUIRES CASTING (Rectangle)
-        ((Rectangle)figureRobot.get(2)).changeSize(15,15);
-        
-        // Apply initial start offset
-        if (start > 0 && color != null) {
-            figureRobot.get(2).moveHorizontal(start);
-            figureRobot.get(4).moveHorizontal(start);
-            figureRobot.get(5).moveHorizontal(start);
-            figureRobot.get(3).moveHorizontal(start);
-            figureRobot.get(0).moveHorizontal(start);
-            figureRobot.get(1).moveHorizontal(start);
-            
-            figureRobot.get(2).changeColor(color);
-        }
     }
 
+    /**
+     * Set the robots to the initial position
+     */
     public void resetRobot(SilkRoad silkRoad) {
         actualLocation = initialStart;
         ArrayList<Point> path = silkRoad.getPath();
@@ -93,6 +81,9 @@ public class Robot
         this.setPosition(x, y);
     }
     
+    /**
+     * Move a Robot to a specific shop
+     */
     public void moveRobot(SilkRoad silkRoad, int shopId) {
         
         HashMap<Integer, Shop> shops = silkRoad.getShops();
@@ -118,24 +109,39 @@ public class Robot
         actualLocation = shop.getDistanceX();
     }
     
+    /**
+     * Hide the robot of canvas
+     */
     public void makeInvisible() {
-        for (Shape f : figureRobot) {
+        for (Figure f : figureRobot) {
             f.makeInvisible();
         }
     }
     
+    /**
+     * Get the total gains of a robot
+     */
     public int getGain() {
         return gains;
     }
     
+    /**
+     * Get the actual location of a Robot
+     */
     public int getActualLocation() {
         return actualLocation;
     }
-    
+
+    /**
+     * Get the initial position of a Robot
+     */
     public int getInitialStart() {
         return initialStart;
     }
-
+    
+    /**
+     * Set the position of the Robot in Pixels
+     */
     public void setPosition(int x, int y) {
         // 2: head
         figureRobot.get(2).setXPosition(50 + y * 40);

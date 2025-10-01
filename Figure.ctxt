@@ -1,8 +1,8 @@
 #BlueJ class context
-comment0.target=Shape
+comment0.target=Figure
 comment0.text=\r\n\ Write\ a\ description\ of\ class\ Shape\ here.\r\n\ \r\n\ @author\ (your\ name)\ \r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
 comment1.params=x\ y\ color
-comment1.target=Shape(int,\ int,\ java.lang.String)
+comment1.target=Figure(int,\ int,\ java.lang.String)
 comment10.params=distance
 comment10.target=void\ slowMoceHorizontal(int)
 comment10.text=\r\n\ Slowly\ move\ the\ shape\ horizontally.\r\n\ @param\ distance\ the\ desired\ distance\ in\ pixels\r\n
