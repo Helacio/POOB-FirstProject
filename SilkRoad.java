@@ -139,10 +139,10 @@ public class SilkRoad
     /**
      * Add a shop in a random position with a random color
      * */
-    
     public void addShop() {
         Random random = new Random();
-        
+        int min = 50;
+        int max = 400;
         int randomShopPos = random.nextInt(len);
         
         if (randomShopsNum.containsKey(randomShopPos)) {
@@ -150,7 +150,7 @@ public class SilkRoad
         }
         
         int randomShopColorPos = random.nextInt(COLORS.size());
-        int randomTenges = random.nextInt((int)Math.pow(10, 8)) + 1;
+        int randomTenges = random.nextInt((max - min) + 1) + min;
         
         Shop newShop = new Shop(randomShopPos, COLORS.get(randomShopColorPos), randomTenges); 
         shops.put(shops.size(), newShop);
@@ -164,7 +164,6 @@ public class SilkRoad
         int col = pos.y;
         newShop.locateShop(row, col);
     }
-    
     
     /**
      * Add a robot in a random position with a random color
@@ -229,6 +228,7 @@ public class SilkRoad
         for (Shop s : shops.values()) {
             s.resupply();
         }
+        winBar.reset(50);
     }
     
     /**
@@ -239,7 +239,7 @@ public class SilkRoad
     }
     
     /**
-     * Get all the shopds reated
+     * Get all the shops created
      */
     public HashMap<Integer, Shop> getShops() {
         return shops;
@@ -277,9 +277,8 @@ public class SilkRoad
             JOptionPane.showMessageDialog(null, "Operación no realizada, robot ya ha saqueado una tienda", "Advertencia!", JOptionPane.INFORMATION_MESSAGE);
         }
         
-        if (winBar != null){
-            winBar.update(getGains());
-        }
+        robot.moveRobot(this, shopId);
+        winBar.update(robot.getGain());
     }
     
     /**
@@ -334,7 +333,6 @@ public class SilkRoad
     
     public void finishSimulator() {
         this.finished = true;
-
         if (finished) {
             
             JOptionPane.showMessageDialog(null, "It has finished!", "End of the Silk Road", JOptionPane.INFORMATION_MESSAGE);
