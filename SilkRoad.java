@@ -27,6 +27,7 @@ public class SilkRoad
     private int len;
     private ArrayList<Point> path; 
     private ArrayList<Rectangle> cells;
+    private ProgressBar winBar;
     
     /**
      * Constructor for objects of class Simulator
@@ -49,7 +50,6 @@ public class SilkRoad
         robots = new HashMap<>();
         
         this.len = len;
-        
     }
 
     /**
@@ -270,8 +270,16 @@ public class SilkRoad
     public void moveRobot(int robotId, int shopId) {
         
         Robot robot = robots.get(robotId);
+        if((this.visible || !(this.visible)) && robot.getGain() == 0){
+            robot.moveRobot(this, shopId);
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Operación no realizada, robot ya ha saqueado una tienda", "Advertencia!", JOptionPane.INFORMATION_MESSAGE);
+        }
         
-        robot.moveRobot(this, shopId);
+        if (winBar != null){
+            winBar.update(getGains());
+        }
     }
     
     /**
@@ -342,4 +350,11 @@ public class SilkRoad
         return this;
     }
     
+    public void createProgressBar(){
+        int possibleTenges = 0;
+        for(Shop s: shops.values()){
+            possibleTenges += s.getTenges();
+        }
+        winBar = new ProgressBar(150, 650, 400, 50, possibleTenges);
+    }
 }
