@@ -1,65 +1,61 @@
+import java.util.ArrayList;
 
-/**
- * Write a description of class Tienda here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
- */
 public class Shop
 {
-    // instance variables - replace the example below with your own
-    private int numberShop;
-    private int distance;
+    private int shopNumber;
+    private int distanceX;
     private int tenges;
     private int initialTenges;
-    private int vecesDesocupada;
-    private Rectangle cuerpo;
-    private Triangle techo;
-    private Rectangle puerta;
+    private ArrayList<Shape> figureShop;
     
     /**
-     * Constructor for objects of class Tienda
+     * Constructor for objects of class Shop
+     * Index Order: 0: Rectangle(body), 1: Rectangle(door), 2: Triangle(roof)
      */
     public Shop(int distanceX, String color, int tenges)
     {
+        this.shopNumber = shopNumber;
+        this.distanceX = distanceX;
+        this.figureShop = new ArrayList<>();
         
-        this.numberShop = numberShop;
-        this.cuerpo = new Rectangle();
-        this.puerta = new Rectangle();
-        this.techo = new Triangle();
-        this.distance = distanceX;
+        this.figureShop.add(new Rectangle()); // 0: body
+        this.figureShop.add(new Rectangle()); // 1: door
+        this.figureShop.add(new Triangle());  // 2: roof
         
-        cuerpo.changeSize(30, 40);
-        puerta.changeSize(20, 15);
-        techo.changeSize(15, 40);
+        ((Rectangle)figureShop.get(0)).changeSize(30, 40);
+        ((Rectangle)figureShop.get(1)).changeSize(20, 15);
+        ((Triangle)figureShop.get(2)).changeSize(15, 40);
         
-        techo.moveVertical(30);
-        cuerpo.moveVertical(10);
-        techo.moveHorizontal(-70);
-        puerta.moveVertical(20);
-        puerta.moveHorizontal(13);
         
-        cuerpo.changeColor(color);
-        puerta.changeColor("red");
-        techo.changeColor("blue");
+        figureShop.get(2).moveVertical(30);
+        figureShop.get(0).moveVertical(10);
+        figureShop.get(2).moveHorizontal(-70);
+        figureShop.get(1).moveVertical(20);
+        figureShop.get(1).moveHorizontal(13);
+        
+        if (distanceX > 0) {
+            // Apply initial offset
+            figureShop.get(0).moveHorizontal(distanceX);
+            figureShop.get(1).moveHorizontal(distanceX);
+            figureShop.get(2).moveHorizontal(distanceX-70);
+            this.distanceX = distanceX;
+        }
+    
+        
+        figureShop.get(0).changeColor(color);
+        figureShop.get(1).changeColor("red");
+        figureShop.get(2).changeColor("blue");
         
         this.tenges = tenges;
-        initialTenges = tenges; /* el tienda guarda un dinero inicial para al 
-            final del dia reabastecer su dinero */
+        initialTenges = tenges;
     }
     
-    /**
-     * Restablece la tienda, es decir coloca lo que tiene la tienda (tenges) en 0
-     * 
-     */
-
-    
-    public void reset() {
+    public void resupply() {
         tenges = initialTenges;
     }
     
-    public int getDistance() {
-        return distance;
+    public int getDistanceX() {
+        return distanceX;
     }
     
     public int getTenges() {
@@ -67,23 +63,28 @@ public class Shop
     }
     
     public void makeInvisible() {
-        cuerpo.makeInvisible();
-        puerta.makeInvisible();
-        techo.makeInvisible();
+        for (Shape s : figureShop) {
+            s.makeInvisible();
+        }
     }
 
-    public void setUbication(int posX, int posY){
-        int fila = posX;
-        int columna = posY;  
+    public void locateShop(int posX, int posY){
+        int row = posX;
+        int column = posY;
         
-        cuerpo.setXPosition(50 + columna * 40);
-        cuerpo.setYPosition(60 + fila * 40);
-        techo.setXPosition(70 +columna * 40);
-        techo.setYPosition(45 + fila * 40);
-        puerta.setXPosition(63 + columna * 40);
-        puerta.setYPosition(70 + fila * 40);
-        cuerpo.makeVisible();
-        puerta.makeVisible();
-        techo.makeVisible();
+        // 0: body 
+        figureShop.get(0).setXPosition(50 + column * 40);
+        figureShop.get(0).setYPosition(60 + row * 40);
+        // 2: roof 
+        figureShop.get(2).setXPosition(70 +column * 40);
+        figureShop.get(2).setYPosition(45 + row * 40);
+        // 1: door 
+        figureShop.get(1).setXPosition(63 + column * 40);
+        figureShop.get(1).setYPosition(70 + row * 40);
+        
+        // Make visible
+        figureShop.get(0).makeVisible();
+        figureShop.get(1).makeVisible();
+        figureShop.get(2).makeVisible();
     }
 }

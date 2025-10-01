@@ -1,110 +1,335 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
+import java.util.Arrays;
+import javax.swing.JOptionPane;
 import java.awt.Point;
 
 /**
- * Write a description of class RutaDeSeda here.
- * 
- * @author SanchezVillagran
- * @version 7/09/2025
+ * Write a description of class Simulator here.
+ * @author SanchezVillagran 
+ * @version (a version number or a date)
  */
-
-
-public class SilkRoad {
-    private static final int n = 15; // tamaño fijo 15x15 matriz
-    private int lenght;
-    private ArrayList<Point> wayCoordinates; // ArrayList permite guardar las coordenadas de la matriz
-    private int cellSize = 40;
+public class SilkRoad
+{
+    
+    public final static ArrayList<String> COLORS = new ArrayList<>(Arrays.asList("red", "black", 
+        "blue", "yellow", "magenta", "white", "orange", "pink",
+        "cyan", "gray", "lightGray", "darkGray", "brown", "maroon"));
+    public static final int CELLSIZE = 40;
+    
+    private static final int n = 15;
+    
+    private HashMap<Integer, Shop> shops;
+    private HashMap<Integer, Robot> robots;
+    private boolean visible;
+    private boolean finished;
+    private HashMap<Integer, Shop> randomShopsNum;
+    private HashMap<Integer, Robot> randomRobotsNum; 
+    private int len;
+    private ArrayList<Point> path; 
     private ArrayList<Rectangle> cells;
-    private boolean finish = false;
-    /**
-     * Constructor for objects of class RutaDeSeda
-     */
-    public SilkRoad (int lenghtX) {
-        this.lenght = lenghtX;
-        wayCoordinates = generateSpiral();
-        createSilkRoad(this.lenght);
-    }
     
     /**
-     * Generar Espiral
-     * matriz será de 15x15, 225 pasos por mucho en la ruta de seda
+     * Constructor for objects of class Simulator
+     */
+
+    public SilkRoad(int len)
+    {
+
+        visible = true;
+        finished = false;
+        
+        this.len = len;
+        path = generateSpiral();
+        createSilkRoad(this.len);
+        
+        randomShopsNum = new HashMap<>();
+        randomRobotsNum = new HashMap<>();
+        
+        shops = new HashMap<>();
+        robots = new HashMap<>();
+        
+        this.len = len;
+        
+    }
+
+    /**
+     * Generate Spiral
+     * matrix will be 15x15, at most 225 steps on the silk road
      */
     public ArrayList<Point> generateSpiral() {
-        ArrayList<Point> camino = new ArrayList<>();
-        int valor = 1;
+        ArrayList<Point> path = new ArrayList<>();
+        int value = 1;
         
-        int top = 0, inferior = n - 1;
+        int top = 0, bottom = n - 1;
         int left = 0, right = n - 1;
 
-        while (top <= inferior && left <= right && camino.size() < lenght) {
-            // Moverse de izquierda a derecha
-            for(int j = left; j <= right; j++) {
-                camino.add(new Point(top, j));
+        while (top <= bottom && left <= right && path.size() < len) {
+            // Move from left to right
+            for(int j = left; j <= right && path.size() < len; j++) {
+                path.add(new Point(top, j));
             }
             top++;
 
-            // Moverse al llegar al "tope" de arriba hacia abajo
-            for(int i = top; i <= inferior && camino.size() < lenght; i++) {
-                camino.add(new Point(i, right));
+            // Move after reaching the "top" from top to bottom
+            for(int i = top; i <= bottom && path.size() < len; i++) {
+                path.add(new Point(i, right));
             }
             right--;
 
-            // Moverse al llegar al "tope" de derecha a izquierda
-            if(top <= inferior) {
-                for (int j = right; j >= left && camino.size() < lenght; j--) {
-                    camino.add(new Point(inferior, j));
-                }
-                inferior--;
+            // Move after reaching the "top" from right to left
+            if(top <= bottom) {
+                for (int j = right; j >= left && path.size() < len; j--) {
+                    path.add(new Point(bottom, j));
+                    }
+                bottom--;
             }
 
-            // Moverse al llegar al "tope" de abajo hacia arriba
+            // Move after reaching the "top" from bottom to top
             if(left <= right) {
-                for (int i = inferior; i >= top && camino.size() < lenght; i--) {
-                    camino.add(new Point(i, left));
+                for (int i = bottom; i >= top && path.size() < len; i--) {
+                    path.add(new Point(i, left));
                 }
                 left++;
             }
         }
-        return camino;
+        return path;
     }
     
-    public void createSilkRoad(int lenghtX) {
+    public void createSilkRoad(int len) {
         cells = new ArrayList<>();
-        if (lenghtX > wayCoordinates.size()) {
-            lenghtX = wayCoordinates.size();
+        if (len > path.size()) {
+            len = path.size();
         }
 
-        for (int k = 0; k < lenghtX; k++) {
-            Point pos = wayCoordinates.get(k);
-            int fila = pos.x;
+        for (int k = 0; k < len; k++) {
+            Point pos = path.get(k);
+            int row = pos.x;
             int col = pos.y;
 
-            Rectangle celda = new Rectangle();
-            celda.changeSize(cellSize, cellSize);
-            celda.moveHorizontal(col * cellSize);
-            celda.moveVertical(fila * cellSize);
-            celda.changeColor("lightGray");
-            celda.makeVisible();
-            cells.add(celda);
+            Rectangle cell = new Rectangle();
+            // CORRECCIÓN: Uso de CELLSIZE
+            cell.changeSize(CELLSIZE, CELLSIZE);
+            cell.moveHorizontal(col * CELLSIZE);
+            cell.moveVertical(row * CELLSIZE);
+            cell.changeColor("lightGray");
+            cell.makeVisible();
+            cells.add(cell);
         }
     }
     
     public int getLenRoad() {
-        return lenght;
+        return len;
     }
     
     /**
-     * Borra las celdas del canvas pero siguen existiendo
+     * Deletes the cells from the canvas but they still exist
      */
     public void cleanRoad(){
         if (cells != null) {
-        for (Rectangle r : cells) {
-            r.makeInvisible();
-            }
+            for (Rectangle r : cells) {
+                r.makeInvisible();
+                }
         }
     }
 
-    public ArrayList<Point> getWay(){
-        return wayCoordinates;
+    public ArrayList<Point> getPath(){
+        return path;
     }
+        
+    /**
+     * Add a shop in a random position with a random color
+     * */
+    
+    public void addShop() {
+        Random random = new Random();
+        
+        int randomShopPos = random.nextInt(len);
+        
+        if (randomShopsNum.containsKey(randomShopPos)) {
+            addShop();
+        }
+        
+        // CORRECCIÓN: Uso de COLORS
+        int randomShopColorPos = random.nextInt(COLORS.size());
+        int randomTenges = random.nextInt((int)Math.pow(10, 8)) + 1;
+        
+        // CORRECCIÓN: Uso de COLORS
+        Shop newShop = new Shop(randomShopPos, COLORS.get(randomShopColorPos), randomTenges); 
+        shops.put(shops.size(), newShop);
+        randomShopsNum.put(randomShopPos, newShop);
+        
+        // CORRECCIÓN: Uso de COLORS
+        COLORS.remove(COLORS.get(randomShopColorPos));
+        int index = newShop.getDistanceX(); // shop's attribute
+        Point pos = path.get(index);        // position on the road
+        
+        int row = pos.x;
+        int col = pos.y;
+        newShop.locateShop(row, col);
+        
+    }
+    
+    
+    /**
+     * Add a robot in a random position with a random color
+     * */
+    
+    public void addRobot() { 
+        Random random = new Random();
+        int randomRobotPos = random.nextInt(len);
+        
+        if (randomRobotsNum.containsKey(randomRobotPos) || randomShopsNum.containsKey(randomRobotPos)) {
+            addRobot();
+            return;
+        }  
+        
+        // CORRECCIÓN: Uso de COLORS
+        int randomRobotColor = random.nextInt(COLORS.size());
+        
+        // CORRECCIÓN: Uso de COLORS
+        Robot newRobot = new Robot(randomRobotPos, COLORS.get(randomRobotColor));
+        robots.put(robots.size(), newRobot);
+        
+        // CORRECCIÓN: Uso de COLORS
+        COLORS.remove(COLORS.get(randomRobotColor));
+        int index = newRobot.getInitialStart(); // robot's attribute
+        System.out.println(randomRobotPos);
+        Point pos = path.get(index);// position on the road
+        
+        int row = pos.x;
+        int col = pos.y;
+        newRobot.setPosition(row, col);
+    }
+    
+    
+    /**
+     * Delete a specific robot 
+     * * @param it gives robot's id from HashMap of robots to delete it
+     */
+    public void removeRobot(int robotId) { 
+        Robot robotToRemove = robots.get(robotId);
+        robots.remove(robotId);
+        robotToRemove.makeInvisible();
+        robotToRemove = null;
+    }
+    
+    /**
+     * Delete a specific shop
+     * * @param It gives a shop's id from HashMap of shops to delete it 
+     */
+    public void removeShop(int shopId) {
+        Shop shopToRemove = shops.get(shopId);
+        shops.remove(shopId);
+        shopToRemove.makeInvisible();
+        shopToRemove = null;
+    }
+    
+    /**
+     * Reset the silkRoad, set the robot positions and shop's tenges given at the start of day
+     * */
+    
+    public void resetSilkRoad() {
+        for (Robot r : robots.values()) {
+            r.resetRobot(this);
+        }
+        
+        for (Shop s : shops.values()) {
+            s.resupply();
+        }
+    }
+    
+    
+    public HashMap<Integer, Robot> getRobots() {
+        return robots;
+    }
+    
+    public HashMap<Integer, Shop> getShops() {
+        return shops;
+    }
+    
+    
+    /**
+     * Set shops with Tenge starting from the beginning of the day.
+     */
+    public void resetShops() {
+        for (Shop s : shops.values()) {
+            s.resupply();
+        }
+    }
+    
+    /**
+     * Make reset the all robots position 
+     * * @return Give the total gains from all robots
+     */
+    public void resetRobots() {
+        for (Robot r : robots.values()) {
+            r.resetRobot(this);
+        }
+    }
+    
+    /**
+     * Move a robot to a specific cell
+     */
+    public void moveRobot(int robotId, int shopId) {
+        
+        Robot robot = robots.get(robotId);
+        
+        robot.moveRobot(this, shopId);
+    }
+    
+    /**
+     * Get the gains from all robots
+     * * @return Give the total gains from all robots
+     */
+    
+    public int getGains() {
+        
+        int totalGains = 0;
+        
+        for (Robot r : robots.values()) {
+            totalGains += r.getGain();
+        }
+        
+        return totalGains;
+    }
+    
+    /**
+     * Give information about SilkRoad
+     * */
+    public void getSilkRoadInfo() {
+        System.out.println("The length of the Silk Road is " + len);
+        System.out.println("Number of robots is " + robots.size());
+        System.out.println("Number of shops is " + shops.size());
+    }
+    
+    public void makeVisible() {
+        visible = true;
+    }
+    
+    public void makeInvisible() {
+        visible = false;
+    }
+    
+    /**
+     * The simulator finishes and a completion window appears.
+     * */
+    
+    public void finishSimulator() {
+        this.finished = true;
+
+        if (finished) {
+            
+            JOptionPane.showMessageDialog(null, "It has finished!", "End of the Silk Road", JOptionPane.INFORMATION_MESSAGE);
+
+            System.exit(0);
+        }
+        
+    }
+    
+    public SilkRoad getSilkRoad() {
+        return this;
+    }
+    
 }
