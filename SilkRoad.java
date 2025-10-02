@@ -275,10 +275,12 @@ public class SilkRoad
         }
         else {
             JOptionPane.showMessageDialog(null, "Operación no realizada, robot ya ha saqueado una tienda", "Advertencia!", JOptionPane.INFORMATION_MESSAGE);
+            
         }
         
-        robot.moveRobot(this, shopId);
-        winBar.update(robot.getGain());
+        if(winBar != null){
+            winBar.update(getGains());
+        }
     }
     
     /**
