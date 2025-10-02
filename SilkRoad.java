@@ -417,4 +417,9 @@ public class SilkRoad
         int distance = Math.abs(robots.get(robotId).getActualLocation() - shop.getDistanceX());
         return shop.getTenges() - distance;
     }
+
+    /**
+     * Consult the highest profit
+     */
+    
 }
