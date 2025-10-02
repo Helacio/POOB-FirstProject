@@ -9,6 +9,7 @@ public class Robot
     private int gains;
     private int nMoves = 0;
     private ArrayList<Figure> figureRobot;
+    private ArrayList<Integer> profitsPerMove;
     
     /**
      * Constructor for objects of class Robot
@@ -107,6 +108,7 @@ public class Robot
             }
         }
         actualLocation = shop.getDistanceX();
+        profitsPerMove.add(gains);
     }
     
     /**
@@ -131,7 +133,7 @@ public class Robot
     public int getActualLocation() {
         return actualLocation;
     }
-
+    
     /**
      * Get the initial position of a Robot
      */
@@ -169,5 +171,12 @@ public class Robot
         figureRobot.get(4).makeVisible(); // mouth
         figureRobot.get(0).makeVisible(); // leftEye
         figureRobot.get(1).makeVisible(); // rightEye
+    }
+    
+    /**
+     * Get the profit in a specific movement
+     */
+    public int profitPerMove(int moveIndex){
+        return profitsPerMove.get(moveIndex);
     }
 }

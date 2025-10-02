@@ -412,14 +412,11 @@ public class SilkRoad
      * @param idStore is the location of the shop
      * @return gets the profit in a movement
      */
-    public int consultProfit(int robotId, int idStore){
-        Shop shop = shops.get(idStore);
-        int distance = Math.abs(robots.get(robotId).getActualLocation() - shop.getDistanceX());
-        return shop.getTenges() - distance;
+    public int profitPerMove(int idRobot, int moveIndex){
+        Robot r = robots.get(idRobot);
+        return r.profitPerMove(moveIndex);
     }
-
     /**
      * Consult the highest profit
      */
-    
 }
