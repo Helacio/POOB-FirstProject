@@ -350,11 +350,23 @@ public class SilkRoad
         return this;
     }
     
+    /**
+     * Creates a ProgressBar at the bottom
+     */
     public void createProgressBar(){
         int possibleTenges = 0;
         for(Shop s: shops.values()){
             possibleTenges += s.getTenges();
         }
         winBar = new ProgressBar(150, 650, 400, 50, possibleTenges);
+    }
+    
+    /**
+     * Consult the profit of a robot
+     */
+    public int consultProfit(int robotId, int idStore){
+        Shop shop = shops.get(idStore);
+        int distance = Math.abs(robots.get(robotId).getActualLocation() - shop.getDistanceX());
+        return shop.getTenges() - distance;
     }
 }
