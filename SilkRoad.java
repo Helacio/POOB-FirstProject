@@ -166,6 +166,30 @@ public class SilkRoad
     }
     
     /**
+     * Add a shop in a specific location
+     * @param location Place in the silk road
+     * @param tenges Num money in the shop
+     */
+    public void addShop(int location, int tenges){
+        if(!shops.containsKey(location)){
+            Random random = new Random();
+            int randomShopColorPos = random.nextInt(COLORS.size());
+            
+            Shop newshop = new Shop(location, COLORS.get(randomShopColorPos), tenges);
+            shops.put(shops.size(), newshop);
+            
+            COLORS.remove(COLORS.get(randomShopColorPos));
+            
+            int index = newshop.getDistanceX();
+            Point pos = path.get(index);
+            
+            int row = pos.x;
+            int col = pos.y;
+            newshop.locateShop(row, col);
+        }
+    }
+    
+    /**
      * Add a robot in a random position with a random color
      * */
     
@@ -193,10 +217,31 @@ public class SilkRoad
         newRobot.setPosition(row, col);
     }
     
+    /**
+     * Add a robot in a determinated place
+     * @param location Is tne initial location of the robot
+     */
+    public void addRobot(int location){
+        if(!robots.containsKey(location)){
+            Random random = new Random();
+            int randomRobotColor = random.nextInt(COLORS.size());
+            
+            Robot newRobot = new Robot(location, COLORS.get(randomRobotColor));
+            robots.put(robots.size(), newRobot);
+            
+            COLORS.remove(COLORS.get(randomRobotColor));
+            int index = newRobot.getInitialStart();
+            Point pos = path.get(index);
+            
+            int row = pos.x;
+            int col = pos.y;
+            newRobot.setPosition(row, col);
+        }
+    }
     
     /**
      * Delete a specific robot 
-     * @param it gives robot's id from HashMap of robots to delete it
+     * @param It gives robot's id from HashMap of robots to delete it
      */
     public void removeRobot(int robotId) { 
         Robot robotToRemove = robots.get(robotId);
@@ -207,7 +252,7 @@ public class SilkRoad
     
     /**
      * Delete a specific shop
-     * @param It gives a shop's id from HashMap of shops to delete it 
+     * @param shopId It gives a shop's id from HashMap of shops to delete it 
      */
     public void removeShop(int shopId) {
         Shop shopToRemove = shops.get(shopId);
@@ -363,6 +408,9 @@ public class SilkRoad
     
     /**
      * Consult the profit of a robot
+     * @param robotId is the initial location of the robot
+     * @param idStore is the location of the shop
+     * @return gets the profit in a movement
      */
     public int consultProfit(int robotId, int idStore){
         Shop shop = shops.get(idStore);
