@@ -315,12 +315,8 @@ public class SilkRoad
     public void moveRobot(int robotId, int shopId) {
         
         Robot robot = robots.get(robotId);
-        if((this.visible || !(this.visible)) && robot.getGain() == 0){
+        if(this.visible || !(this.visible)){
             robot.moveRobot(this, shopId);
-        }
-        else {
-            JOptionPane.showMessageDialog(null, "Operación no realizada, robot ya ha saqueado una tienda", "Advertencia!", JOptionPane.INFORMATION_MESSAGE);
-            
         }
         
         if(winBar != null){
