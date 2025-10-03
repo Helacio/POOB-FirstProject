@@ -22,12 +22,12 @@ public class Robot
         this.initialStart = start;
         
         // Creation and addition of shapes:
-        this.figureRobot.add(new Circle()); // 0: leftEye
-        this.figureRobot.add(new Circle()); // 1: rightEye
-        this.figureRobot.add(new Rectangle()); // 2: head
-        this.figureRobot.add(new Triangle()); // 3: body
-        this.figureRobot.add(new Rectangle()); // 4: mouth
-        this.figureRobot.add(new Rectangle()); // 5: antenna
+        this.figureRobot.add(new Circle());
+        this.figureRobot.add(new Circle());
+        this.figureRobot.add(new Rectangle());
+        this.figureRobot.add(new Triangle());
+        this.figureRobot.add(new Rectangle());
+        this.figureRobot.add(new Rectangle());
         
         
         //Modifying head
