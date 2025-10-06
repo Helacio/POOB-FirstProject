@@ -1,0 +1,21 @@
+#BlueJ class context
+comment0.target=Shop
+comment1.params=distanceX\ color\ tenges
+comment1.target=Shop(int,\ java.lang.String,\ int)
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Shop\r\n\ Index\ Order\:\ 0\:\ Rectangle(body),\ 1\:\ Rectangle(door),\ 2\:\ Triangle(roof)\r\n
+comment2.params=
+comment2.target=void\ resupply()
+comment2.text=\r\n\ Resupply\ the\ shop\r\n
+comment3.params=
+comment3.target=int\ getDistanceX()
+comment3.text=\r\n\ Get\ the\ position\ of\ the\ shop\r\n
+comment4.params=
+comment4.target=int\ getTenges()
+comment4.text=\r\n\ Get\ the\ tenges\r\n
+comment5.params=
+comment5.target=void\ makeInvisible()
+comment5.text=\r\n\ Hide\ the\ shop\ of\ canvas\r\n
+comment6.params=posX\ posY
+comment6.target=void\ locateShop(int,\ int)
+comment6.text=\r\n\ Ubicate\ the\ shop\ in\ a\ specific\ coordinates\r\n
+numComments=7
