@@ -89,7 +89,8 @@ public class Robot
         HashMap<Integer, Shop> shops = silkRoad.getShops();
         Shop shop = shops.get(shopId);
         ArrayList<Point> path = silkRoad.getPath();
-        this.gains = shop.getTenges() - Math.abs(this.actualLocation - shop.getDistanceX());
+        this.gains = shop.empty() - Math.abs(this.actualLocation - shop.getDistanceX());
+        
         
         if (actualLocation < shop.getDistanceX()) {
             for(int i = actualLocation; i <= shop.getDistanceX(); i++){
