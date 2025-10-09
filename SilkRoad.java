@@ -4,6 +4,7 @@ import java.util.Random;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
 import java.awt.Point;
+import java.util.Scanner;
 
 /**
  * Write a description of class Simulator here.
@@ -12,7 +13,6 @@ import java.awt.Point;
  */
 public class SilkRoad
 {
-    
     public final static ArrayList<String> COLORS = new ArrayList<>(Arrays.asList("red", "black", 
         "blue", "yellow", "magenta", "white", "orange", "pink",
         "cyan", "gray", "lightGray", "darkGray", "brown", "maroon"));
@@ -28,7 +28,6 @@ public class SilkRoad
     private ArrayList<Point> path; 
     private ArrayList<Rectangle> cells;
     private ProgressBar winBar;
-    
     /**
      * Constructor for objects of class Simulator
      */
@@ -51,7 +50,47 @@ public class SilkRoad
         
         this.len = len;
     }
-
+    
+    /**
+     * Constructor for SilkRoad with icpc case
+     * @param days The input of maraton icpc J but all in just one line
+     */
+    public SilkRoad(int[] days){
+        visible = true;
+        finished = false;
+        robots = new HashMap<>();
+        shops = new HashMap<>();
+        
+        len = 120;
+        path = generateSpiral();
+        createSilkRoad(len);
+        
+        for(int i = 0; i < days.length; i++){
+            int value = days[i];
+            
+            if(value == 1){
+                int location = days[i + 1];
+                addRobot(location);
+            } else if(value == 2){
+                int location = days[i + 1];
+                int tenges = days[i + 2];
+                addShop(location, tenges);
+            }
+        }
+    }
+    // Este método solo es un testeo
+    public static void main(String[] args){
+        Scanner scanner = new Scanner(System.in);
+        String inputLine = scanner.nextLine();
+        
+        String[] parts = inputLine.split(" ");
+        int[] numbers = new int[parts.length];
+        for(int i = 0; i < parts.length; i++){
+            numbers[i] = Integer.parseInt(parts[i]);
+        }
+        SilkRoad silkRoad = new SilkRoad(numbers);
+    }
+    
     /**
      * Generate Spiral
      * matrix will be 15x15, at most 225 steps on the silk road

@@ -7,6 +7,7 @@ public class Shop
     private int tenges;
     private int initialTenges;
     private ArrayList<Figure> figureShop;
+    private int emptiedCount;
     
     /**
      * Constructor for objects of class Shop
@@ -38,6 +39,7 @@ public class Shop
         
         this.tenges = tenges;
         initialTenges = tenges;
+        emptiedCount = 0;
     }
     
     /**
@@ -89,5 +91,16 @@ public class Shop
         figureShop.get(0).makeVisible();
         figureShop.get(1).makeVisible();
         figureShop.get(2).makeVisible();
+    }
+    
+    public int getEmptiedCount(){
+        return emptiedCount;
+    }
+    
+    public int empty(){
+        int collected = tenges;
+        this.tenges = 0;
+        emptiedCount++;
+        return collected;
     }
 }
