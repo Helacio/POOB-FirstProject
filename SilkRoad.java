@@ -246,7 +246,7 @@ public class SilkRoad
         int randomRobotColor = random.nextInt(COLORS.size());
         
         Robot newRobot = new Robot(randomRobotPos, COLORS.get(randomRobotColor));
-        robots.put(robots.size(), newRobot);
+        robots.put(newRobot.getInitialStart(), newRobot);
         
         COLORS.remove(COLORS.get(randomRobotColor));
         int index = newRobot.getInitialStart();// atributo de la tienda
@@ -268,7 +268,7 @@ public class SilkRoad
             int randomRobotColor = random.nextInt(COLORS.size());
             
             Robot newRobot = new Robot(location, COLORS.get(randomRobotColor));
-            robots.put(robots.size(), newRobot);
+            robots.put(location, newRobot);
             
             COLORS.remove(COLORS.get(randomRobotColor));
             int index = newRobot.getInitialStart();
@@ -488,4 +488,26 @@ public class SilkRoad
     /**
      * Sort the robots by location
      */
+    public int[][] robots(){
+        int n = robots.size();
+        int[][] result = new int[n][2];
+        int i = 0;
+        
+        for(Integer index : robots.keySet()){
+            result[i][0] = robots.get(index).getActualLocation();
+            result[i][1] = robots.get(index).getGain();
+            i++;
+        }
+
+        for(int j = 1; j < n; j++){
+            int[] key = result[j];
+            int k = j - 1;
+            while(k >= 0 && result[k][0] > key[0]){
+                result[k + 1] = result[k];
+                k--;
+            }
+            result[k + 1] = key;
+        }
+        return result;
+    }
 }
