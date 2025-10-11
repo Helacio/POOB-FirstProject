@@ -30,6 +30,8 @@ public class SilkRoad
     private ArrayList<Point> path; 
     private ArrayList<Rectangle> cells;
     private ProgressBar winBar;
+    private boolean ok;
+    
     /**
      * Constructor for objects of class Simulator
      */
@@ -51,6 +53,7 @@ public class SilkRoad
         robots = new HashMap<>();
         
         this.len = len;
+        this.ok = true;
     }
     
     /**
@@ -67,18 +70,23 @@ public class SilkRoad
         path = generateSpiral();
         createSilkRoad(len);
         
-        for(int i = 0; i < days.length; i++){
+        int i = 0;
+        while(i < days.length){
             int value = days[i];
-            
             if(value == 1){
                 int location = days[i + 1];
                 addRobot(location);
+                i += 2;
             } else if(value == 2){
                 int location = days[i + 1];
                 int tenges = days[i + 2];
                 addShop(location, tenges);
+                i += 3;
+            } else {
+                i++;
             }
         }
+        this.ok = true;
     }
     // Este método solo es un testeo
     public static void main(String[] args){
@@ -227,6 +235,10 @@ public class SilkRoad
             int row = pos.x;
             int col = pos.y;
             newShop.locateShop(row, col);
+            
+            ok = true;
+        } else{
+            ok = false;
         }
     }
     
@@ -277,6 +289,10 @@ public class SilkRoad
             int row = pos.x;
             int col = pos.y;
             newRobot.setPosition(row, col);
+            ok = true;
+        }
+        else{
+            ok = false;
         }
     }
     
@@ -356,8 +372,12 @@ public class SilkRoad
     public void moveRobot(int robotId, int shopId) {
         
         Robot robot = robots.get(robotId);
-        if(this.visible || !(this.visible)){
+        Shop shop = shops.get(shopId);
+        if((this.visible || !(this.visible)) && robot != null && shop !=null){
             robot.moveRobot(this, shopId);
+            ok = true;
+        } else{
+            ok = false;
         }
         
         if(winBar != null){
@@ -504,5 +524,12 @@ public class SilkRoad
             result[k + 1] = key;
         }
         return result;
+    }
+    
+    /**
+     * Get the ok parameter
+     */
+    public boolean getOk(){
+        return ok;
     }
 }
