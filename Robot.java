@@ -21,6 +21,7 @@ public class Robot
         this.figureRobot = new ArrayList<>();
         this.actualLocation = start;
         this.initialStart = start;
+        this.profitsPerMove = new ArrayList<>();
         
         // Creation and addition of shapes:
         this.figureRobot.add(new Circle());
