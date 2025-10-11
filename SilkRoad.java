@@ -5,6 +5,8 @@ import java.util.Arrays;
 import javax.swing.JOptionPane;
 import java.awt.Point;
 import java.util.Scanner;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Write a description of class Simulator here.
@@ -192,7 +194,7 @@ public class SilkRoad
         int randomTenges = random.nextInt((max - min) + 1) + min;
         
         Shop newShop = new Shop(randomShopPos, COLORS.get(randomShopColorPos), randomTenges); 
-        shops.put(shops.size(), newShop);
+        shops.put(newShop.getDistanceX(), newShop);
         randomShopsNum.put(randomShopPos, newShop);
         
         COLORS.remove(COLORS.get(randomShopColorPos));
@@ -214,17 +216,17 @@ public class SilkRoad
             Random random = new Random();
             int randomShopColorPos = random.nextInt(COLORS.size());
             
-            Shop newshop = new Shop(location, COLORS.get(randomShopColorPos), tenges);
-            shops.put(shops.size(), newshop);
+            Shop newShop = new Shop(location, COLORS.get(randomShopColorPos), tenges);
+            shops.put(newShop.getDistanceX(), newShop);
             
             COLORS.remove(COLORS.get(randomShopColorPos));
             
-            int index = newshop.getDistanceX();
+            int index = newShop.getDistanceX();
             Point pos = path.get(index);
             
             int row = pos.x;
             int col = pos.y;
-            newshop.locateShop(row, col);
+            newShop.locateShop(row, col);
         }
     }
     
@@ -456,10 +458,34 @@ public class SilkRoad
         int distance = Math.abs(robots.get(robotId).getActualLocation() - shop.getDistanceX());
         return shop.getTenges() - distance;
     }
-
+    
     /**
-     * Consult the highest profit
+     * Sort the shops by location
      */
+    public int[][] stores() {
+        int n = shops.size();
+        int[][] result = new int[n][2];
+        int i = 0;
+        
+        for(Integer index : shops.keySet()){
+            result[i][0] = index;
+            result[i][1] = shops.get(index).getTenges();
+            i++;
+        }
+        // Insertion Sort
+        for(int j = 1; j < n; j++){
+            int[] key = result[j];
+            int k = j - 1;
+            while(k >= 0 && result[k][0] > key[0]){
+                result[k + 1] = result[k];
+                k--;
+            }
+            result[k + 1] = key;
+        }
+        return result;
+    }
     
-    
+    /**
+     * Sort the robots by location
+     */
 }
