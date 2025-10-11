@@ -92,7 +92,6 @@ public class Robot
         ArrayList<Point> path = silkRoad.getPath();
         this.gains = shop.empty() - Math.abs(this.actualLocation - shop.getDistanceX());
         
-        
         if (actualLocation < shop.getDistanceX()) {
             for(int i = actualLocation; i <= shop.getDistanceX(); i++){
                 Point step = path.get(i);
