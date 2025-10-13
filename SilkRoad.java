@@ -412,8 +412,14 @@ public class SilkRoad
      */
     public void makeVisible() {
          if (visible == false) {
-            for (Rectangle cell : cells) {
+            for(Rectangle cell : cells) {
                 cell.makeVisible();
+            }
+            for(Robot r: robots.values()) {
+                r.makeVisible();
+            }
+            for(Shop s : shops.values()) {
+                s.makeVisible();
             }
         }
         visible = true;
@@ -424,8 +430,14 @@ public class SilkRoad
      */
     public void makeInvisible() {
         if (visible == true) {
-            for (Rectangle cell : cells) {
+            for(Rectangle cell : cells) {
                 cell.makeInvisible();
+            }
+            for(Robot r : robots.values()){
+                r.makeInvisible();
+            }
+            for(Shop s : shops.values()){
+                s.makeInvisible();
             }
         }
         visible = false;
