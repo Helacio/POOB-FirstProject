@@ -144,6 +144,11 @@ public class SilkRoad
         return path;
     }
     
+    /**
+     * Create the silk road
+     * @param The silkRoad's len
+     */
+    
     public void createSilkRoad(int len) {
         cells = new ArrayList<>();
         if (len > path.size()) {
@@ -166,6 +171,10 @@ public class SilkRoad
         }
     }
     
+    /**
+     * Get silkRoad's len
+     */
+    
     public int getLenRoad() {
         return len;
     }
@@ -181,6 +190,10 @@ public class SilkRoad
         }
     }
 
+    /**
+     * Get the array of coordenades of silk road, the points where robots can move 
+     * @return Array of cordenades where robots can move 
+     */
     public ArrayList<Point> getPath(){
         return path;
     }
