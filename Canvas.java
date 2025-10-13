@@ -145,6 +145,16 @@ public class Canvas{
             graphic.setColor(new Color(139, 69, 19));
         else if(colorString.equals("maroon"))
             graphic.setColor(new Color(128, 0, 0));
+        else if(colorString.equals("gold"))
+            graphic.setColor(new Color(255, 220, 70));
+        else if(colorString.equals("darkYellow"))
+            graphic.setColor(new Color(128, 128, 0));
+        else if(colorString.equals("GreenTint"))
+            graphic.setColor(new Color(152, 255, 179));
+        else if(colorString.equals("salmon"))
+            graphic.setColor(new Color(255, 76, 76));
+        else if(colorString.equals("darkRed"))
+            graphic.setColor(new Color(170, 0, 0));
         else
             graphic.setColor(Color.black);
     }
