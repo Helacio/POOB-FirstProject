@@ -42,7 +42,8 @@ public class Robot
         ((Circle)figureRobot.get(0)).changeSize(3);
         figureRobot.get(0).moveVertical(5);
         figureRobot.get(0).moveHorizontal(5);
-        
+        System.out.println(figureRobot.get(0).getXPosition());
+        System.out.println(figureRobot.get(0).getYPosition());
         //Modifying rightEye
         figureRobot.get(1).changeColor("white");
         ((Circle)figureRobot.get(1)).changeSize(3);
