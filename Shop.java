@@ -71,6 +71,15 @@ public class Shop
             s.makeInvisible();
         }
     }
+    
+    /**
+     * Draw the shop in canvas
+     */
+    public void makeVisible(){
+        for (Figure s : figureShop) {
+            s.makeVisible();
+        }
+    }
 
     /**
      * Ubicate the shop in a specific coordinates

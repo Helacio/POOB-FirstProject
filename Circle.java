@@ -19,7 +19,7 @@ public class Circle extends Figure{
     public Circle() {
         super(50, 50, "blue");
         diameter = 30;
-        isVisible = true;
+        isVisible = false;
     }
 
     @Override
@@ -38,4 +38,5 @@ public class Circle extends Figure{
         diameter = newDiameter;
         draw();
     }
+    
 }
