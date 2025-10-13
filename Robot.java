@@ -21,6 +21,7 @@ public class Robot
         this.figureRobot = new ArrayList<>();
         this.actualLocation = start;
         this.initialStart = start;
+        this.profitsPerMove = new ArrayList<>();
         
         // Creation and addition of shapes:
         this.figureRobot.add(new Circle());
@@ -90,7 +91,7 @@ public class Robot
         HashMap<Integer, Shop> shops = silkRoad.getShops();
         Shop shop = shops.get(shopId);
         ArrayList<Point> path = silkRoad.getPath();
-        this.gains = shop.getTenges() - Math.abs(this.actualLocation - shop.getDistanceX());
+        this.gains = shop.empty() - Math.abs(this.actualLocation - shop.getDistanceX());
         
         if (actualLocation < shop.getDistanceX()) {
             for(int i = actualLocation; i <= shop.getDistanceX(); i++){
