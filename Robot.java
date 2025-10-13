@@ -21,6 +21,7 @@ public class Robot
         this.figureRobot = new ArrayList<>();
         this.actualLocation = start;
         this.initialStart = start;
+        this.profitsPerMove = new ArrayList<>();
         
         // Creation and addition of shapes:
         this.figureRobot.add(new Circle());
@@ -41,14 +42,12 @@ public class Robot
         ((Circle)figureRobot.get(0)).changeSize(3);
         figureRobot.get(0).moveVertical(5);
         figureRobot.get(0).moveHorizontal(5);
-        figureRobot.get(0).makeInvisible();
         
         //Modifying rightEye
         figureRobot.get(1).changeColor("white");
         ((Circle)figureRobot.get(1)).changeSize(3);
         figureRobot.get(1).moveVertical(5);
         figureRobot.get(1).moveHorizontal(10);
-        figureRobot.get(1).makeInvisible();
         
         //Modifyng body
         ((Triangle)figureRobot.get(3)).changeSize(10, 15);
@@ -90,7 +89,7 @@ public class Robot
         HashMap<Integer, Shop> shops = silkRoad.getShops();
         Shop shop = shops.get(shopId);
         ArrayList<Point> path = silkRoad.getPath();
-        this.gains = shop.getTenges() - Math.abs(this.actualLocation - shop.getDistanceX());
+        this.gains = shop.empty() - Math.abs(this.actualLocation - shop.getDistanceX());
         
         if (actualLocation < shop.getDistanceX()) {
             for(int i = actualLocation; i <= shop.getDistanceX(); i++){
@@ -178,5 +177,17 @@ public class Robot
      */
     public int profitPerMove(int moveIndex){
         return profitsPerMove.get(moveIndex);
+    }
+    
+    /**
+     * Draw robot in canvas
+     */
+    public void makeVisible(){
+        figureRobot.get(3).makeVisible();
+        figureRobot.get(2).makeVisible();
+        figureRobot.get(5).makeVisible();
+        figureRobot.get(4).makeVisible();
+        figureRobot.get(0).makeVisible();
+        figureRobot.get(1).makeVisible();
     }
 }

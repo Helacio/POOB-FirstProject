@@ -4,6 +4,9 @@ import java.util.Random;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
 import java.awt.Point;
+import java.util.Scanner;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Write a description of class Simulator here.
@@ -12,7 +15,6 @@ import java.awt.Point;
  */
 public class SilkRoad
 {
-    
     public final static ArrayList<String> COLORS = new ArrayList<>(Arrays.asList("red", "black", 
         "blue", "yellow", "magenta", "white", "orange", "pink",
         "cyan", "gray", "lightGray", "darkGray", "brown", "maroon"));
@@ -28,6 +30,7 @@ public class SilkRoad
     private ArrayList<Point> path; 
     private ArrayList<Rectangle> cells;
     private ProgressBar winBar;
+    private boolean ok;
     
     /**
      * Constructor for objects of class Simulator
@@ -50,8 +53,54 @@ public class SilkRoad
         robots = new HashMap<>();
         
         this.len = len;
+        this.ok = true;
     }
-
+    
+    /**
+     * Constructor for SilkRoad with icpc case
+     * @param days The input of maraton icpc J but all in just one line
+     */
+    public SilkRoad(int[] days){
+        visible = true;
+        finished = false;
+        robots = new HashMap<>();
+        shops = new HashMap<>();
+        
+        len = 120;
+        path = generateSpiral();
+        createSilkRoad(len);
+        
+        int i = 0;
+        while(i < days.length){
+            int value = days[i];
+            if(value == 1){
+                int location = days[i + 1];
+                addRobot(location);
+                i += 2;
+            } else if(value == 2){
+                int location = days[i + 1];
+                int tenges = days[i + 2];
+                addShop(location, tenges);
+                i += 3;
+            } else {
+                i++;
+            }
+        }
+        this.ok = true;
+    }
+    // Este método solo es un testeo
+    public static void main(String[] args){
+        Scanner scanner = new Scanner(System.in);
+        String inputLine = scanner.nextLine();
+        
+        String[] parts = inputLine.split(" ");
+        int[] numbers = new int[parts.length];
+        for(int i = 0; i < parts.length; i++){
+            numbers[i] = Integer.parseInt(parts[i]);
+        }
+        SilkRoad silkRoad = new SilkRoad(numbers);
+    }
+    
     /**
      * Generate Spiral
      * matrix will be 15x15, at most 225 steps on the silk road
@@ -153,7 +202,7 @@ public class SilkRoad
         int randomTenges = random.nextInt((max - min) + 1) + min;
         
         Shop newShop = new Shop(randomShopPos, COLORS.get(randomShopColorPos), randomTenges); 
-        shops.put(shops.size(), newShop);
+        shops.put(newShop.getDistanceX(), newShop);
         randomShopsNum.put(randomShopPos, newShop);
         
         COLORS.remove(COLORS.get(randomShopColorPos));
@@ -175,17 +224,21 @@ public class SilkRoad
             Random random = new Random();
             int randomShopColorPos = random.nextInt(COLORS.size());
             
-            Shop newshop = new Shop(location, COLORS.get(randomShopColorPos), tenges);
-            shops.put(shops.size(), newshop);
+            Shop newShop = new Shop(location, COLORS.get(randomShopColorPos), tenges);
+            shops.put(newShop.getDistanceX(), newShop);
             
             COLORS.remove(COLORS.get(randomShopColorPos));
             
-            int index = newshop.getDistanceX();
+            int index = newShop.getDistanceX();
             Point pos = path.get(index);
             
             int row = pos.x;
             int col = pos.y;
-            newshop.locateShop(row, col);
+            newShop.locateShop(row, col);
+            
+            ok = true;
+        } else{
+            ok = false;
         }
     }
     
@@ -205,7 +258,7 @@ public class SilkRoad
         int randomRobotColor = random.nextInt(COLORS.size());
         
         Robot newRobot = new Robot(randomRobotPos, COLORS.get(randomRobotColor));
-        robots.put(robots.size(), newRobot);
+        robots.put(newRobot.getInitialStart(), newRobot);
         
         COLORS.remove(COLORS.get(randomRobotColor));
         int index = newRobot.getInitialStart();// atributo de la tienda
@@ -227,7 +280,7 @@ public class SilkRoad
             int randomRobotColor = random.nextInt(COLORS.size());
             
             Robot newRobot = new Robot(location, COLORS.get(randomRobotColor));
-            robots.put(robots.size(), newRobot);
+            robots.put(location, newRobot);
             
             COLORS.remove(COLORS.get(randomRobotColor));
             int index = newRobot.getInitialStart();
@@ -236,6 +289,10 @@ public class SilkRoad
             int row = pos.x;
             int col = pos.y;
             newRobot.setPosition(row, col);
+            ok = true;
+        }
+        else{
+            ok = false;
         }
     }
     
@@ -315,8 +372,12 @@ public class SilkRoad
     public void moveRobot(int robotId, int shopId) {
         
         Robot robot = robots.get(robotId);
-        if(this.visible || !(this.visible)){
+        Shop shop = shops.get(shopId);
+        if((this.visible || !(this.visible)) && robot != null && shop !=null){
             robot.moveRobot(this, shopId);
+            ok = true;
+        } else{
+            ok = false;
         }
         
         if(winBar != null){
@@ -351,8 +412,14 @@ public class SilkRoad
      */
     public void makeVisible() {
          if (visible == false) {
-            for (Rectangle cell : cells) {
+            for(Rectangle cell : cells) {
                 cell.makeVisible();
+            }
+            for(Robot r: robots.values()) {
+                r.makeVisible();
+            }
+            for(Shop s : shops.values()) {
+                s.makeVisible();
             }
         }
         visible = true;
@@ -363,8 +430,14 @@ public class SilkRoad
      */
     public void makeInvisible() {
         if (visible == true) {
-            for (Rectangle cell : cells) {
+            for(Rectangle cell : cells) {
                 cell.makeInvisible();
+            }
+            for(Robot r : robots.values()){
+                r.makeInvisible();
+            }
+            for(Shop s : shops.values()){
+                s.makeInvisible();
             }
         }
         visible = false;
@@ -412,7 +485,63 @@ public class SilkRoad
         Robot r = robots.get(idRobot);
         return r.profitPerMove(moveIndex);
     }
+    
     /**
-     * Consult the highest profit
+     * Sort the shops by location
      */
+    public int[][] stores() {
+        int n = shops.size();
+        int[][] result = new int[n][2];
+        int i = 0;
+        
+        for(Integer index : shops.keySet()){
+            result[i][0] = index;
+            result[i][1] = shops.get(index).getTenges();
+            i++;
+        }
+        // Insertion Sort
+        for(int j = 1; j < n; j++){
+            int[] key = result[j];
+            int k = j - 1;
+            while(k >= 0 && result[k][0] > key[0]){
+                result[k + 1] = result[k];
+                k--;
+            }
+            result[k + 1] = key;
+        }
+        return result;
+    }
+    
+    /**
+     * Sort the robots by location
+     */
+    public int[][] robots(){
+        int n = robots.size();
+        int[][] result = new int[n][2];
+        int i = 0;
+        
+        for(Integer index : robots.keySet()){
+            result[i][0] = robots.get(index).getActualLocation();
+            result[i][1] = robots.get(index).getGain();
+            i++;
+        }
+
+        for(int j = 1; j < n; j++){
+            int[] key = result[j];
+            int k = j - 1;
+            while(k >= 0 && result[k][0] > key[0]){
+                result[k + 1] = result[k];
+                k--;
+            }
+            result[k + 1] = key;
+        }
+        return result;
+    }
+    
+    /**
+     * Get the ok parameter
+     */
+    public boolean getOk(){
+        return ok;
+    }
 }

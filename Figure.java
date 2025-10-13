@@ -33,8 +33,8 @@ public abstract class Figure
      * Make this shape invisible. If it was already invisible, do nothing.
      */
     protected void makeInvisible() {
+        erase();
         isVisible = false;
-        draw();
     }
     
     /**
@@ -190,5 +190,5 @@ public abstract class Figure
      */
     
     public abstract void draw();
-
+    
 }
