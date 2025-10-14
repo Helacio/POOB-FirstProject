@@ -167,7 +167,7 @@ public class SilkRoad
             cell.changeSize(CELLSIZE, CELLSIZE);
             cell.moveHorizontal(col * CELLSIZE);
             cell.moveVertical(row * CELLSIZE);
-            cell.changeColor("lightGray");
+            cell.changeColor("softGray");
             cells.add(cell);
             if (visible){
                 cell.makeVisible();
@@ -221,7 +221,7 @@ public class SilkRoad
         int row = pos.x;
         int col = pos.y;
         newShop.locateShop(row, col);
-        System.out.println("posicion Robot: " + shops.size() +" " +randomShopPos);
+        System.out.println("posicion Shop: " + shops.size() +" " +randomShopPos);
         if(this.visible){
             newShop.makeVisible();
         }
@@ -249,8 +249,9 @@ public class SilkRoad
             int col = pos.y;
             newShop.locateShop(row, col);
             
+            System.out.println("posicion Shop: " + shops.size() +" " + location);
             if(this.visible){
-            newShop.makeVisible();
+                newShop.makeVisible();
             }
             ok = true;
         } else{
@@ -353,7 +354,9 @@ public class SilkRoad
         for (Shop s : shops.values()) {
             s.resupply();
         }
-        winBar.reset(50);
+        if (winBar != null){
+            winBar.reset(50);
+        }
     }
     
     /**
@@ -399,6 +402,7 @@ public class SilkRoad
         if((this.visible || !(this.visible)) && robot != null && shop !=null){
             robot.moveRobot(this, shopId);
             ok = true;
+            
         } else{
             ok = false;
         }

@@ -155,6 +155,10 @@ public class Canvas{
             graphic.setColor(new Color(255, 76, 76));
         else if(colorString.equals("darkRed"))
             graphic.setColor(new Color(170, 0, 0));
+        else if(colorString.equals("hardGray"))
+            graphic.setColor(new Color(128, 128, 128));
+        else if(colorString.equals("softGray"))
+            graphic.setColor(new Color(224, 224, 224));
         else
             graphic.setColor(Color.black);
     }
