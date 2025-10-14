@@ -13,6 +13,26 @@ public class SilkRoadC1Tests
     public void accordingSVshouldCreateSilkRoadEmpty(){
         SilkRoad silkRoad = new SilkRoad(10);
         assertTrue("SilkRoad should be created succesfully", silkRoad.getOk());
+        assertEquals("SilkRoad should have len 10", 10, silkRoad.getLenRoad());
+    }
+    
+    @Test
+    public void accordingSVshouldntCreateSilkRoadWithInvalidLen(){
+        SilkRoad silkRoad = new SilkRoad(-10);
+        assertFalse("SilkRoad shouldnt must be created with negative len", silkRoad.getOk());
+    }
+    
+    @Test
+    public void accordingSVshouldGenerateNonEmprySpiralPath(){
+        SilkRoad silkRoad = new SilkRoad(15);
+        assertNotNull("The silkRoad shouldnt be null", silkRoad.getPath());
+        
+    }
+    
+    @Test
+    public void accordingSVshouldntCreateSilkRoadWithInputHigestThanSilkRoad(){
+        SilkRoad silkRoad = new SilkRoad(226);
+        assertFalse("SilkRoad shouldnt must be created with negative len", silkRoad.getOk());
     }
     
     @Test

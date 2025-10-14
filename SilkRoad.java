@@ -39,22 +39,25 @@ public class SilkRoad
 
     public SilkRoad(int len)
     {
-
-        visible = false;
-        finished = false;
-        
-        this.len = len;
-        path = generateSpiral();
-        createSilkRoad(this.len);
-        
-        randomShopsNum = new HashMap<>();
-        randomRobotsNum = new HashMap<>();
-        
-        shops = new HashMap<>();
-        robots = new HashMap<>();
-        
-        this.len = len;
-        this.ok = true;
+        if(len >= 0 && len <= n * n){
+            visible = false;
+            finished = false;
+            
+            this.len = len;
+            path = generateSpiral();
+            createSilkRoad(this.len);
+            
+            randomShopsNum = new HashMap<>();
+            randomRobotsNum = new HashMap<>();
+            
+            shops = new HashMap<>();
+            robots = new HashMap<>();
+            
+            this.len = len;
+            this.ok = true;
+        } else{
+            this.ok = false;
+        }
     }
     
     /**
