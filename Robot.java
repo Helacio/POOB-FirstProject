@@ -8,6 +8,7 @@ public class Robot
     private int initialStart;
     private int gains;
     private int nMoves = 0;
+    private boolean visible;
     private ArrayList<Figure> figureRobot;
     private ArrayList<Integer> profitsPerMove;
     
@@ -22,6 +23,7 @@ public class Robot
         this.actualLocation = start;
         this.initialStart = start;
         this.profitsPerMove = new ArrayList<>();
+        this.visible = false;
         
         // Creation and addition of shapes:
         this.figureRobot.add(new Circle());
@@ -89,7 +91,6 @@ public class Robot
         HashMap<Integer, Shop> shops = silkRoad.getShops();
         Shop shop = shops.get(shopId);
         ArrayList<Point> path = silkRoad.getPath();
-        this.gains = shop.empty() - Math.abs(this.actualLocation - shop.getDistanceX());
         
         if (actualLocation < shop.getDistanceX()) {
             for(int i = actualLocation; i <= shop.getDistanceX(); i++){
@@ -106,8 +107,13 @@ public class Robot
                 this.nMoves++;
             }
         }
+        this.gains = shop.empty() - Math.abs(this.actualLocation - shop.getDistanceX());
         actualLocation = shop.getDistanceX();
         profitsPerMove.add(gains);
+        
+        if(visible){
+            makeVisible();
+        }
     }
     
     /**
@@ -117,6 +123,7 @@ public class Robot
         for (Figure f : figureRobot) {
             f.makeInvisible();
         }
+        this.visible = false;
     }
     
     /**
@@ -144,32 +151,34 @@ public class Robot
      * Set the position of the Robot in Pixels
      */
     public void setPosition(int x, int y) {
-        // 2: head
+        //2: head
         figureRobot.get(2).setXPosition(50 + y * 40);
         figureRobot.get(2).setYPosition(50 + x * 40);
-        // 4: mouth
+        //4: mouth
         figureRobot.get(4).setXPosition(53 + y * 40);
         figureRobot.get(4).setYPosition(60 + x * 40);
-        // 5: antenna
+        //5: antenna
         figureRobot.get(5).setXPosition(55 + y * 40);
         figureRobot.get(5).setYPosition(43 + x * 40);
-        // 3: body
+        //3: body
         figureRobot.get(3).setXPosition(57 + y * 40);
         figureRobot.get(3).setYPosition(76 + x * 40);
-        // 0: leftEye
+        //0: leftEye
         figureRobot.get(0).setXPosition(55 + y * 40);
         figureRobot.get(0).setYPosition(55 + x * 40);
-        // 1: rightEye
+        //1: rightEye
         figureRobot.get(1).setXPosition(60 + y * 40);
         figureRobot.get(1).setYPosition(55 + x * 40);
         
-        // Make all parts visible
-        figureRobot.get(3).makeVisible(); // body
-        figureRobot.get(2).makeVisible(); // head
-        figureRobot.get(5).makeVisible(); // antenna
-        figureRobot.get(4).makeVisible(); // mouth
-        figureRobot.get(0).makeVisible(); // leftEye
-        figureRobot.get(1).makeVisible(); // rightEye
+        //Make all parts visible
+        if (this.visible){
+            figureRobot.get(3).makeVisible(); //body
+            figureRobot.get(2).makeVisible(); //head
+            figureRobot.get(5).makeVisible(); //antenna
+            figureRobot.get(4).makeVisible(); //mouth
+            figureRobot.get(0).makeVisible(); //leftEye
+            figureRobot.get(1).makeVisible(); //rightEye
+        }
     }
     
     /**
@@ -189,5 +198,6 @@ public class Robot
         figureRobot.get(4).makeVisible();
         figureRobot.get(0).makeVisible();
         figureRobot.get(1).makeVisible();
+        this.visible = true;
     }
 }

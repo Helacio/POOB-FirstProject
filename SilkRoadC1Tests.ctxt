@@ -1,0 +1,24 @@
+#BlueJ class context
+comment0.target=SilkRoadC1Tests
+comment0.text=\r\n\ Test\ class\ SilkRoadC2\r\n\r\n\ @author\ sanchez-villagran\r\n\ \r\n
+comment1.params=
+comment1.target=void\ accordingSVshouldCreateSilkRoadEmpty()
+comment10.params=
+comment10.target=void\ accordingSVShouldntMoveRobot()
+comment2.params=
+comment2.target=void\ accordingSVshouldntCreateSilkRoadWithInvalidLen()
+comment3.params=
+comment3.target=void\ accordingSVshouldGenerateNonEmprySpiralPath()
+comment4.params=
+comment4.target=void\ accordingSVshouldntCreateSilkRoadWithInputHigestThanSilkRoad()
+comment5.params=
+comment5.target=void\ accordingSVshouldAddRobot()
+comment6.params=
+comment6.target=void\ accordingSVshouldAddShop()
+comment7.params=
+comment7.target=void\ accordingSVshoudntAddTwoRobotsInSamePosition()
+comment8.params=
+comment8.target=void\ accordingSVshoudntAddTwoShopsInSamePosition()
+comment9.params=
+comment9.target=void\ accordingSVshouldMoveRobot()
+numComments=11

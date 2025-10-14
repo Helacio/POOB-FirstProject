@@ -11,10 +11,7 @@ import java.awt.geom.*;
 public class Circle extends Figure{
 
     public static final double PI=3.1416;
-    
     private int diameter;
-    private boolean isVisible;
-    
 
     public Circle() {
         super(50, 50, "blue");

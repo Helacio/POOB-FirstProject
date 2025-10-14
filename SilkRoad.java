@@ -17,7 +17,8 @@ public class SilkRoad
 {
     public final static ArrayList<String> COLORS = new ArrayList<>(Arrays.asList("red", "black", 
         "blue", "yellow", "magenta", "white", "orange", "pink",
-        "cyan", "gray", "lightGray", "darkGray", "brown", "maroon"));
+        "cyan", "gray", "darkGray", "brown", "maroon", "gold", "darkYellow",
+        "greenTint", "salmon", "darkRed"));
     public static final int CELLSIZE = 40;
     private static final int n = 15;
     private HashMap<Integer, Shop> shops;
@@ -38,22 +39,25 @@ public class SilkRoad
 
     public SilkRoad(int len)
     {
-
-        visible = true;
-        finished = false;
-        
-        this.len = len;
-        path = generateSpiral();
-        createSilkRoad(this.len);
-        
-        randomShopsNum = new HashMap<>();
-        randomRobotsNum = new HashMap<>();
-        
-        shops = new HashMap<>();
-        robots = new HashMap<>();
-        
-        this.len = len;
-        this.ok = true;
+        if(len >= 0 && len <= n * n){
+            visible = false;
+            finished = false;
+            
+            this.len = len;
+            path = generateSpiral();
+            createSilkRoad(this.len);
+            
+            randomShopsNum = new HashMap<>();
+            randomRobotsNum = new HashMap<>();
+            
+            shops = new HashMap<>();
+            robots = new HashMap<>();
+            
+            this.len = len;
+            this.ok = true;
+        } else{
+            this.ok = false;
+        }
     }
     
     /**
@@ -61,32 +65,35 @@ public class SilkRoad
      * @param days The input of maraton icpc J but all in just one line
      */
     public SilkRoad(int[] days){
-        visible = true;
+        visible = false;
         finished = false;
         robots = new HashMap<>();
         shops = new HashMap<>();
+        boolean foundRobotOrShop;
         
         len = 120;
         path = generateSpiral();
         createSilkRoad(len);
+        foundRobotOrShop = false;
         
-        int i = 0;
-        while(i < days.length){
+        for(int i = 0; i < days.length; ){
             int value = days[i];
-            if(value == 1){
-                int location = days[i + 1];
+            if(value == 1) {
+                int location = days[i+1];
                 addRobot(location);
                 i += 2;
+                foundRobotOrShop = true;
             } else if(value == 2){
                 int location = days[i + 1];
                 int tenges = days[i + 2];
                 addShop(location, tenges);
                 i += 3;
+                foundRobotOrShop = true;
             } else {
                 i++;
             }
         }
-        this.ok = true;
+        this.ok = foundRobotOrShop;
     }
     // Este método solo es un testeo
     public static void main(String[] args){
@@ -165,9 +172,11 @@ public class SilkRoad
             cell.changeSize(CELLSIZE, CELLSIZE);
             cell.moveHorizontal(col * CELLSIZE);
             cell.moveVertical(row * CELLSIZE);
-            cell.changeColor("lightGray");
-            cell.makeVisible();
+            cell.changeColor("softGray");
             cells.add(cell);
+            if (visible){
+                cell.makeVisible();
+            }
         }
     }
     
@@ -225,6 +234,10 @@ public class SilkRoad
         int row = pos.x;
         int col = pos.y;
         newShop.locateShop(row, col);
+        System.out.println("posicion Shop: " + shops.size() +" " +randomShopPos);
+        if(this.visible){
+            newShop.makeVisible();
+        }
     }
     
     /**
@@ -249,6 +262,10 @@ public class SilkRoad
             int col = pos.y;
             newShop.locateShop(row, col);
             
+            System.out.println("posicion Shop: " + shops.size() +" " + location);
+            if(this.visible){
+                newShop.makeVisible();
+            }
             ok = true;
         } else{
             ok = false;
@@ -275,12 +292,15 @@ public class SilkRoad
         
         COLORS.remove(COLORS.get(randomRobotColor));
         int index = newRobot.getInitialStart();// atributo de la tienda
-        System.out.println(randomRobotPos);// posición en la ruta
+        System.out.println("posicion Robot: " + robots.size() +" " +randomRobotPos);// posición en la ruta
         Point pos = path.get(index);
         
         int row = pos.x;
         int col = pos.y;
         newRobot.setPosition(row, col);
+        if (this.visible){
+                newRobot.makeVisible();
+        }
     }
     
     /**
@@ -302,6 +322,10 @@ public class SilkRoad
             int row = pos.x;
             int col = pos.y;
             newRobot.setPosition(row, col);
+            
+            if (this.visible){
+                newRobot.makeVisible();
+            }
             ok = true;
         }
         else{
@@ -343,7 +367,9 @@ public class SilkRoad
         for (Shop s : shops.values()) {
             s.resupply();
         }
-        winBar.reset(50);
+        if (winBar != null){
+            winBar.reset(50);
+        }
     }
     
     /**
@@ -389,6 +415,7 @@ public class SilkRoad
         if((this.visible || !(this.visible)) && robot != null && shop !=null){
             robot.moveRobot(this, shopId);
             ok = true;
+            
         } else{
             ok = false;
         }
@@ -428,11 +455,11 @@ public class SilkRoad
             for(Rectangle cell : cells) {
                 cell.makeVisible();
             }
-            for(Robot r: robots.values()) {
-                r.makeVisible();
-            }
             for(Shop s : shops.values()) {
                 s.makeVisible();
+            }
+            for(Robot r: robots.values()) {
+                r.makeVisible();
             }
         }
         visible = true;
