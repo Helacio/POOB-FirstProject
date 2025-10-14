@@ -17,7 +17,8 @@ public class SilkRoad
 {
     public final static ArrayList<String> COLORS = new ArrayList<>(Arrays.asList("red", "black", 
         "blue", "yellow", "magenta", "white", "orange", "pink",
-        "cyan", "gray", "lightGray", "darkGray", "brown", "maroon"));
+        "cyan", "gray", "darkGray", "brown", "maroon", "gold", "darkYellow",
+        "greenTint", "salmon", "darkRed"));
     public static final int CELLSIZE = 40;
     private static final int n = 15;
     private HashMap<Integer, Shop> shops;
@@ -39,7 +40,7 @@ public class SilkRoad
     public SilkRoad(int len)
     {
 
-        visible = true;
+        visible = false;
         finished = false;
         
         this.len = len;
@@ -161,8 +162,10 @@ public class SilkRoad
             cell.moveHorizontal(col * CELLSIZE);
             cell.moveVertical(row * CELLSIZE);
             cell.changeColor("lightGray");
-            cell.makeVisible();
             cells.add(cell);
+            if (visible){
+                cell.makeVisible();
+            }
         }
     }
     
@@ -212,6 +215,9 @@ public class SilkRoad
         int row = pos.x;
         int col = pos.y;
         newShop.locateShop(row, col);
+        if(this.visible){
+            newShop.makeVisible();
+        }
     }
     
     /**
@@ -236,6 +242,9 @@ public class SilkRoad
             int col = pos.y;
             newShop.locateShop(row, col);
             
+            if(this.visible){
+            newShop.makeVisible();
+            }
             ok = true;
         } else{
             ok = false;
@@ -268,6 +277,9 @@ public class SilkRoad
         int row = pos.x;
         int col = pos.y;
         newRobot.setPosition(row, col);
+        if (this.visible){
+                newRobot.makeVisible();
+            }
     }
     
     /**
@@ -289,6 +301,10 @@ public class SilkRoad
             int row = pos.x;
             int col = pos.y;
             newRobot.setPosition(row, col);
+            
+            if (this.visible){
+                newRobot.makeVisible();
+            }
             ok = true;
         }
         else{
