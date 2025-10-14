@@ -62,32 +62,35 @@ public class SilkRoad
      * @param days The input of maraton icpc J but all in just one line
      */
     public SilkRoad(int[] days){
-        visible = true;
+        visible = false;
         finished = false;
         robots = new HashMap<>();
         shops = new HashMap<>();
+        boolean foundRobotOrShop;
         
         len = 120;
         path = generateSpiral();
         createSilkRoad(len);
+        foundRobotOrShop = false;
         
-        int i = 0;
-        while(i < days.length){
+        for(int i = 0; i < days.length; ){
             int value = days[i];
-            if(value == 1){
-                int location = days[i + 1];
+            if(value == 1) {
+                int location = days[i+1];
                 addRobot(location);
                 i += 2;
+                foundRobotOrShop = true;
             } else if(value == 2){
                 int location = days[i + 1];
                 int tenges = days[i + 2];
                 addShop(location, tenges);
                 i += 3;
+                foundRobotOrShop = true;
             } else {
                 i++;
             }
         }
-        this.ok = true;
+        this.ok = foundRobotOrShop;
     }
     // Este método solo es un testeo
     public static void main(String[] args){
@@ -215,6 +218,7 @@ public class SilkRoad
         int row = pos.x;
         int col = pos.y;
         newShop.locateShop(row, col);
+        System.out.println("posicion Robot: " + shops.size() +" " +randomShopPos);
         if(this.visible){
             newShop.makeVisible();
         }
@@ -271,7 +275,7 @@ public class SilkRoad
         
         COLORS.remove(COLORS.get(randomRobotColor));
         int index = newRobot.getInitialStart();// atributo de la tienda
-        System.out.println(randomRobotPos);// posición en la ruta
+        System.out.println("posicion Robot: " + robots.size() +" " +randomRobotPos);// posición en la ruta
         Point pos = path.get(index);
         
         int row = pos.x;
@@ -279,7 +283,7 @@ public class SilkRoad
         newRobot.setPosition(row, col);
         if (this.visible){
                 newRobot.makeVisible();
-            }
+        }
     }
     
     /**
@@ -431,11 +435,11 @@ public class SilkRoad
             for(Rectangle cell : cells) {
                 cell.makeVisible();
             }
-            for(Robot r: robots.values()) {
-                r.makeVisible();
-            }
             for(Shop s : shops.values()) {
                 s.makeVisible();
+            }
+            for(Robot r: robots.values()) {
+                r.makeVisible();
             }
         }
         visible = true;

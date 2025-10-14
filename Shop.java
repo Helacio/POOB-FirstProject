@@ -101,9 +101,11 @@ public class Shop
         figureShop.get(1).setXPosition(63 + column * 40);
         figureShop.get(1).setYPosition(70 + row * 40);
         
-        figureShop.get(0).makeVisible();
-        figureShop.get(1).makeVisible();
-        figureShop.get(2).makeVisible();
+        if(this.visible){
+            figureShop.get(0).makeVisible();
+            figureShop.get(1).makeVisible();
+            figureShop.get(2).makeVisible();
+        }
     }
     
     public int getEmptiedCount(){
