@@ -8,6 +8,7 @@ public class Shop
     private int initialTenges;
     private ArrayList<Figure> figureShop;
     private int emptiedCount;
+    private boolean visible;
     
     /**
      * Constructor for objects of class Shop
@@ -18,6 +19,7 @@ public class Shop
         this.shopNumber = shopNumber;
         this.distanceX = distanceX;
         this.figureShop = new ArrayList<>();
+        this.visible = false;
         
         this.figureShop.add(new Rectangle()); //0: body
         this.figureShop.add(new Rectangle()); //1: door
@@ -70,6 +72,7 @@ public class Shop
         for (Figure s : figureShop) {
             s.makeInvisible();
         }
+        this.visible = false;
     }
     
     /**
@@ -79,6 +82,7 @@ public class Shop
         for (Figure s : figureShop) {
             s.makeVisible();
         }
+        this.visible = true;
     }
 
     /**
