@@ -149,7 +149,7 @@ public class Canvas{
             graphic.setColor(new Color(255, 220, 70));
         else if(colorString.equals("darkYellow"))
             graphic.setColor(new Color(128, 128, 0));
-        else if(colorString.equals("GreenTint"))
+        else if(colorString.equals("greenTint"))
             graphic.setColor(new Color(152, 255, 179));
         else if(colorString.equals("salmon"))
             graphic.setColor(new Color(255, 76, 76));
