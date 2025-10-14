@@ -9,6 +9,8 @@ public class Shop
     private ArrayList<Figure> figureShop;
     private int emptiedCount;
     private boolean visible;
+    private boolean isEmpty;
+    private String color;
     
     /**
      * Constructor for objects of class Shop
@@ -20,6 +22,8 @@ public class Shop
         this.distanceX = distanceX;
         this.figureShop = new ArrayList<>();
         this.visible = false;
+        this.isEmpty = false;
+        this.color = color;
         
         this.figureShop.add(new Rectangle()); //0: body
         this.figureShop.add(new Rectangle()); //1: door
@@ -48,7 +52,9 @@ public class Shop
      * Resupply the shop
      */
     public void resupply() {
-        tenges = initialTenges;
+        this.tenges = initialTenges;
+        changeInitialColor();
+        this.isEmpty = false;
     }
     
     /**
@@ -116,6 +122,28 @@ public class Shop
         int collected = tenges;
         this.tenges = 0;
         emptiedCount++;
+        this.isEmpty = true;
+        changeStealColor();
+        
         return collected;
     }
+    
+    /**
+     * Change the color appearance when has been stolen
+     */
+    public void changeStealColor(){
+        figureShop.get(0).changeColor("lightGray");
+        figureShop.get(1).changeColor("hardGray");
+        figureShop.get(2).changeColor("hardGray");
+    }
+    
+    /**
+     * Change the color appearance to the initial state
+     */
+    public void changeInitialColor(){
+        figureShop.get(0).changeColor(this.color);
+        figureShop.get(1).changeColor("red");
+        figureShop.get(2).changeColor("blue");
+    }
+    
 }
