@@ -117,6 +117,7 @@ public class Robot
         }
     }
     
+    
     /**
      * Hide the robot of canvas
      */

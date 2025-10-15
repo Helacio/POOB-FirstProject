@@ -58,6 +58,10 @@ public class SilkRoad
         } else{
             this.ok = false;
         }
+        
+        if (shops.size() > 0 && robots.size() > 0) {
+            setNeariestRobots();
+        }
     }
     
     /**
@@ -95,7 +99,7 @@ public class SilkRoad
         }
         this.ok = foundRobotOrShop;
     }
-    // Este método solo es un testeo
+    // This method is a test 
     public static void main(String[] args){
         Scanner scanner = new Scanner(System.in);
         String inputLine = scanner.nextLine();
@@ -108,6 +112,35 @@ public class SilkRoad
         SilkRoad silkRoad = new SilkRoad(numbers);
     }
     
+    /**
+     * This method makes robots move to the nearest shop. 
+     * You can only use it when the shop and robot HashMaps are built with the location of these objects as the key. 
+     * 
+     */
+    public void moveToMaxGain() {
+        for (int shopId : shops.keySet()) {
+            Shop shopToGo = shops.get(shopId);
+            shopToGo.getNeariestRobot().moveRobot(this, shopId); 
+        }
+        
+    }
+    
+    /**
+     * This method set the atribute neariest robots from shops
+     */
+    public void setNeariestRobots() {
+        for (Shop s : shops.values()) {
+            int currentDistance = Integer.MAX_VALUE;
+            
+                for (Robot r : robots.values()) {
+                    
+                    if (s.distanceToRobot(r) < currentDistance) {
+                        currentDistance = s.distanceToRobot(r);
+                        s.setNeariestRobot(r);
+                    }
+            }
+        }
+    }
     /**
      * Generate Spiral
      * matrix will be 15x15, at most 225 steps on the silk road
