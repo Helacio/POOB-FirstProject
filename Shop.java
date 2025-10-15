@@ -146,4 +146,10 @@ public class Shop
         figureShop.get(2).changeColor("blue");
     }
     
+    /**
+     * Get the isVisible atribute
+     */
+    public boolean getIsEmpty(){
+        return this.isEmpty;
+    }
 }
