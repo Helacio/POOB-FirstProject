@@ -11,6 +11,7 @@ public class Shop
     private boolean visible;
     private boolean isEmpty;
     private String color;
+    private Robot neariestRobot;
     
     /**
      * Constructor for objects of class Shop
@@ -151,5 +152,30 @@ public class Shop
      */
     public boolean getIsEmpty(){
         return this.isEmpty;
+    }
+    
+    /**
+     * Set the nearliest robot to this shop
+     * @param This is the robot that want to set like neariestRobot of this shop
+     */
+    public void setNeariestRobot(Robot nearRobot) {
+        this.neariestRobot = nearRobot;
+    }
+    
+    /**
+     * Get the neariest robot to this shop
+     * @return The nearest robot to the shop.
+     */
+    public Robot getNeariestRobot() {
+        return neariestRobot;
+    }
+    
+    /**
+     * Calculates the distance from this shop to a specified Robot.
+     * @param The robot whose distance will be calculate from this shop.
+     * @return The distance between robot given and this shop
+     */
+    public int distanceToRobot(Robot r) {
+        return Math.abs(this.distanceX - r.getActualLocation());
     }
 }
