@@ -38,13 +38,21 @@ public class ProgressBar
         progress.changeColor("green");
         progress.makeVisible();
     }
-    
+
+    /**
+     * Change the progress bar
+     * @param valor is the value to fill the progress bar
+     */
     public void update(int valor) {
         this.actual = Math.min(valor, max);
         int newWidth = (int)((double)actual / max * background.getWidht());
         progress.changeSize(background.getHeight(), newWidth);
     }
     
+    /**
+     * Change the color of progress bar like orignally
+     * @param int is the vertical len of the barr progress
+     */
     public void reset(int height) {
         progress.changeSize(height, 0);
     }
