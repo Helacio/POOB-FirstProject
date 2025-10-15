@@ -87,11 +87,11 @@ public class Robot
     /**
      * Move a Robot to a specific shop
      */
-    public void moveRobot(SilkRoad silkRoad, int shopId) {
-        
-        HashMap<Integer, Shop> shops = silkRoad.getShops();
+    public void moveRobot(ArrayList<Point> path, HashMap<Integer, Shop> shops, int shopId) {
         Shop shop = shops.get(shopId);
-        ArrayList<Point> path = silkRoad.getPath();
+        if(shop == null) {
+            return;
+        }
         
         if (actualLocation < shop.getDistanceX()) {
             for(int i = actualLocation; i <= shop.getDistanceX(); i++){

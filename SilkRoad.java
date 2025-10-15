@@ -59,9 +59,11 @@ public class SilkRoad
             this.ok = false;
         }
         
+        /** Does not work because shops and robots are null
         if (shops.size() > 0 && robots.size() > 0) {
             setNeariestRobots();
         }
+        */
     }
     
     /**
@@ -120,7 +122,10 @@ public class SilkRoad
     public void moveToMaxGain() {
         for (int shopId : shops.keySet()) {
             Shop shopToGo = shops.get(shopId);
-            shopToGo.getNeariestRobot().moveRobot(this, shopId); 
+            shopToGo.getNeariestRobot().moveRobot(this.path, this.shops, shopId);
+            if(winBar != null){
+                winBar.update(getGains());
+            }
         }
         
     }
@@ -446,7 +451,7 @@ public class SilkRoad
         Robot robot = robots.get(robotId);
         Shop shop = shops.get(shopId);
         if((this.visible || !(this.visible)) && robot != null && shop !=null){
-            robot.moveRobot(this, shopId);
+            robot.moveRobot(this.path, this.shops, shopId);
             ok = true;
             
         } else{
@@ -644,5 +649,14 @@ public class SilkRoad
             result[k + 1] = key;
         }
         return result;
+    }
+    
+    /**
+     * Start to calculate the highest profit
+     */
+    public void initializeNeariestRobot(){
+        if(shops != null && robots != null){
+            setNeariestRobots();
+        }
     }
 }
