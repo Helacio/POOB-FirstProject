@@ -24,6 +24,7 @@ public class Robot
         this.initialStart = start;
         this.profitsPerMove = new ArrayList<>();
         this.visible = false;
+        this.gains = 0;
         
         // Creation and addition of shapes:
         this.figureRobot.add(new Circle());
@@ -107,7 +108,7 @@ public class Robot
                 this.nMoves++;
             }
         }
-        this.gains = shop.empty() - Math.abs(this.actualLocation - shop.getDistanceX());
+        this.gains += shop.empty() - Math.abs(this.actualLocation - shop.getDistanceX());
         actualLocation = shop.getDistanceX();
         profitsPerMove.add(gains);
         
@@ -199,5 +200,12 @@ public class Robot
         figureRobot.get(0).makeVisible();
         figureRobot.get(1).makeVisible();
         this.visible = true;
+    }
+    
+    /**
+     * Total profit in each movement 
+     */
+    public ArrayList<Integer> getProfitsPerMove(){
+        return this.profitsPerMove;
     }
 }

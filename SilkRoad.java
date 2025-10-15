@@ -584,4 +584,32 @@ public class SilkRoad
     public boolean getOk(){
         return ok;
     }
+    
+    /**
+     * Get emptied stores ascending by location
+     * @return int[][] Bidimensional Array with location and teanges
+     */
+    public int[][] emptiedStores(){
+        int totalShops = shops.size();
+        int[][] result = new int[totalShops][2];
+        int i = 0;
+        
+        for(Integer index : shops.keySet()){
+            Shop shop = shops.get(index);
+            result[i][0] = shop.getDistanceX();
+            result[i][1] = shop.getEmptiedCount();
+            i++;
+        }
+        
+        for(int j = 1; j < totalShops; j++){
+            int[] key = result[j];
+            int k = j - 1;
+            while(k > 0 && result[k][0] > key[0]){
+                result[k + 1] = result[k];
+                k--;
+            }
+            result[k + 1] = key;
+        }
+        return result;
+    }
 }
