@@ -140,12 +140,13 @@ public class SilkRoad
                     System.out.println(nextRobotToMove);
                     nextRobotToMove.remove(rDis);
                     setNeariestRobots();
-                    System.out.println(nextRobotToMove);
-                }
-        
-                if(winBar != null){
-                    winBar.update(getGains());
-                }
+                    Robot best = getRobotWithMajorGain();
+                    if(winBar != null){
+                        winBar.update(getGains());
+                    }
+                    best.blink();
+                        System.out.println(nextRobotToMove);
+                    }
             }
         }
         
@@ -502,14 +503,15 @@ public class SilkRoad
         if((this.visible || !(this.visible)) && robot != null && shop !=null){
             robot.moveRobot(this.path, this.shops, shopId);
             ok = true;
-            
+            Robot best = getRobotWithMajorGain();
+            if(winBar != null){
+                winBar.update(getGains());
+            }
+            best.blink();
         } else{
             ok = false;
         }
         
-        if(winBar != null){
-            winBar.update(getGains());
-        }
     }
     
     /**
@@ -712,5 +714,21 @@ public class SilkRoad
         if(shops != null && robots != null){
             setNeariestRobots();
         }
+    }
+    
+    /**
+     * 
+     */
+    public Robot getRobotWithMajorGain(){
+        Robot bestRobot = null;
+        int maxGain = Integer.MIN_VALUE;
+        
+        for(Robot r : robots.values()){
+            if(r.getGain() > maxGain){
+                maxGain = r.getGain();
+                bestRobot = r;
+            }
+        }
+        return bestRobot;
     }
 }

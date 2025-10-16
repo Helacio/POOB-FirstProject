@@ -118,7 +118,6 @@ public class Robot
         }
     }
     
-    
     /**
      * Hide the robot of canvas
      */
@@ -223,4 +222,15 @@ public class Robot
         return neariestShop;
     }
     
+    /**
+     * Blink the robot
+     */
+    public void blink(){
+        for(int i = 0; i < 5; i++){
+            makeInvisible();
+            Canvas.getCanvas().wait(100);
+            makeVisible();
+            Canvas.getCanvas().wait(100);
+        }
+    }
 }
