@@ -135,10 +135,8 @@ public class SilkRoad
                 if (shopToGo != null && !shopToGo.getIsEmpty()) {
                     int shopId = shopToGo.getDistanceX();
                     robots.get(nextRobotToMove.get(rDis)).moveRobot(this.path, this.shops, shopId);
-                    System.out.println(nextRobotToMove);
                     nextRobotToMove.remove(rDis);
                     setNeariestRobots();
-                    System.out.println(nextRobotToMove);
                 }
         
                 if(winBar != null){
