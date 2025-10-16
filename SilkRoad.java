@@ -164,7 +164,7 @@ public class SilkRoad
     
     /**
      * This method set the atribute neariest shop from robot
-     * @param This is a TreeMap with the distances and robot's positions
+     * @return This is a TreeMap of the distances and the positions of the robots ready for movement.
      */
     public TreeMap<Integer, Integer> setNeariestRobots() {
         for (int rID : robots.keySet()) {
