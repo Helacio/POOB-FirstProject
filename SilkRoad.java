@@ -125,38 +125,41 @@ public class SilkRoad
     public void moveToMaxGain() {
         setNeariestRobots();
         
+        while (checkAll()) {
         Set<Integer> keysToIterate = new TreeSet<>(nextRobotToMove.keySet());
         
-        for (Integer rDis : keysToIterate) {
-            Shop shopToGo = robots.get(nextRobotToMove.get(rDis)).getNeariestShop();
-            
-            if (shopToGo != null && !shopToGo.getIsEmpty()) {
-                int shopId = shopToGo.getDistanceX();
-                robots.get(nextRobotToMove.get(rDis)).moveRobot(this.path, this.shops, shopId);
-                System.out.println(nextRobotToMove);
-                setNeariestRobots();
-                System.out.println(nextRobotToMove);
+            for (Integer rDis : keysToIterate) {
+                Shop shopToGo = robots.get(nextRobotToMove.get(rDis)).getNeariestShop();
+                
+                if (shopToGo != null && !shopToGo.getIsEmpty()) {
+                    int shopId = shopToGo.getDistanceX();
+                    robots.get(nextRobotToMove.get(rDis)).moveRobot(this.path, this.shops, shopId);
+                    System.out.println(nextRobotToMove);
+                    nextRobotToMove.remove(rDis);
+                    setNeariestRobots();
+                    System.out.println(nextRobotToMove);
+                }
+        
+                if(winBar != null){
+                    winBar.update(getGains());
+                }
             }
+        }
+        
+    }
     
-            if(winBar != null){
-                winBar.update(getGains());
+    /**
+     * Performs a checkup on all shops to verify if they are stolen.
+     * @return Return true if there is at least one shop that is not stolen, and false otherwise.
+     */
+    
+    public boolean checkAll() {
+        for (Shop s : shops.values()) {
+            if (!s.getIsEmpty()) {
+                return true;
             }
         }
-        
-        Set<Integer> checkUp = new TreeSet<>(nextRobotToMove.keySet());
-        checkUp.removeAll(keysToIterate);
-        
-        for (Integer rDis : checkUp) {
-            Shop shopToGo = robots.get(nextRobotToMove.get(rDis)).getNeariestShop();
-            
-            if (shopToGo != null && !shopToGo.getIsEmpty()) {
-                int shopId = shopToGo.getDistanceX();
-                robots.get(nextRobotToMove.get(rDis)).moveRobot(this.path, this.shops, shopId);
-                System.out.println(nextRobotToMove);
-                setNeariestRobots();
-                System.out.println(nextRobotToMove);
-            }
-        }
+        return false;
     }
     
     /**
