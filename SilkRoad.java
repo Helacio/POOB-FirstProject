@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.HashSet;
 
 /**
  * Write a description of class Simulator here.
@@ -142,8 +143,21 @@ public class SilkRoad
             }
         }
         
+        Set<Integer> checkUp = new TreeSet<>(nextRobotToMove.keySet());
+        checkUp.removeAll(keysToIterate);
+        
+        for (Integer rDis : checkUp) {
+            Shop shopToGo = robots.get(nextRobotToMove.get(rDis)).getNeariestShop();
+            
+            if (shopToGo != null && !shopToGo.getIsEmpty()) {
+                int shopId = shopToGo.getDistanceX();
+                robots.get(nextRobotToMove.get(rDis)).moveRobot(this.path, this.shops, shopId);
+                System.out.println(nextRobotToMove);
+                setNeariestRobots();
+                System.out.println(nextRobotToMove);
+            }
+        }
     }
-    
     
     /**
      * This method set the atribute neariest shop from robot
