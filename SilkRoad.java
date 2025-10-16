@@ -59,6 +59,7 @@ public class SilkRoad
             robots = new HashMap<>();
             
             nextRobotToMove = new TreeMap<>();
+            createProgressBar();
             
             this.len = len;
             this.ok = true;
@@ -79,6 +80,7 @@ public class SilkRoad
         robots = new HashMap<>();
         shops = new HashMap<>();
         boolean foundRobotOrShop;
+        nextRobotToMove = new TreeMap<>();
         
         len = 120;
         path = generateSpiral();
@@ -103,6 +105,7 @@ public class SilkRoad
             }
         }
         this.ok = foundRobotOrShop;
+        createProgressBar();
     }
     // This method is a test 
     public static void main(String[] args){
@@ -313,6 +316,15 @@ public class SilkRoad
         if(this.visible){
             newShop.makeVisible();
         }
+        
+        if(winBar != null){
+            int possibleTenges = 0;
+            for(Shop s : shops.values()) {
+                possibleTenges += s.getTenges();
+            }
+            winBar.setMax(possibleTenges);
+        }
+        
     }
     
     /**
@@ -536,6 +548,7 @@ public class SilkRoad
             for(Robot r: robots.values()) {
                 r.makeVisible();
             }
+            winBar.makeVisible();
         }
         visible = true;
     }
@@ -554,6 +567,7 @@ public class SilkRoad
             for(Shop s : shops.values()){
                 s.makeInvisible();
             }
+            winBar.makeInvisible();
         }
         visible = false;
     }
@@ -586,6 +600,9 @@ public class SilkRoad
         int possibleTenges = 0;
         for(Shop s: shops.values()){
             possibleTenges += s.getTenges();
+        }
+        if (possibleTenges == 0){
+            possibleTenges = 1;
         }
         winBar = new ProgressBar(150, 650, 400, 50, possibleTenges);
     }
