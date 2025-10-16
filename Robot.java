@@ -11,6 +11,7 @@ public class Robot
     private boolean visible;
     private ArrayList<Figure> figureRobot;
     private ArrayList<Integer> profitsPerMove;
+    private Shop neariestShop;
     
     /**
      * Constructor for objects of class Robot
@@ -83,7 +84,7 @@ public class Robot
         int y = pair.y;
         this.setPosition(x, y);
     }
-    
+
     /**
      * Move a Robot to a specific shop
      */
@@ -209,4 +210,17 @@ public class Robot
     public ArrayList<Integer> getProfitsPerMove(){
         return this.profitsPerMove;
     }
+    
+    /**
+     * Set the the neariest shop to this robot 
+     * @param This is the neariest shop to set in this robot
+     */
+    public void setNeariestShop(Shop s) {
+        this.neariestShop = s;
+    }
+    
+    public Shop getNeariestShop() {
+        return neariestShop;
+    }
+    
 }

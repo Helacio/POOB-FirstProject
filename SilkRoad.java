@@ -7,6 +7,10 @@ import java.awt.Point;
 import java.util.Scanner;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.HashSet;
 
 /**
  * Write a description of class Simulator here.
@@ -32,6 +36,7 @@ public class SilkRoad
     private ArrayList<Rectangle> cells;
     private ProgressBar winBar;
     private boolean ok;
+    private TreeMap<Integer, Integer> nextRobotToMove;
     
     /**
      * Constructor for objects of class Simulator
@@ -53,17 +58,15 @@ public class SilkRoad
             shops = new HashMap<>();
             robots = new HashMap<>();
             
+            nextRobotToMove = new TreeMap<>();
+            
             this.len = len;
             this.ok = true;
         } else{
             this.ok = false;
         }
         
-        /** Does not work because shops and robots are null
-        if (shops.size() > 0 && robots.size() > 0) {
-            setNeariestRobots();
-        }
-        */
+        
     }
     
     /**
@@ -120,32 +123,66 @@ public class SilkRoad
      * 
      */
     public void moveToMaxGain() {
-        for (int shopId : shops.keySet()) {
-            Shop shopToGo = shops.get(shopId);
-            shopToGo.getNeariestRobot().moveRobot(this.path, this.shops, shopId);
-            if(winBar != null){
-                winBar.update(getGains());
+        setNeariestRobots();
+        
+        while (checkAll()) {
+        Set<Integer> keysToIterate = new TreeSet<>(nextRobotToMove.keySet());
+        
+            for (Integer rDis : keysToIterate) {
+                Shop shopToGo = robots.get(nextRobotToMove.get(rDis)).getNeariestShop();
+                
+                if (shopToGo != null && !shopToGo.getIsEmpty()) {
+                    int shopId = shopToGo.getDistanceX();
+                    robots.get(nextRobotToMove.get(rDis)).moveRobot(this.path, this.shops, shopId);
+                    System.out.println(nextRobotToMove);
+                    nextRobotToMove.remove(rDis);
+                    setNeariestRobots();
+                    System.out.println(nextRobotToMove);
+                }
+        
+                if(winBar != null){
+                    winBar.update(getGains());
+                }
             }
         }
         
     }
     
     /**
-     * This method set the atribute neariest robots from shops
+     * Performs a checkup on all shops to verify if they are stolen.
+     * @return Return true if there is at least one shop that is not stolen, and false otherwise.
      */
-    public void setNeariestRobots() {
+    
+    public boolean checkAll() {
         for (Shop s : shops.values()) {
-            int currentDistance = Integer.MAX_VALUE;
-            
-                for (Robot r : robots.values()) {
-                    
-                    if (s.distanceToRobot(r) < currentDistance) {
-                        currentDistance = s.distanceToRobot(r);
-                        s.setNeariestRobot(r);
-                    }
+            if (!s.getIsEmpty()) {
+                return true;
             }
         }
+        return false;
     }
+    
+    /**
+     * This method set the atribute neariest shop from robot
+     * @param This is a TreeMap with the distances and robot's positions
+     */
+    public TreeMap<Integer, Integer> setNeariestRobots() {
+        for (int rID : robots.keySet()) {
+            Shop nearestShop = null;
+            int minDistance = Integer.MAX_VALUE;
+            
+                for (int sID : shops.keySet()) {
+                    int distanceBetween = Math.abs(rID - sID);
+                    if (distanceBetween < minDistance && !shops.get(sID).getIsEmpty()) {
+                        minDistance = distanceBetween;
+                        robots.get(rID).setNeariestShop(shops.get(sID));
+                    }
+            }
+            nextRobotToMove.put(minDistance, rID);
+        }
+        return nextRobotToMove;
+    }
+    
     /**
      * Generate Spiral
      * matrix will be 15x15, at most 225 steps on the silk road
@@ -654,7 +691,7 @@ public class SilkRoad
     /**
      * Start to calculate the highest profit
      */
-    public void initializeNeariestRobot(){
+    public void initializeNeariestRobot() {
         if(shops != null && robots != null){
             setNeariestRobots();
         }
