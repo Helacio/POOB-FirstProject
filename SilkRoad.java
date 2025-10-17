@@ -126,11 +126,12 @@ public class SilkRoad
      * 
      */
     public void moveToMaxGain() {
-        setNeariestRobots();
+        
         
         while (checkAll()) {
-        Set<Integer> keysToIterate = new TreeSet<>(nextRobotToMove.keySet());
-        
+            setNeariestRobots();
+            Set<Integer> keysToIterate = new TreeSet<>(nextRobotToMove.keySet());
+            
             for (Integer rDis : keysToIterate) {
                 Shop shopToGo = robots.get(nextRobotToMove.get(rDis)).getNeariestShop();
                 
