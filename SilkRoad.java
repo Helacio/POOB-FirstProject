@@ -136,20 +136,19 @@ public class SilkRoad
                 
                 if (shopToGo != null && !shopToGo.getIsEmpty()) {
                     int shopId = shopToGo.getDistanceX();
-                    robots.get(nextRobotToMove.get(rDis)).moveRobot(this.path, this.shops, shopId);
+                    int rId = nextRobotToMove.get(rDis);
+                    Robot r = robots.get(rId);
+                    
+                    moveRobot(rId, shopId);
                     System.out.println(nextRobotToMove);
                     nextRobotToMove.remove(rDis);
                     setNeariestRobots();
                     Robot best = getRobotWithMajorGain();
-                    if(winBar != null){
-                        winBar.update(getGains());
-                    }
-                    best.blink();
-                        System.out.println(nextRobotToMove);
+                    System.out.println(nextRobotToMove);
                     }
             }
+            
         }
-        
     }
     
     /**
@@ -509,18 +508,43 @@ public class SilkRoad
         
         Robot robot = robots.get(robotId);
         Shop shop = shops.get(shopId);
-        if((this.visible || !(this.visible)) && robot != null && shop !=null){
-            robot.moveRobot(this.path, this.shops, shopId);
-            ok = true;
-            Robot best = getRobotWithMajorGain();
-            if(winBar != null){
-                winBar.update(getGains());
-            }
-            best.blink();
-        } else{
+        
+        if(robot == null || shop == null) {
             ok = false;
+            return;
+        }
+        int start = robot.getActualLocation();
+        int distance = shop.getDistanceX();
+        
+        if(start <= distance) {
+            for(int i = start; i <= distance; i++) {
+                Point  step = path.get(i);
+                robot.setPosition(step.x, step.y);
+                Canvas.getCanvas().wait(100);
+            }
+        } else{
+            for(int i = start; i >= distance; i--) {
+                Point step = path.get(i);
+                robot.setPosition(step.x, step.y);
+                Canvas.getCanvas().wait(100);
+            }
         }
         
+        int gain = shop.empty() - Math.abs(start - distance);
+        robot.addGain(gain);
+        robot.setActualLocation(shop.getDistanceX());
+        winBar.update(getGains());
+        
+        if(this.visible) {
+            robot.makeVisible();
+            Robot best = getRobotWithMajorGain();
+            if(best != null) {
+                best.blink();
+            }
+        } else {
+            robot.makeInvisible();
+        }
+        ok = true;
     }
     
     /**

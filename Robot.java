@@ -84,38 +84,6 @@ public class Robot
         this.setPosition(x, y);
     }
 
-    /**
-     * Move a Robot to a specific shop
-     */
-    public void moveRobot(ArrayList<Point> path, HashMap<Integer, Shop> shops, int shopId) {
-        Shop shop = shops.get(shopId);
-        if(shop == null) {
-            return;
-        }
-        
-        if (actualLocation < shop.getDistanceX()) {
-            for(int i = actualLocation; i <= shop.getDistanceX(); i++){
-                Point step = path.get(i);
-                setPosition(step.x, step.y);
-                Canvas.getCanvas().wait(100);
-                this.nMoves++;
-            }
-        } else {
-            for(int i = actualLocation; i >= shop.getDistanceX(); i--){
-                Point step = path.get(i);
-                setPosition(step.x, step.y);
-                Canvas.getCanvas().wait(100);
-                this.nMoves++;
-            }
-        }
-        this.gains += shop.empty() - Math.abs(this.actualLocation - shop.getDistanceX());
-        actualLocation = shop.getDistanceX();
-        profitsPerMove.add(gains);
-        
-        if(visible){
-            makeVisible();
-        }
-    }
     
     /**
      * Hide the robot of canvas
@@ -233,5 +201,21 @@ public class Robot
                 Canvas.getCanvas().wait(100);
             }
         }
+    }
+    
+    /**
+     * Add tenges to the robots gain
+     * @param Tenges are the profits of the robot when steal a shop
+     */
+    public void addGain(int tenges){
+        gains += tenges;
+        profitsPerMove.add(gains);
+    }
+    
+    /**
+     * 
+     */
+    public void setActualLocation(int position){
+        actualLocation = position;
     }
 }
