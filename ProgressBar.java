@@ -67,8 +67,8 @@ public class ProgressBar
      * Draw the progressbar on canvas
      */
     public void makeVisible(){
-        progress.makeVisible();
         background.makeVisible();
+        progress.makeVisible();
     }
     
     /**

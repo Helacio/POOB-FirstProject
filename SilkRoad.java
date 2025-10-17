@@ -193,7 +193,6 @@ public class SilkRoad
      */
     public ArrayList<Point> generateSpiral() {
         ArrayList<Point> path = new ArrayList<>();
-        int value = 1;
         
         int top = 0, bottom = n - 1;
         int left = 0, right = n - 1;
@@ -427,9 +426,14 @@ public class SilkRoad
      */
     public void removeRobot(int robotId) { 
         Robot robotToRemove = robots.get(robotId);
-        robots.remove(robotId);
-        robotToRemove.makeInvisible();
-        robotToRemove = null;
+        if(robotToRemove != null){
+            robots.remove(robotId);
+            robotToRemove.makeInvisible();
+            robotToRemove = null;
+            ok = true;
+        } else{
+            ok = false;
+        }
     }
     
     /**
@@ -438,9 +442,14 @@ public class SilkRoad
      */
     public void removeShop(int shopId) {
         Shop shopToRemove = shops.get(shopId);
-        shops.remove(shopId);
-        shopToRemove.makeInvisible();
-        shopToRemove = null;
+        if(shopToRemove != null){
+            shops.remove(shopId);
+            shopToRemove.makeInvisible();
+            shopToRemove = null;
+            ok = true;
+        } else{
+            ok = false;
+        }
     }
     
     /**
@@ -449,7 +458,7 @@ public class SilkRoad
     
     public void resetSilkRoad() {
         for (Robot r : robots.values()) {
-            r.resetRobot(this);
+            r.resetRobot(this.path);
         }
         
         for (Shop s : shops.values()) {
@@ -475,7 +484,7 @@ public class SilkRoad
     }
     
     /**
-     * Set shops with Tenge starting from the beginning of the day.
+     * Set shops with Tenges starting from the beginning of the day.
      */
     public void resetShops() {
         for (Shop s : shops.values()) {
@@ -489,7 +498,7 @@ public class SilkRoad
      */
     public void resetRobots() {
         for (Robot r : robots.values()) {
-            r.resetRobot(this);
+            r.resetRobot(this.path);
         }
     }
     

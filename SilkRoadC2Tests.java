@@ -46,8 +46,6 @@ public class SilkRoadC2Tests
     public void accordindSVshouldCheckProfitPermove(){
         SilkRoad silkRoad = new SilkRoad(input);
         
-        Robot r = silkRoad.getRobots().get(10);
-        
         silkRoad.moveRobot(10, 15);
         int profit = silkRoad.profitPerMove(10, 0);
 
