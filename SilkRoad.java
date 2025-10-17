@@ -59,6 +59,7 @@ public class SilkRoad
             robots = new HashMap<>();
             
             nextRobotToMove = new TreeMap<>();
+            createProgressBar();
             
             this.len = len;
             this.ok = true;
@@ -79,6 +80,7 @@ public class SilkRoad
         robots = new HashMap<>();
         shops = new HashMap<>();
         boolean foundRobotOrShop;
+        nextRobotToMove = new TreeMap<>();
         
         len = 120;
         path = generateSpiral();
@@ -103,6 +105,7 @@ public class SilkRoad
             }
         }
         this.ok = foundRobotOrShop;
+        createProgressBar();
     }
     // This method is a test 
     public static void main(String[] args){
@@ -137,11 +140,13 @@ public class SilkRoad
                     robots.get(nextRobotToMove.get(rDis)).moveRobot(this.path, this.shops, shopId);
                     nextRobotToMove.remove(rDis);
                     setNeariestRobots();
-                }
-        
-                if(winBar != null){
-                    winBar.update(getGains());
-                }
+                    Robot best = getRobotWithMajorGain();
+                    if(winBar != null){
+                        winBar.update(getGains());
+                    }
+                    best.blink();
+                        System.out.println(nextRobotToMove);
+                    }
             }
         }
         
@@ -188,7 +193,6 @@ public class SilkRoad
      */
     public ArrayList<Point> generateSpiral() {
         ArrayList<Point> path = new ArrayList<>();
-        int value = 1;
         
         int top = 0, bottom = n - 1;
         int left = 0, right = n - 1;
@@ -312,6 +316,15 @@ public class SilkRoad
         if(this.visible){
             newShop.makeVisible();
         }
+        
+        if(winBar != null){
+            int possibleTenges = 0;
+            for(Shop s : shops.values()) {
+                possibleTenges += s.getTenges();
+            }
+            winBar.setMax(possibleTenges);
+        }
+        
     }
     
     /**
@@ -413,9 +426,14 @@ public class SilkRoad
      */
     public void removeRobot(int robotId) { 
         Robot robotToRemove = robots.get(robotId);
-        robots.remove(robotId);
-        robotToRemove.makeInvisible();
-        robotToRemove = null;
+        if(robotToRemove != null){
+            robots.remove(robotId);
+            robotToRemove.makeInvisible();
+            robotToRemove = null;
+            ok = true;
+        } else{
+            ok = false;
+        }
     }
     
     /**
@@ -424,9 +442,14 @@ public class SilkRoad
      */
     public void removeShop(int shopId) {
         Shop shopToRemove = shops.get(shopId);
-        shops.remove(shopId);
-        shopToRemove.makeInvisible();
-        shopToRemove = null;
+        if(shopToRemove != null){
+            shops.remove(shopId);
+            shopToRemove.makeInvisible();
+            shopToRemove = null;
+            ok = true;
+        } else{
+            ok = false;
+        }
     }
     
     /**
@@ -435,7 +458,7 @@ public class SilkRoad
     
     public void resetSilkRoad() {
         for (Robot r : robots.values()) {
-            r.resetRobot(this);
+            r.resetRobot(this.path);
         }
         
         for (Shop s : shops.values()) {
@@ -461,7 +484,7 @@ public class SilkRoad
     }
     
     /**
-     * Set shops with Tenge starting from the beginning of the day.
+     * Set shops with Tenges starting from the beginning of the day.
      */
     public void resetShops() {
         for (Shop s : shops.values()) {
@@ -475,7 +498,7 @@ public class SilkRoad
      */
     public void resetRobots() {
         for (Robot r : robots.values()) {
-            r.resetRobot(this);
+            r.resetRobot(this.path);
         }
     }
     
@@ -489,14 +512,15 @@ public class SilkRoad
         if((this.visible || !(this.visible)) && robot != null && shop !=null){
             robot.moveRobot(this.path, this.shops, shopId);
             ok = true;
-            
+            Robot best = getRobotWithMajorGain();
+            if(winBar != null){
+                winBar.update(getGains());
+            }
+            best.blink();
         } else{
             ok = false;
         }
         
-        if(winBar != null){
-            winBar.update(getGains());
-        }
     }
     
     /**
@@ -535,6 +559,7 @@ public class SilkRoad
             for(Robot r: robots.values()) {
                 r.makeVisible();
             }
+            winBar.makeVisible();
         }
         visible = true;
     }
@@ -553,6 +578,7 @@ public class SilkRoad
             for(Shop s : shops.values()){
                 s.makeInvisible();
             }
+            winBar.makeInvisible();
         }
         visible = false;
     }
@@ -585,6 +611,9 @@ public class SilkRoad
         int possibleTenges = 0;
         for(Shop s: shops.values()){
             possibleTenges += s.getTenges();
+        }
+        if (possibleTenges == 0){
+            possibleTenges = 1;
         }
         winBar = new ProgressBar(150, 650, 400, 50, possibleTenges);
     }
@@ -694,5 +723,21 @@ public class SilkRoad
         if(shops != null && robots != null){
             setNeariestRobots();
         }
+    }
+    
+    /**
+     * 
+     */
+    public Robot getRobotWithMajorGain(){
+        Robot bestRobot = null;
+        int maxGain = Integer.MIN_VALUE;
+        
+        for(Robot r : robots.values()){
+            if(r.getGain() > maxGain){
+                maxGain = r.getGain();
+                bestRobot = r;
+            }
+        }
+        return bestRobot;
     }
 }

@@ -29,14 +29,12 @@ public class ProgressBar
         background.moveHorizontal(x);
         background.moveVertical(y);
         background.changeColor("gray");
-        background.makeVisible();
         
         progress = new Rectangle();
         progress.changeSize(height, 0);
         progress.moveHorizontal(x);
         progress.moveVertical(y);
         progress.changeColor("green");
-        progress.makeVisible();
     }
 
     /**
@@ -55,5 +53,29 @@ public class ProgressBar
      */
     public void reset(int height) {
         progress.changeSize(height, 0);
+    }
+    
+    /**
+     * Change the max parameter
+     * @param max Is the value to change
+     */
+    public void setMax(int max){
+        this.max = max;
+    }
+    
+    /**
+     * Draw the progressbar on canvas
+     */
+    public void makeVisible(){
+        background.makeVisible();
+        progress.makeVisible();
+    }
+    
+    /**
+     * Hide the progressbar on canvas
+     */
+    public void makeInvisible(){
+        progress.makeInvisible();
+        background.makeInvisible();
     }
 }

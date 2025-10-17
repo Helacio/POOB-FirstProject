@@ -85,4 +85,31 @@ public class SilkRoadC1Tests
         silkRoad.moveRobot(99, 15);
         assertFalse("Should fail when trying to move a non exisstent robot", silkRoad.getOk());
     }
+    
+    @Test
+    public void accordingSVshouldResetRobotsToInitialPosition(){
+        SilkRoad silkRoad = new SilkRoad(10);
+        silkRoad.addRobot(0);
+        silkRoad.addShop(2, 121);
+        
+        silkRoad.moveRobot(0, 121);
+        silkRoad.resetRobots();
+        
+        assertEquals("Robot should go back to his initial position", 0, silkRoad.getRobots().get(0).getActualLocation());
+    }
+    
+    @Test
+    public void accordingSVshouldReturnTotalGainsFromAllRobots(){
+        SilkRoad silkRoad = new SilkRoad(10);
+        silkRoad.addRobot(0);
+        silkRoad.addRobot(1);
+        silkRoad.addShop(2, 121);
+        silkRoad.addShop(3, 121);
+        
+        silkRoad.moveRobot(0, 2);
+        silkRoad.moveRobot(1, 3);
+        
+        int total = silkRoad.getGains();
+        assertEquals("Total gains should be 238", 238, total);
+    }
 }

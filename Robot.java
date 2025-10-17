@@ -75,9 +75,8 @@ public class Robot
     /**
      * Set the robots to the initial position
      */
-    public void resetRobot(SilkRoad silkRoad) {
+    public void resetRobot(ArrayList<Point> path) {
         actualLocation = initialStart;
-        ArrayList<Point> path = silkRoad.getPath();
         Point pair = path.get(initialStart);
         gains = 0;
         int x = pair.x;
@@ -117,7 +116,6 @@ public class Robot
             makeVisible();
         }
     }
-    
     
     /**
      * Hide the robot of canvas
@@ -223,4 +221,17 @@ public class Robot
         return neariestShop;
     }
     
+    /**
+     * Blink the robot
+     */
+    public void blink(){
+        if (visible){
+            for(int i = 0; i < 5; i++){
+                makeInvisible();
+                Canvas.getCanvas().wait(100);
+                makeVisible();
+                Canvas.getCanvas().wait(100);
+            }
+        }
+    }
 }
