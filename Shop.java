@@ -18,6 +18,7 @@ public class Shop
      */
     public Shop(int distanceX, String color, int tenges)
     {
+
         this.shopNumber = shopNumber;
         this.distanceX = distanceX;
         this.figureShop = new ArrayList<>();
@@ -46,55 +47,73 @@ public class Shop
         this.tenges = tenges;
         initialTenges = tenges;
         emptiedCount = 0;
+    
     }
     
     /**
      * Resupply the shop
      */
     public void resupply() {
+    
         this.tenges = initialTenges;
         changeInitialColor();
         this.isEmpty = false;
+    
     }
     
     /**
      * Get the position of the shop
      */
     public int getDistanceX() {
+    
         return distanceX;
+    
     }
     
     /**
-     * Get the tenges
+     * Get the tenges from this shop
      */
     public int getTenges() {
+        
         return tenges;
+    
     }
     
     /**
      * Hide the shop of canvas
      */
     public void makeInvisible() {
+    
         for (Figure s : figureShop) {
+        
             s.makeInvisible();
+        
         }
+        
         this.visible = false;
+    
     }
     
     /**
      * Draw the shop in canvas
      */
     public void makeVisible(){
+    
         for (Figure s : figureShop) {
+        
             s.makeVisible();
+        
         }
+        
         this.visible = true;
+    
     }
 
     /**
      * Ubicate the shop in a specific coordinates
      */
     public void locateShop(int posX, int posY){
+    
         int row = posX;
         int column = posY;
         
@@ -108,17 +127,22 @@ public class Shop
         figureShop.get(1).setYPosition(70 + row * 40);
         
         if(this.visible){
+        
             figureShop.get(0).makeVisible();
             figureShop.get(1).makeVisible();
             figureShop.get(2).makeVisible();
+        
         }
     }
     
     public int getEmptiedCount(){
+        
         return emptiedCount;
+    
     }
     
     public int empty(){
+    
         int collected = tenges;
         this.tenges = 0;
         emptiedCount++;
@@ -126,31 +150,38 @@ public class Shop
         changeStealColor();
         
         return collected;
+    
     }
     
     /**
      * Change the color appearance when has been stolen
      */
     public void changeStealColor(){
+    
         figureShop.get(0).changeColor("lightGray");
         figureShop.get(1).changeColor("hardGray");
         figureShop.get(2).changeColor("hardGray");
+    
     }
     
     /**
      * Change the color appearance to the initial state
      */
     public void changeInitialColor(){
+    
         figureShop.get(0).changeColor(this.color);
         figureShop.get(1).changeColor("red");
         figureShop.get(2).changeColor("blue");
+    
     }
     
     /**
      * Get the isVisible atribute
      */
     public boolean getIsEmpty(){
+    
         return this.isEmpty;
+    
     }
     
     
@@ -160,6 +191,8 @@ public class Shop
      * @return The distance between robot given and this shop
      */
     public int distanceToRobot(Robot r) {
+    
         return Math.abs(this.distanceX - r.getActualLocation());
+    
     }
 }

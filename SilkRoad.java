@@ -162,11 +162,9 @@ public class SilkRoad
                     Robot r = robots.get(rId);
                     
                     moveRobot(rId, shopId);
-                    System.out.println(nextRobotToMove);
                     nextRobotToMove.remove(rDis);
                     setNeariestRobots();
                     Robot best = getRobotWithMajorGain();
-                    System.out.println(nextRobotToMove);
                     
                     }
                     
