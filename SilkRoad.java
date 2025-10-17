@@ -24,7 +24,7 @@ public class SilkRoad
         "cyan", "gray", "darkGray", "brown", "maroon", "gold", "darkYellow",
         "greenTint", "salmon", "darkRed"));
     public static final int CELLSIZE = 40;
-    private static final int n = 15;
+    private static final int N = 15;
     private HashMap<Integer, Shop> shops;
     private HashMap<Integer, Robot> robots;
     private boolean visible;
@@ -44,7 +44,8 @@ public class SilkRoad
 
     public SilkRoad(int len)
     {
-        if(len >= 0 && len <= n * n){
+        if(len >= 0 && len <= N * N){
+            
             visible = false;
             finished = false;
             
@@ -63,8 +64,11 @@ public class SilkRoad
             
             this.len = len;
             this.ok = true;
+            
         } else{
+            
             this.ok = false;
+            
         }
         
         
@@ -88,35 +92,49 @@ public class SilkRoad
         foundRobotOrShop = false;
         
         for(int i = 0; i < days.length; ){
+            
             int value = days[i];
+            
             if(value == 1) {
+                
                 int location = days[i+1];
                 addRobot(location);
                 i += 2;
                 foundRobotOrShop = true;
+                
             } else if(value == 2){
+                
                 int location = days[i + 1];
                 int tenges = days[i + 2];
                 addShop(location, tenges);
                 i += 3;
                 foundRobotOrShop = true;
+                
             } else {
+                
                 i++;
+                
             }
         }
+        
         this.ok = foundRobotOrShop;
         createProgressBar();
+        
     }
     // This method is a test 
     public static void main(String[] args){
+        
         Scanner scanner = new Scanner(System.in);
         String inputLine = scanner.nextLine();
         
         String[] parts = inputLine.split(" ");
         int[] numbers = new int[parts.length];
         for(int i = 0; i < parts.length; i++){
+            
             numbers[i] = Integer.parseInt(parts[i]);
+            
         }
+        
         SilkRoad silkRoad = new SilkRoad(numbers);
     }
     
@@ -129,13 +147,16 @@ public class SilkRoad
         
         
         while (checkAll()) {
+            
             setNeariestRobots();
             Set<Integer> keysToIterate = new TreeSet<>(nextRobotToMove.keySet());
             
             for (Integer rDis : keysToIterate) {
+                
                 Shop shopToGo = robots.get(nextRobotToMove.get(rDis)).getNeariestShop();
                 
                 if (shopToGo != null && !shopToGo.getIsEmpty()) {
+                    
                     int shopId = shopToGo.getDistanceX();
                     int rId = nextRobotToMove.get(rDis);
                     Robot r = robots.get(rId);
@@ -146,10 +167,13 @@ public class SilkRoad
                     setNeariestRobots();
                     Robot best = getRobotWithMajorGain();
                     System.out.println(nextRobotToMove);
+                    
                     }
+                    
             }
             
         }
+        
     }
     
     /**
@@ -159,11 +183,16 @@ public class SilkRoad
     
     public boolean checkAll() {
         for (Shop s : shops.values()) {
+            
             if (!s.getIsEmpty()) {
+                
                 return true;
+                
             }
         }
+        
         return false;
+        
     }
     
     /**
@@ -171,20 +200,30 @@ public class SilkRoad
      * @return This is a TreeMap of the distances and the positions of the robots ready for movement.
      */
     public TreeMap<Integer, Integer> setNeariestRobots() {
+        
         for (int rID : robots.keySet()) {
+            
             Shop nearestShop = null;
             int minDistance = Integer.MAX_VALUE;
             
                 for (int sID : shops.keySet()) {
+                    
                     int distanceBetween = Math.abs(rID - sID);
+                    
                     if (distanceBetween < minDistance && !shops.get(sID).getIsEmpty()) {
+                        
                         minDistance = distanceBetween;
                         robots.get(rID).setNeariestShop(shops.get(sID));
+                        
                     }
             }
+            
             nextRobotToMove.put(minDistance, rID);
+            
         }
+        
         return nextRobotToMove;
+        
     }
     
     /**
@@ -192,41 +231,60 @@ public class SilkRoad
      * matrix will be 15x15, at most 225 steps on the silk road
      */
     public ArrayList<Point> generateSpiral() {
+        
         ArrayList<Point> path = new ArrayList<>();
         
-        int top = 0, bottom = n - 1;
-        int left = 0, right = n - 1;
+        int top = 0, bottom = N - 1;
+        int left = 0, right =  - 1;
 
         while (top <= bottom && left <= right && path.size() < len) {
             // Move from left to right
             for(int j = left; j <= right && path.size() < len; j++) {
+                
                 path.add(new Point(top, j));
+            
             }
+            
             top++;
-
+            
             // Move after reaching the "top" from top to bottom
             for(int i = top; i <= bottom && path.size() < len; i++) {
+                
                 path.add(new Point(i, right));
+            
             }
+            
             right--;
 
             // Move after reaching the "top" from right to left
             if(top <= bottom) {
+            
                 for (int j = right; j >= left && path.size() < len; j--) {
+                
                     path.add(new Point(bottom, j));
-                    }
+                    
+                }
+                
                 bottom--;
+            
             }
 
             // Move after reaching the "top" from bottom to top
             if(left <= right) {
+            
                 for (int i = bottom; i >= top && path.size() < len; i--) {
+                
                     path.add(new Point(i, left));
+                
                 }
+                
                 left++;
+            
             }
         }
+        
         return path;
+    
     }
     
     /**
@@ -235,12 +293,17 @@ public class SilkRoad
      */
     
     public void createSilkRoad(int len) {
+        
         cells = new ArrayList<>();
+        
         if (len > path.size()) {
+        
             len = path.size();
+        
         }
 
         for (int k = 0; k < len; k++) {
+        
             Point pos = path.get(k);
             int row = pos.x;
             int col = pos.y;
@@ -253,7 +316,9 @@ public class SilkRoad
             cell.changeColor("softGray");
             cells.add(cell);
             if (visible){
+            
                 cell.makeVisible();
+            
             }
         }
     }
@@ -263,7 +328,9 @@ public class SilkRoad
      */
     
     public int getLenRoad() {
+        
         return len;
+    
     }
     
     /**
@@ -271,9 +338,12 @@ public class SilkRoad
      */
     public void cleanRoad(){
         if (cells != null) {
+    
             for (Rectangle r : cells) {
+            
                 r.makeInvisible();
-                }
+                
+            }
         }
     }
 
@@ -282,20 +352,25 @@ public class SilkRoad
      * @return Array of cordenades where robots can move 
      */
     public ArrayList<Point> getPath(){
+        
         return path;
+    
     }
         
     /**
      * Add a shop in a random position with a random color
      * */
     public void addShop() {
+    
         Random random = new Random();
         int min = 50;
         int max = 400;
         int randomShopPos = random.nextInt(len);
         
         if (randomShopsNum.containsKey(randomShopPos)) {
+        
             addShop();
+        
         }
         
         int randomShopColorPos = random.nextInt(COLORS.size());
@@ -314,15 +389,23 @@ public class SilkRoad
         newShop.locateShop(row, col);
         System.out.println("posicion Shop: " + shops.size() +" " +randomShopPos);
         if(this.visible){
+        
             newShop.makeVisible();
+        
         }
         
         if(winBar != null){
+        
             int possibleTenges = 0;
+            
             for(Shop s : shops.values()) {
+            
                 possibleTenges += s.getTenges();
+            
             }
+            
             winBar.setMax(possibleTenges);
+        
         }
         
     }
@@ -334,6 +417,7 @@ public class SilkRoad
      */
     public void addShop(int location, int tenges){
         if(!shops.containsKey(location)){
+        
             Random random = new Random();
             int randomShopColorPos = random.nextInt(COLORS.size());
             
@@ -351,11 +435,17 @@ public class SilkRoad
             
             System.out.println("posicion Shop: " + shops.size() +" " + location);
             if(this.visible){
+            
                 newShop.makeVisible();
+            
             }
+            
             ok = true;
+        
         } else{
+            
             ok = false;
+        
         }
     }
     
@@ -368,8 +458,11 @@ public class SilkRoad
         int randomRobotPos = random.nextInt(len);
         
         if (randomRobotsNum.containsKey(randomRobotPos) || randomShopsNum.containsKey(randomRobotPos)) {
+        
             addRobot();
+        
             return;
+        
         }  
         
         int randomRobotColor = random.nextInt(COLORS.size());
@@ -386,7 +479,9 @@ public class SilkRoad
         int col = pos.y;
         newRobot.setPosition(row, col);
         if (this.visible){
-                newRobot.makeVisible();
+        
+            newRobot.makeVisible();
+        
         }
     }
     
@@ -396,6 +491,7 @@ public class SilkRoad
      */
     public void addRobot(int location){
         if(!robots.containsKey(location)){
+        
             Random random = new Random();
             int randomRobotColor = random.nextInt(COLORS.size());
             
@@ -411,12 +507,17 @@ public class SilkRoad
             newRobot.setPosition(row, col);
             
             if (this.visible){
+            
                 newRobot.makeVisible();
+            
             }
+            
             ok = true;
-        }
-        else{
+        
+        } else {
+            
             ok = false;
+        
         }
     }
     
@@ -427,12 +528,16 @@ public class SilkRoad
     public void removeRobot(int robotId) { 
         Robot robotToRemove = robots.get(robotId);
         if(robotToRemove != null){
+        
             robots.remove(robotId);
             robotToRemove.makeInvisible();
             robotToRemove = null;
             ok = true;
+        
         } else{
+            
             ok = false;
+        
         }
     }
     
@@ -443,12 +548,16 @@ public class SilkRoad
     public void removeShop(int shopId) {
         Shop shopToRemove = shops.get(shopId);
         if(shopToRemove != null){
+        
             shops.remove(shopId);
             shopToRemove.makeInvisible();
             shopToRemove = null;
             ok = true;
+        
         } else{
+            
             ok = false;
+        
         }
     }
     
@@ -457,15 +566,22 @@ public class SilkRoad
      */
     
     public void resetSilkRoad() {
+        
         for (Robot r : robots.values()) {
+        
             r.resetRobot(this.path);
+        
         }
         
         for (Shop s : shops.values()) {
+        
             s.resupply();
+        
         }
         if (winBar != null){
+            
             winBar.reset(50);
+        
         }
     }
     
@@ -473,22 +589,29 @@ public class SilkRoad
      * Get all robots created
      */
     public HashMap<Integer, Robot> getRobots() {
+        
         return robots;
+    
     }
     
     /**
      * Get all the shops created
      */
     public HashMap<Integer, Shop> getShops() {
+    
         return shops;
+    
     }
     
     /**
      * Set shops with Tenges starting from the beginning of the day.
      */
     public void resetShops() {
+    
         for (Shop s : shops.values()) {
+        
             s.resupply();
+        
         }
     }
     
@@ -511,23 +634,32 @@ public class SilkRoad
         Shop shop = shops.get(shopId);
         
         if(robot == null || shop == null) {
+        
             ok = false;
             return;
+        
         }
+        
         int start = robot.getActualLocation();
         int distance = shop.getDistanceX();
         
         if(start <= distance) {
+        
             for(int i = start; i <= distance; i++) {
+            
                 Point  step = path.get(i);
                 robot.setPosition(step.x, step.y);
                 Canvas.getCanvas().wait(100);
+            
             }
-        } else{
+        
+        } else {
+            
             for(int i = start; i >= distance; i--) {
                 Point step = path.get(i);
                 robot.setPosition(step.x, step.y);
                 Canvas.getCanvas().wait(100);
+            
             }
         }
         
@@ -537,15 +669,22 @@ public class SilkRoad
         winBar.update(getGains());
         
         if(this.visible) {
+            
             robot.makeVisible();
             Robot best = getRobotWithMajorGain();
             if(best != null) {
+            
                 best.blink();
+            
             }
         } else {
+            
             robot.makeInvisible();
+        
         }
+        
         ok = true;
+    
     }
     
     /**
@@ -555,10 +694,15 @@ public class SilkRoad
     
     public int getGains() {
         int totalGains = 0;
+    
         for (Robot r : robots.values()) {
+        
             totalGains += r.getGain();
+        
         }
+        
         return totalGains;
+    
     }
     
     /**
@@ -574,38 +718,66 @@ public class SilkRoad
      * Change all the silk road to visible
      */
     public void makeVisible() {
-         if (visible == false) {
+        
+        if (visible == false) {
+             
             for(Rectangle cell : cells) {
+                
                 cell.makeVisible();
+            
             }
+            
             for(Shop s : shops.values()) {
+                
                 s.makeVisible();
+            
             }
+            
             for(Robot r: robots.values()) {
+                
                 r.makeVisible();
+            
             }
+            
             winBar.makeVisible();
+        
         }
+        
         visible = true;
+    
     }
     
     /**
      * Change all the silk road to invisible
      */
     public void makeInvisible() {
+    
         if (visible == true) {
+        
             for(Rectangle cell : cells) {
+                
                 cell.makeInvisible();
+            
             }
+            
             for(Robot r : robots.values()){
+                
                 r.makeInvisible();
+            
             }
+            
             for(Shop s : shops.values()){
+                
                 s.makeInvisible();
+            
             }
+            
             winBar.makeInvisible();
+        
         }
+        
         visible = false;
+    
     }
     
     /**
@@ -613,12 +785,15 @@ public class SilkRoad
      */
     
     public void finishSimulator() {
+    
         this.finished = true;
+        
         if (finished) {
             
             JOptionPane.showMessageDialog(null, "It has finished!", "End of the Silk Road", JOptionPane.INFORMATION_MESSAGE);
 
             System.exit(0);
+        
         }
     }
     
@@ -626,7 +801,9 @@ public class SilkRoad
      * Get the SilkRoad
      */
     public SilkRoad getSilkRoad() {
+        
         return this;
+    
     }
     
     /**
@@ -634,13 +811,21 @@ public class SilkRoad
      */
     public void createProgressBar(){
         int possibleTenges = 0;
+    
         for(Shop s: shops.values()){
+        
             possibleTenges += s.getTenges();
+        
         }
+        
         if (possibleTenges == 0){
+        
             possibleTenges = 1;
+        
         }
+        
         winBar = new ProgressBar(150, 650, 400, 50, possibleTenges);
+    
     }
     
     /**
@@ -650,8 +835,11 @@ public class SilkRoad
      * @return gets the profit in a movement
      */
     public int profitPerMove(int idRobot, int moveIndex){
+        
         Robot r = robots.get(idRobot);
+        
         return r.profitPerMove(moveIndex);
+    
     }
     
     /**
@@ -663,21 +851,31 @@ public class SilkRoad
         int i = 0;
         
         for(Integer index : shops.keySet()){
+        
             result[i][0] = index;
             result[i][1] = shops.get(index).getTenges();
             i++;
+        
         }
         // Insertion Sort
         for(int j = 1; j < n; j++){
+        
             int[] key = result[j];
             int k = j - 1;
+            
             while(k >= 0 && result[k][0] > key[0]){
+            
                 result[k + 1] = result[k];
                 k--;
+            
             }
+            
             result[k + 1] = key;
+        
         }
+        
         return result;
+    
     }
     
     /**
@@ -689,28 +887,40 @@ public class SilkRoad
         int i = 0;
         
         for(Integer index : robots.keySet()){
+        
             result[i][0] = robots.get(index).getActualLocation();
             result[i][1] = robots.get(index).getGain();
             i++;
+        
         }
 
         for(int j = 1; j < n; j++){
+        
             int[] key = result[j];
             int k = j - 1;
+            
             while(k >= 0 && result[k][0] > key[0]){
+            
                 result[k + 1] = result[k];
                 k--;
+            
             }
+            
             result[k + 1] = key;
+        
         }
+        
         return result;
+    
     }
     
     /**
      * Get the ok parameter
      */
     public boolean getOk(){
+    
         return ok;
+    
     }
     
     /**
@@ -718,35 +928,48 @@ public class SilkRoad
      * @return int[][] Bidimensional Array with location and teanges
      */
     public int[][] emptiedStores(){
+    
         int totalShops = shops.size();
         int[][] result = new int[totalShops][2];
         int i = 0;
         
         for(Integer index : shops.keySet()){
+        
             Shop shop = shops.get(index);
             result[i][0] = shop.getDistanceX();
             result[i][1] = shop.getEmptiedCount();
             i++;
+        
         }
         
         for(int j = 1; j < totalShops; j++){
+        
             int[] key = result[j];
             int k = j - 1;
+            
             while(k > 0 && result[k][0] > key[0]){
+            
                 result[k + 1] = result[k];
                 k--;
+            
             }
+            
             result[k + 1] = key;
+        
         }
+        
         return result;
+    
     }
     
     /**
      * Start to calculate the highest profit
      */
     public void initializeNeariestRobot() {
+        
         if(shops != null && robots != null){
             setNeariestRobots();
+        
         }
     }
     
@@ -754,15 +977,20 @@ public class SilkRoad
      * 
      */
     public Robot getRobotWithMajorGain(){
+    
         Robot bestRobot = null;
         int maxGain = Integer.MIN_VALUE;
         
+        
         for(Robot r : robots.values()){
+        
             if(r.getGain() > maxGain){
                 maxGain = r.getGain();
                 bestRobot = r;
             }
         }
+        
         return bestRobot;
+    
     }
 }

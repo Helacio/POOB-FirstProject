@@ -152,6 +152,7 @@ public class Robot
     
     /**
      * Get the profit in a specific movement
+     * @return It returns the realized profit from the robot's raid given.
      */
     public int profitPerMove(int moveIndex){
         return profitsPerMove.get(moveIndex);
@@ -185,6 +186,11 @@ public class Robot
         this.neariestShop = s;
     }
     
+    
+    /**
+     * This method gets the nearest shop to this robot
+     * @return Return attribute nearestShop from this robot
+     */
     public Shop getNeariestShop() {
         return neariestShop;
     }

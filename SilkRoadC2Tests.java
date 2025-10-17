@@ -48,7 +48,7 @@ public class SilkRoadC2Tests
         
         silkRoad.moveRobot(10, 15);
         int profit = silkRoad.profitPerMove(10, 0);
-
+        
         assertEquals("Profit per move should be calculated correctly", 20, profit);
     }
     
