@@ -37,6 +37,7 @@ public class SilkRoad
     private ProgressBar winBar;
     private boolean ok;
     private TreeMap<Integer, Integer> nextRobotToMove;
+    private HashMap<Integer, Robot> removedRobots;
     
     /**
      * Constructor for objects of class Simulator
@@ -58,6 +59,7 @@ public class SilkRoad
             
             shops = new HashMap<>();
             robots = new HashMap<>();
+            removedRobots = new HashMap<>();
             
             nextRobotToMove = new TreeMap<>();
             createProgressBar();
@@ -71,7 +73,6 @@ public class SilkRoad
             
         }
         
-        
     }
     
     /**
@@ -81,14 +82,18 @@ public class SilkRoad
     public SilkRoad(int[] days){
         visible = false;
         finished = false;
+        
         robots = new HashMap<>();
         shops = new HashMap<>();
+        removedRobots = new HashMap<>();
+        
         boolean foundRobotOrShop;
         nextRobotToMove = new TreeMap<>();
         
         len = 120;
         path = generateSpiral();
         createSilkRoad(len);
+        createProgressBar();
         foundRobotOrShop = false;
         
         for(int i = 0; i < days.length; ){
@@ -118,7 +123,6 @@ public class SilkRoad
         }
         
         this.ok = foundRobotOrShop;
-        createProgressBar();
         
     }
     // This method is a test 
@@ -136,6 +140,37 @@ public class SilkRoad
         }
         
         SilkRoad silkRoad = new SilkRoad(numbers);
+    }
+    
+    /**
+     * Move the robot in meters
+     * @param idRobot Is the id of the robot wich you want to move this is the initialLocation
+     * @param meters Is the distance you want to the robot moves
+     */
+    public void moveRobotByMeters(int idRobot, int meters){
+        Robot robot = robots.get(idRobot);
+        int start = robot.getActualLocation();
+        int finalPosition = start  + meters;
+        
+        if(start <= finalPosition) {
+            for(int i = start; i <= finalPosition; i++) {
+            
+                Point  step = path.get(i);
+                robot.setPosition(step.x, step.y);
+                Canvas.getCanvas().wait(100);
+            
+            }
+        
+        } else {
+            for(int i = start; i >= finalPosition; i--) {
+                Point step = path.get(i);
+                robot.setPosition(step.x, step.y);
+                Canvas.getCanvas().wait(100);
+                
+            }
+        }
+        
+        robot.setActualLocation(finalPosition);
     }
     
     /**
@@ -233,7 +268,7 @@ public class SilkRoad
         ArrayList<Point> path = new ArrayList<>();
         
         int top = 0, bottom = N - 1;
-        int left = 0, right =  - 1;
+        int left = 0, right =  N- 1;
 
         while (top <= bottom && left <= right && path.size() < len) {
             // Move from left to right
@@ -392,19 +427,8 @@ public class SilkRoad
         
         }
         
-        if(winBar != null){
-        
-            int possibleTenges = 0;
-            
-            for(Shop s : shops.values()) {
-            
-                possibleTenges += s.getTenges();
-            
-            }
-            
-            winBar.setMax(possibleTenges);
-        
-        }
+        int possibleTenges = calculatePossibleTenges();
+        winBar.setMax(possibleTenges);
         
     }
     
@@ -429,7 +453,9 @@ public class SilkRoad
             
             int row = pos.x;
             int col = pos.y;
+            int possibleTenges = calculatePossibleTenges();
             newShop.locateShop(row, col);
+            winBar.setMax(possibleTenges);
             
             System.out.println("posicion Shop: " + shops.size() +" " + location);
             if(this.visible){
@@ -504,6 +530,7 @@ public class SilkRoad
             int col = pos.y;
             newRobot.setPosition(row, col);
             
+            
             if (this.visible){
             
                 newRobot.makeVisible();
@@ -526,10 +553,13 @@ public class SilkRoad
     public void removeRobot(int robotId) { 
         Robot robotToRemove = robots.get(robotId);
         if(robotToRemove != null){
-        
+            
+            removedRobots.put(robotId, robotToRemove);
             robots.remove(robotId);
             robotToRemove.makeInvisible();
             robotToRemove = null;
+            
+            winBar.update(getGains());
             ok = true;
         
         } else{
@@ -560,10 +590,39 @@ public class SilkRoad
     }
     
     /**
+     * Calculate the total tenges of the shops
+     */
+    public int calculatePossibleTenges(){
+        int tenges = 0;
+        if(shops != null){
+            for(Shop s : shops.values()) {
+                tenges += s.getTenges();
+            }
+        }
+        return tenges;
+    }
+    
+    /**
      * Reset the silkRoad, set the robot positions and shop's tenges given at the start of day
      */
     
     public void resetSilkRoad() {
+        
+        if(removedRobots != null && !removedRobots.isEmpty()){
+            ArrayList<Integer> toRestore = new ArrayList<>(removedRobots.keySet());
+            for(Integer robotId : toRestore){
+                Robot r = removedRobots.get(robotId);
+                r.resetRobot(this.path);
+                    
+                robots.put(robotId, r);
+                removedRobots.remove(robotId);
+                if(visible){
+                    r.makeVisible();
+                } else{
+                    r.makeInvisible();
+                }  
+            }
+        }
         
         for (Robot r : robots.values()) {
         
@@ -576,11 +635,13 @@ public class SilkRoad
             s.resupply();
         
         }
+        
         if (winBar != null){
             
             winBar.reset(50);
         
         }
+        
     }
     
     /**
@@ -639,29 +700,12 @@ public class SilkRoad
         }
         
         int start = robot.getActualLocation();
-        int distance = shop.getDistanceX();
+        int finalPos  = shop.getDistanceX();
+        int distance = finalPos - start;
         
-        if(start <= distance) {
+        moveRobotByMeters(robotId, distance);
         
-            for(int i = start; i <= distance; i++) {
-            
-                Point  step = path.get(i);
-                robot.setPosition(step.x, step.y);
-                Canvas.getCanvas().wait(100);
-            
-            }
-        
-        } else {
-            
-            for(int i = start; i >= distance; i--) {
-                Point step = path.get(i);
-                robot.setPosition(step.x, step.y);
-                Canvas.getCanvas().wait(100);
-            
-            }
-        }
-        
-        int gain = shop.empty() - Math.abs(start - distance);
+        int gain = shop.empty() - Math.abs(distance);
         robot.addGain(gain);
         robot.setActualLocation(shop.getDistanceX());
         winBar.update(getGains());
@@ -682,7 +726,8 @@ public class SilkRoad
         }
         
         ok = true;
-    
+        System.out.println("Robot" + robotId+  "obtuvo: " + gain);
+        System.out.println("Total ganancias: " + getGains());
     }
     
     /**
@@ -830,7 +875,7 @@ public class SilkRoad
      * Consult the profit of a robot
      * @param robotId is the initial location of the robot
      * @param idStore is the location of the shop
-     * @return gets the profit in a movement
+     * @return gets the profit in a movementge
      */
     public int profitPerMove(int idRobot, int moveIndex){
         

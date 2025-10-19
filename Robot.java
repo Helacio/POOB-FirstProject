@@ -162,13 +162,13 @@ public class Robot
      * Draw robot in canvas
      */
     public void makeVisible(){
+        this.visible = true;
         figureRobot.get(3).makeVisible();
         figureRobot.get(2).makeVisible();
         figureRobot.get(5).makeVisible();
         figureRobot.get(4).makeVisible();
         figureRobot.get(0).makeVisible();
         figureRobot.get(1).makeVisible();
-        this.visible = true;
     }
     
     /**
@@ -202,9 +202,9 @@ public class Robot
         if (visible){
             for(int i = 0; i < 5; i++){
                 makeInvisible();
-                Canvas.getCanvas().wait(100);
+                Canvas.getCanvas().wait(250);
                 makeVisible();
-                Canvas.getCanvas().wait(100);
+                Canvas.getCanvas().wait(250);
             }
         }
     }
