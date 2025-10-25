@@ -1,3 +1,4 @@
+package shapes;
 
 /**
  * Write a description of class Shape here.
@@ -24,7 +25,7 @@ public abstract class Figure
     /**
      * Make this shape visible. If it was already visible, do nothing.
      */
-    protected void makeVisible() {
+    public void makeVisible() {
         isVisible = true;
         draw();
     }
@@ -32,7 +33,7 @@ public abstract class Figure
     /**
      * Make this shape invisible. If it was already invisible, do nothing.
      */
-    protected void makeInvisible() {
+    public void makeInvisible() {
         erase();
         isVisible = false;
     }
@@ -40,7 +41,7 @@ public abstract class Figure
     /**
      * Move the shape a few pixels to the right.
      */
-    protected void moveRigth(int distance) {
+    public void moveRigth(int distance) {
         erase();
         yPosition += distance;
         draw();
@@ -49,21 +50,21 @@ public abstract class Figure
     /**
      * Move the shape a few pixels to the left.
      */
-    protected void moveLeft() {
+    public void moveLeft() {
         moveHorizontal(-20);
     }
     
     /**
      * Move the shape a few pixels up.
      */
-    protected void moveUp() {
+    public void moveUp() {
         moveVertical(-20);
     }
     
     /**
      * Move the shape a few pixels down.
      */
-    protected void moveDown() {
+    public void moveDown() {
         moveVertical(20);
     }
     
@@ -71,7 +72,7 @@ public abstract class Figure
      * Move the shape vertically.
      * @param distance the desired distance in pixels
      */
-    protected void moveVertical(int distance) {
+    public void moveVertical(int distance) {
         erase();
         yPosition += distance;
         draw();
@@ -81,7 +82,7 @@ public abstract class Figure
      * Move the shape horizontally.
      * @param distance the desired distance in pixels
      */
-    protected void moveHorizontal(int distance) {
+    public void moveHorizontal(int distance) {
         erase();
         xPosition += distance;
         draw();
@@ -91,7 +92,7 @@ public abstract class Figure
      * Slowly move the shape horizontally.
      * @param distance the desired distance in pixels
      */
-    protected void slowMoceHorizontal(int distance) {
+    public void slowMoceHorizontal(int distance) {
         int delta;
 
         if(distance < 0) {
@@ -111,7 +112,7 @@ public abstract class Figure
      * Slowly move the shape vertically.
      * @param distance the desired distance in pixels
      */
-    protected void slowMoveVertical(int distance) {
+    public void slowMoveVertical(int distance) {
         int delta;
 
         if(distance < 0) {
@@ -133,7 +134,7 @@ public abstract class Figure
      * "black", "white", "magenta", "orange", "pink", "cyan", "gray", "lightGray",
      * "darkGray", "brown" and "maroon".
      */
-    protected void changeColor(String newColor) {
+    public void changeColor(String newColor) {
         color = newColor;
         draw();
     }
@@ -178,7 +179,7 @@ public abstract class Figure
      * Erasing shape on canvas
      * 
      */  
-    protected void erase() {
+    public void erase() {
         if(isVisible) {
             Canvas canvas = Canvas.getCanvas();
             canvas.erase(this);

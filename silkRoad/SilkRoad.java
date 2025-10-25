@@ -1,3 +1,5 @@
+package silkRoad;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -11,6 +13,7 @@ import java.util.TreeMap;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.HashSet;
+import shapes.*;
 
 /**
  * Write a description of class Simulator here.
@@ -181,31 +184,74 @@ public class SilkRoad
     public void moveToMaxGain() {
         
         
-        while (checkAll()) {
+        if (nextRobotToMove.isEmpty()) {
+            setNeariestRobots(); 
+        }
+        
+        while (checkAll() && !nextRobotToMove.isEmpty()) {
+        
+        Map.Entry<Integer, Integer> entryToMove = nextRobotToMove.firstEntry();
+        
+        Robot robot = null; 
+        int robotIdToMove = -1;
+
+        if (entryToMove != null) {
             
-            setNeariestRobots();
-            Set<Integer> keysToIterate = new TreeSet<>(nextRobotToMove.keySet());
+            int firstKey = entryToMove.getKey(); 
+            robotIdToMove = entryToMove.getValue(); 
+            robot = robots.get(robotIdToMove); 
             
-            for (Integer rDis : keysToIterate) {
+            
+            if (robot != null) {
                 
-                Shop shopToGo = robots.get(nextRobotToMove.get(rDis)).getNeariestShop();
+                nextRobotToMove.remove(firstKey);
+                Shop shopToGo = robot.getNeariestShop();
                 
                 if (shopToGo != null && !shopToGo.getIsEmpty()) {
                     
                     int shopId = shopToGo.getDistanceX();
-                    int rId = nextRobotToMove.get(rDis);
-                    Robot r = robots.get(rId);
                     
-                    moveRobot(rId, shopId);
-                    nextRobotToMove.remove(rDis);
-                    setNeariestRobots();
+                    // 2. MOVER Y OBTENER GANANCIA
+                    moveRobot(robotIdToMove, shopId); // Mueve al robot y vacía la tienda
+                    
                     Robot best = getRobotWithMajorGain();
                     
+                    if (checkAll()) {
+
+                    Shop newNearestShop = null;
+                    int newMinDistance = Integer.MAX_VALUE;
+                
+                    int robotActualPos = robot.getActualLocation();
+                
+                    for (int sID : shops.keySet()) {
+                
+                        Shop currentShop = shops.get(sID);
+                
+                        if (currentShop != null && !currentShop.getIsEmpty()) {
+                            int distanceBetween = Math.abs(robotActualPos - sID);
+                
+                            if (distanceBetween < newMinDistance) {
+                                newMinDistance = distanceBetween;
+                                newNearestShop = currentShop;
+                            }
+                        }
+                    }
+                
+                        if (newNearestShop != null) {
+                            robot.setNeariestShop(newNearestShop);
+                    
+                            int keyToInsert = newMinDistance;
+                            while (nextRobotToMove.containsKey(keyToInsert)) {
+                                keyToInsert++;
+                            }
+                            nextRobotToMove.put(keyToInsert, robotIdToMove);
+                        }
                     }
                     
+                }
             }
-            
         }
+    }
         
     }
     
@@ -233,30 +279,48 @@ public class SilkRoad
      * @return This is a TreeMap of the distances and the positions of the robots ready for movement.
      */
     public TreeMap<Integer, Integer> setNeariestRobots() {
-        
-        for (int rID : robots.keySet()) {
-            
-            Shop nearestShop = null;
-            int minDistance = Integer.MAX_VALUE;
-            
-                for (int sID : shops.keySet()) {
-                    
-                    int distanceBetween = Math.abs(rID - sID);
-                    
-                    if (distanceBetween < minDistance && !shops.get(sID).getIsEmpty()) {
-                        
-                        minDistance = distanceBetween;
-                        robots.get(rID).setNeariestShop(shops.get(sID));
-                        
-                    }
+
+    nextRobotToMove.clear();
+
+    for (int rID : robots.keySet()) {
+
+        Shop nearestShop = null;
+        int minDistance = Integer.MAX_VALUE;
+
+        Robot robot = robots.get(rID);
+        int robotPos = robot != null ? robot.getActualLocation() : rID; // fallback
+
+        for (int sID : shops.keySet()) {
+
+            Shop shop = shops.get(sID);
+            if (shop == null || shop.getIsEmpty()) continue;
+
+            int distanceBetween = Math.abs(robotPos - sID);
+
+            if (distanceBetween < minDistance) {
+                minDistance = distanceBetween;
+                nearestShop = shop;
             }
-            
-            nextRobotToMove.put(minDistance, rID);
-            
         }
-        
+
+            if (nearestShop != null) {
+                
+                robots.get(rID).setNeariestShop(nearestShop);
+    
+                
+                int keyToInsert = minDistance;
+                while (nextRobotToMove.containsKey(keyToInsert)) {
+                    
+                    keyToInsert++;
+                    
+                }
+                
+                nextRobotToMove.put(keyToInsert, rID);
+            }
+    
+        }
+
         return nextRobotToMove;
-        
     }
     
     /**
