@@ -7,22 +7,21 @@ import shapes.*;
 
 public class Robot
 {
-    private int actualLocation;
-    private int initialStart;
-    private int gains;
-    private int nMoves = 0;
-    private boolean visible;
-    private ArrayList<Figure> figureRobot;
-    private ArrayList<Integer> profitsPerMove;
-    private Shop neariestShop;
+    protected int actualLocation;
+    protected int initialStart;
+    protected int gains;
+    protected int nMoves = 0;
+    protected boolean visible;
+    protected ArrayList<Figure> figureRobot;
+    protected ArrayList<Integer> profitsPerMove;
+    protected Shop neariestShop;
     
     /**
      * Constructor for objects of class Robot
      * Index Order: 0: Circle(leftEye), 1: Circle(rightEye), 2: Rectangle(head), 
      * 3: Triangle(body), 4: Rectangle(mouth), 5: Rectangle(antenna)
      */
-    public Robot(int start, String color)
-    {
+    public Robot(int start, String color) {
         this.figureRobot = new ArrayList<>();
         this.actualLocation = start;
         this.initialStart = start;

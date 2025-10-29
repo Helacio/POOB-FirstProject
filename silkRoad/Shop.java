@@ -2,9 +2,11 @@ package silkRoad;
 
 import java.util.ArrayList;
 import shapes.*;
+import java.util.Random;
 
 public class Shop
 {
+    
     private int shopNumber;
     private int distanceX;
     private int tenges;
@@ -19,8 +21,7 @@ public class Shop
      * Constructor for objects of class Shop
      * Index Order: 0: Rectangle(body), 1: Rectangle(door), 2: Triangle(roof)
      */
-    public Shop(int distanceX, String color, int tenges)
-    {
+    public Shop(int distanceX, String color, int tenges) {
 
         this.shopNumber = shopNumber;
         this.distanceX = distanceX;
@@ -52,6 +53,16 @@ public class Shop
         emptiedCount = 0;
     
     }
+    
+    /** Generate a random number
+     * @return A random number
+     */
+    public int generateRandomNumber() {
+        Random rnd = new Random();
+        int newRandomNum = rnd.nextInt(15 + 1);
+        return newRandomNum;
+    }
+    
     
     /**
      * Resupply the shop

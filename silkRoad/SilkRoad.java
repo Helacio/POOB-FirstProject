@@ -27,7 +27,7 @@ public class SilkRoad
         "cyan", "gray", "darkGray", "brown", "maroon", "gold", "darkYellow",
         "greenTint", "salmon", "darkRed"));
     public static final int CELLSIZE = 40;
-    private static final int N = 15;
+    public static final int N = 15;
     private HashMap<Integer, Shop> shops;
     private HashMap<Integer, Robot> robots;
     private boolean visible;
@@ -157,7 +157,7 @@ public class SilkRoad
         
         if(start <= finalPosition) {
             for(int i = start; i <= finalPosition; i++) {
-            
+                
                 Point  step = path.get(i);
                 robot.setPosition(step.x, step.y);
                 Canvas.getCanvas().wait(100);
