@@ -7,15 +7,15 @@ import java.util.Random;
 public class Shop
 {
     
-    private int shopNumber;
-    private int distanceX;
-    private int tenges;
-    private int initialTenges;
-    private ArrayList<Figure> figureShop;
-    private int emptiedCount;
-    private boolean visible;
-    private boolean isEmpty;
-    private String color;
+    protected int shopNumber;
+    protected int distanceX;
+    protected int tenges;
+    protected int initialTenges;
+    protected ArrayList<Figure> figureShop;
+    protected int emptiedCount;
+    protected boolean visible;
+    protected boolean isEmpty;
+    protected String color;
     
     /**
      * Constructor for objects of class Shop
@@ -57,7 +57,7 @@ public class Shop
     /** Generate a random number
      * @return A random number
      */
-    public int generateRandomNumber() {
+    public static int generateRandomNumber() {
         Random rnd = new Random();
         int newRandomNum = rnd.nextInt(15 + 1);
         return newRandomNum;
@@ -208,5 +208,14 @@ public class Shop
     
         return Math.abs(this.distanceX - r.getActualLocation());
     
+    }
+    
+    /**
+     * This method make that a robot can rob this shop.
+     */
+    public void descount(int tengesRobot) {
+        
+        this.tenges -= tengesRobot;
+        
     }
 }

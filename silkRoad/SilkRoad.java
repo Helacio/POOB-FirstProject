@@ -502,7 +502,7 @@ public class SilkRoad
      * @param tenges Num money in the shop
      */
     public void addShop(int location, int tenges){
-        if(!shops.containsKey(location)){
+        if (!shops.containsKey(location)) {
         
             Random random = new Random();
             int randomShopColorPos = random.nextInt(COLORS.size());
@@ -1099,5 +1099,44 @@ public class SilkRoad
         
         return bestRobot;
     
+    }
+    
+    /**
+     * Add a shop in a specific location
+     * @param location Place in the silk road
+     * @param tenges Num money in the shop
+     */
+    public void addFighter (int location, String color, int tenges) {
+        
+        if (!shops.containsKey(location)) {
+            
+            Random random = new Random();
+            
+            Shop newFighter = new Fighter(location, color, tenges);
+            shops.put(newFighter.getDistanceX(), newFighter);
+            
+            int index = newFighter.getDistanceX();
+            Point pos = path.get(index);
+            
+            int row = pos.x;
+            int col = pos.y;
+            int possibleTenges = calculatePossibleTenges();
+            newFighter.locateShop(row, col);
+            winBar.setMax(possibleTenges);
+            
+            System.out.println("posicion Shop: " + shops.size() +" " + location);
+            if(this.visible){
+            
+                newFighter.makeVisible();
+            
+            }
+            
+            ok = true;
+        
+        } else{
+            
+            ok = false;
+        
+        }
     }
 }
