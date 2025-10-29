@@ -15,10 +15,6 @@ import org.junit.jupiter.api.Test;
  */
 public class SilkRoadCC4test {
     
-    private SilkRoad silkRoad;
-    private Autonomous auts;
-    private Fighter fg;
-    private Shop shop;
     
     /**
      * Default constructor for test class SilkRoadCC4test
@@ -35,9 +31,6 @@ public class SilkRoadCC4test {
     @BeforeEach
     public void setUp() {
         
-        Autonomous auts = new Autonomous(10, "green", 20); 
-        Fighter fg = new Fighter(25, "red", 10);
-        Shop shop = new Shop(1, "yellow", 40);
         SilkRoad silkRoad = new SilkRoad(200);
         
     }
@@ -68,11 +61,37 @@ public class SilkRoadCC4test {
     @Test 
     public void setTender() {
         
+        SilkRoad silkRoad = new SilkRoad(120);
+        silkRoad.makeVisible();
+        silkRoad.addTender(30, "blue");
+    
+    }
+    
+    @Test
+    public void setNeverBack() {
+        
+        SilkRoad silkRoad = new SilkRoad(120);
+        silkRoad.makeVisible();
+        silkRoad.addNeverBack(35, "white");
+        
+    }
+    
+    @Test
+    public void tenderToShop() {
+        
+        SilkRoad silkRoad = new SilkRoad(120);
+        silkRoad.makeVisible();
+        silkRoad.addTender(30, "blue");
+        silkRoad.addShop(40, 10);
+        System.out.println(silkRoad.getRobots().get(30).getProfitsPerMove());
+        silkRoad.moveRobot(30, 40);
+        System.out.println(silkRoad.getRobots().get(30).getProfitsPerMove());
+        
     }
     
     @AfterEach
     public void resetAll() {
-        silkRoad.resetSilkRoad();
+        
     }
     
     

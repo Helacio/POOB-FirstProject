@@ -1178,4 +1178,72 @@ public class SilkRoad
         
         }
     }
+    
+    /**
+     * Add a NeverBack Robot in a determinated place
+     * @param location Is tne initial location of the robot
+     */
+    public void addNeverBack(int location, String color){
+        if(!robots.containsKey(location)){
+        
+            NeverBack newNeverBack = new NeverBack(location, color);
+            robots.put(location, newNeverBack);
+            
+            COLORS.remove(color);
+            int index = newNeverBack.getInitialStart();
+            Point pos = path.get(index);
+            
+            int row = pos.x;
+            int col = pos.y;
+            newNeverBack.setPosition(row, col);
+            
+            
+            if (this.visible){
+            
+                newNeverBack.makeVisible();
+            
+            }
+            
+            ok = true;
+        
+        } else {
+            
+            ok = false;
+        
+        }
+    }
+    
+    /**
+     * Add a  in a determinated place
+     * @param location Is tne initial location of the robot
+     */
+    public void addTender(int location, String color){
+        if(!robots.containsKey(location)){
+        
+            NeverBack newTender = new NeverBack(location, color);
+            robots.put(location, newTender);
+            
+            COLORS.remove(color);
+            int index = newTender.getInitialStart();
+            Point pos = path.get(index);
+            
+            int row = pos.x;
+            int col = pos.y;
+            newTender.setPosition(row, col);
+            
+            
+            if (this.visible){
+            
+                newTender.makeVisible();
+            
+            }
+            
+            ok = true;
+        
+        } else {
+            
+            ok = false;
+        
+        }
+    }
 }
