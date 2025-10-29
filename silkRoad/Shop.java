@@ -1,5 +1,6 @@
 package silkRoad;
 
+import exception.*;
 import java.util.ArrayList;
 import shapes.*;
 import java.util.Random;
@@ -213,7 +214,7 @@ public class Shop
     /**
      * This method make that a robot can rob this shop.
      */
-    public void descount(int tengesRobot) {
+    public void descount(int tengesRobot) throws ObjectInSilkRoadException {
         
         this.tenges -= tengesRobot;
         

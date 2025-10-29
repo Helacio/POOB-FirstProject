@@ -1102,7 +1102,7 @@ public class SilkRoad
     }
     
     /**
-     * Add a shop in a specific location
+     * Add a Fighter shop in a specific location
      * @param location Place in the silk road
      * @param tenges Num money in the shop
      */
@@ -1128,6 +1128,45 @@ public class SilkRoad
             if(this.visible){
             
                 newFighter.makeVisible();
+            
+            }
+            
+            ok = true;
+        
+        } else{
+            
+            ok = false;
+        
+        }
+    }
+    
+    /**
+     * Add a shop in a specific location
+     * @param location Place in the silk road
+     * @param tenges Num money in the shop
+     */
+    public void addAutonomous (int location, String color, int tenges) {
+        
+        if (!shops.containsKey(location)) {
+            
+            Random random = new Random();
+            
+            Shop newAutonomous = new Autonomous(location, color, tenges);
+            shops.put(newAutonomous.getDistanceX(), newAutonomous);
+            
+            int index = newAutonomous.getDistanceX();
+            Point pos = path.get(index);
+            
+            int row = pos.x;
+            int col = pos.y;
+            int possibleTenges = calculatePossibleTenges();
+            newAutonomous.locateShop(row, col);
+            winBar.setMax(possibleTenges);
+            
+            System.out.println("posicion Shop: " + shops.size() +" " + location);
+            if(this.visible){
+            
+                newAutonomous.makeVisible();
             
             }
             

@@ -13,8 +13,13 @@ import org.junit.jupiter.api.Test;
  * @author  (your name)
  * @version (a version number or a date)
  */
-public class SilkRoadCC4test
-{
+public class SilkRoadCC4test {
+    
+    private SilkRoad silkRoad;
+    private Autonomous auts;
+    private Fighter fg;
+    private Shop shop;
+    
     /**
      * Default constructor for test class SilkRoadCC4test
      */
@@ -32,9 +37,8 @@ public class SilkRoadCC4test
         
         Autonomous auts = new Autonomous(10, "green", 20); 
         Fighter fg = new Fighter(25, "red", 10);
-        Shop shop = new Shop(1, "yelloe", 40);
+        Shop shop = new Shop(1, "yellow", 40);
         SilkRoad silkRoad = new SilkRoad(200);
-        
         
     }
 
@@ -43,14 +47,33 @@ public class SilkRoadCC4test
      *
      * Called after every test case method.
      */
-    @AfterEach
-    public void tearDown()
-    {
+    @Test
+    public void setFighter() {
+        
+        SilkRoad silkRoad = new SilkRoad(200);
+        silkRoad.makeVisible();
+        silkRoad.addFighter(25, "red", 10);
         
     }
     
+    @Test
+    public void setAutonomous() {
+        
+        SilkRoad silkRoad = new SilkRoad(120);
+        silkRoad.makeVisible();
+        silkRoad.addAutonomous(10, "green", 20);
+        
+    }
     
+    @Test 
+    public void setTender() {
+        
+    }
     
+    @AfterEach
+    public void resetAll() {
+        silkRoad.resetSilkRoad();
+    }
     
     
 }

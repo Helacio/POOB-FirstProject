@@ -19,6 +19,7 @@ comment14.target=int\ distanceToRobot(Robot)
 comment14.text=\r\n\ Calculates\ the\ distance\ from\ this\ shop\ to\ a\ specified\ Robot.\r\n\ @param\ The\ robot\ whose\ distance\ will\ be\ calculate\ from\ this\ shop.\r\n\ @return\ The\ distance\ between\ robot\ given\ and\ this\ shop\r\n
 comment15.params=tengesRobot
 comment15.target=void\ descount(int)
+comment15.text=\r\n\ This\ method\ make\ that\ a\ robot\ can\ rob\ this\ shop.\r\n
 comment2.params=
 comment2.target=int\ generateRandomNumber()
 comment2.text=\ Generate\ a\ random\ number\r\n\ @return\ A\ random\ number\r\n

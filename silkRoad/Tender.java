@@ -1,5 +1,6 @@
 package silkRoad;
 
+import exception.*;
 import shapes.Canvas;
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -14,8 +15,6 @@ import java.awt.Point;
  */
 public class Tender extends Robot
 {
-    // instance variables - replace the example below with your own
-    private int x;
 
     /**
      * Constructor for objects of class Tender
@@ -23,18 +22,20 @@ public class Tender extends Robot
     public Tender(int start, String color) {
         
         super(start, color);
-    
+        
     }
 
      /**
      * Move a Robot to a specific shop
      */
-    public void moveRobot(SilkRoad silkRoad, int shopId) {
+    public void moveRobot(SilkRoad silkRoad, int shopId) throws ObjectInSilkRoadException {
         
         HashMap<Integer, Shop> shops = silkRoad.getShops();
         Shop shop = shops.get(shopId);
         ArrayList<Point> path = silkRoad.getPath();
         this.gains = (shop.getTenges() - Math.abs(this.actualLocation - shop.getDistanceX()))/2;
+        
+        if (actualLocation >= shop.getDistanceX()) throw new ObjectInSilkRoadException(ObjectInSilkRoadException.CANT_BACK);
         
         if (actualLocation < shop.getDistanceX()) {
             for(int i = actualLocation; i <= shop.getDistanceX(); i++){
