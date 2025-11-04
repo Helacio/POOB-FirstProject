@@ -1,9 +1,9 @@
-package silkRoad;
+package silkroad;
 
 import java.util.Random;
 import java.util.ArrayList;
 import shapes.*;
-
+ 
 /**
  * Write a description of class Autonomous here.
  * 

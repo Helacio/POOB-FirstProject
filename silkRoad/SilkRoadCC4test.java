@@ -1,4 +1,4 @@
-package silkRoad;
+package silkroad;
 
 
 
@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
+ 
 /**
  * The test class SilkRoadCC4test.
  *

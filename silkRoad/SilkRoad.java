@@ -1,4 +1,4 @@
-package silkRoad;
+package silkroad;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.HashSet;
 import shapes.*;
-
+ 
 /**
  * Write a description of class Simulator here.
  * @author SanchezVillagran 
@@ -151,25 +151,43 @@ public class SilkRoad
      * @param meters Is the distance you want to the robot moves
      */
     public void moveRobotByMeters(int idRobot, int meters){
+        moveRobotByMeters(idRobot, meters, false);
+    }
+    
+    /**
+     * Move the robot in meters
+     * @param idRobot Is the id of the robot wich you want to move this is the initialLocation
+     * @param meters Is the distance you want to the robot moves
+     * @param slow Indicates if the robot moves slow
+     */
+    public void moveRobotByMeters(int idRobot, int meters, boolean slow){
         Robot robot = robots.get(idRobot);
         int start = robot.getActualLocation();
         int finalPosition = start  + meters;
         
         if(start <= finalPosition) {
             for(int i = start; i <= finalPosition; i++) {
-                
-                Point  step = path.get(i);
-                robot.setPosition(step.x, step.y);
-                Canvas.getCanvas().wait(100);
             
+                Point  step = path.get(i);
+                if(!slow){
+                    robot.setPosition(step.x, step.y);
+                    Canvas.getCanvas().wait(100);
+                } else {
+                    robot.setPosition(step.x, step.y);
+                    Canvas.getCanvas().wait(250);
+                }
             }
-        
-        } else {
+        }else{
             for(int i = start; i >= finalPosition; i--) {
-                Point step = path.get(i);
-                robot.setPosition(step.x, step.y);
-                Canvas.getCanvas().wait(100);
                 
+                Point step = path.get(i);
+                if(!slow){
+                    robot.setPosition(step.x, step.y);
+                    Canvas.getCanvas().wait(100);
+                } else {
+                    robot.setPosition(step.x, step.y);
+                    Canvas.getCanvas().wait(250);
+                }
             }
         }
         
@@ -177,16 +195,22 @@ public class SilkRoad
     }
     
     /**
+     * Call a method moveTomxGain main
+     */
+    public void moveToMaxGain(){
+        moveToMaxGain(false);
+    }
+    
+    /**
      * This method makes robots move to the nearest shop. 
      * You can only use it when the shop and robot HashMaps are built with the location of these objects as the key. 
      * 
      */
-    public void moveToMaxGain() {
+    public void moveToMaxGain(boolean slow) {
         
-        
-        if (nextRobotToMove.isEmpty()) {
-            setNeariestRobots(); 
-        }
+    if (nextRobotToMove.isEmpty()) {
+        setNeariestRobots(); 
+    }
         
         while (checkAll() && !nextRobotToMove.isEmpty()) {
         
@@ -212,7 +236,7 @@ public class SilkRoad
                     int shopId = shopToGo.getDistanceX();
                     
                     // 2. MOVER Y OBTENER GANANCIA
-                    moveRobot(robotIdToMove, shopId); // Mueve al robot y vacía la tienda
+                    moveRobot(robotIdToMove, shopId, slow); // Mueve al robot y vacía la tienda
                     
                     Robot best = getRobotWithMajorGain();
                     
@@ -749,9 +773,21 @@ public class SilkRoad
     }
     
     /**
-     * Move a robot to a specific cell
+     * Move Robot to a specific cell
+     * @param robotId Indicates the id of the robot
+     * @param shopId Indicates the id of the wished shop
      */
-    public void moveRobot(int robotId, int shopId) {
+    public void moveRobot(int robotId, int shopId){
+        moveRobot(robotId, shopId, false);
+    }
+    
+    /**
+     * Move a robot to a specific cell
+     * @param robotId Indicates the id of the robot
+     * @param shopId Indicates the id of the wished shop
+     * @param slow Boolean value indicating slow movements
+     */
+    public void moveRobot(int robotId, int shopId, boolean slow) {
         
         Robot robot = robots.get(robotId);
         Shop shop = shops.get(shopId);
@@ -767,7 +803,7 @@ public class SilkRoad
         int finalPos  = shop.getDistanceX();
         int distance = finalPos - start;
         
-        moveRobotByMeters(robotId, distance);
+        moveRobotByMeters(robotId, distance, slow);
         
         int gain = shop.empty() - Math.abs(distance);
         robot.addGain(gain);
@@ -780,7 +816,7 @@ public class SilkRoad
             Robot best = getRobotWithMajorGain();
             if(best != null) {
             
-                best.blink();
+                best.blink(slow);
             
             }
         } else {
@@ -1096,7 +1132,7 @@ public class SilkRoad
                 bestRobot = r;
             }
         }
-        
+         
         return bestRobot;
     
     }

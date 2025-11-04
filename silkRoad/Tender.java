@@ -1,12 +1,12 @@
-package silkRoad;
+package silkroad;
 
 import exception.*;
 import shapes.Canvas;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.awt.Point;
-
-
+ 
+ 
 /**
  * Write a description of class Tender here.
  * 

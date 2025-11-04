@@ -1,10 +1,10 @@
-package silkRoad;
+package silkroad;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.Before;
 
-/**
+/** 
  * Test class SilkRoadC2
  *
  * @author sanchez-villagran

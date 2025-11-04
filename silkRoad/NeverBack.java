@@ -1,10 +1,10 @@
-package silkRoad;
+package silkroad;
 
 import shapes.Canvas;
 import java.awt.Point;
 import java.util.HashMap;
 import java.util.ArrayList;
-
+ 
 
 /**
  * Write a description of class NeverBack here.

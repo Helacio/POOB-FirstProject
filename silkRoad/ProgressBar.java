@@ -1,7 +1,7 @@
-package silkRoad;
+package silkroad;
 
 import shapes.*;
-
+ 
 /**
  * Write a description of class ProgressBar here.
  *

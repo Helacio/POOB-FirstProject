@@ -1,4 +1,4 @@
-package silkRoad;
+package silkroad;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
@@ -9,7 +9,7 @@ import org.junit.Test;
  * @author sanchez-villagran
  * 
  */
-public class SilkRoadC1Tests
+public class SilkRoadC1Tests 
 {
     @Test
     public void accordingSVshouldCreateSilkRoadEmpty(){

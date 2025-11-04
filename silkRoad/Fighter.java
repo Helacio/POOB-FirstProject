@@ -1,10 +1,10 @@
-package silkRoad;
+package silkroad;
 
 import exception.*;
 import java.util.ArrayList;
 import shapes.*;
 
-
+ 
 /**
  * Write a description of class Fighter here.
  * 
