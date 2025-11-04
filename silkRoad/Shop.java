@@ -1,5 +1,5 @@
-package silkRoad;
-
+package silkroad;
+ 
 import exception.*;
 import java.util.ArrayList;
 import shapes.*;
@@ -17,7 +17,7 @@ public class Shop
     protected boolean visible;
     protected boolean isEmpty;
     protected String color;
-    
+     
     /**
      * Constructor for objects of class Shop
      * Index Order: 0: Rectangle(body), 1: Rectangle(door), 2: Triangle(roof)
@@ -189,7 +189,7 @@ public class Shop
         figureShop.get(2).changeColor("blue");
     
     }
-    
+     
     /**
      * Get the isVisible atribute
      */

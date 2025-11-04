@@ -1,4 +1,4 @@
-package silkRoad;
+package silkroad;
 
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ public class Robot
     protected ArrayList<Figure> figureRobot;
     protected ArrayList<Integer> profitsPerMove;
     protected Shop neariestShop;
-    
+     
     /**
      * Constructor for objects of class Robot
      * Index Order: 0: Circle(leftEye), 1: Circle(rightEye), 2: Rectangle(head), 
@@ -199,14 +199,22 @@ public class Robot
     
     /**
      * Blink the robot
+     * @param slow Reduce the veolicity blink if is true
      */
-    public void blink(){
+    public void blink(boolean slow){
         if (visible){
             for(int i = 0; i < 5; i++){
-                makeInvisible();
-                Canvas.getCanvas().wait(250);
-                makeVisible();
-                Canvas.getCanvas().wait(250);
+                if(!slow){
+                    makeInvisible();
+                    Canvas.getCanvas().wait(250);
+                    makeVisible();
+                    Canvas.getCanvas().wait(250);
+                }else{
+                    makeInvisible();
+                    Canvas.getCanvas().wait(300);
+                    makeVisible();
+                    Canvas.getCanvas().wait(300);
+                }
             }
         }
     }
