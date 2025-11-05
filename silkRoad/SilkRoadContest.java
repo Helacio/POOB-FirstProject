@@ -114,7 +114,7 @@ public class SilkRoadContest{
             List<Integer> tengesList = new ArrayList<>();
             
             for(int i = 0; i < shops.size(); i++){
-                if(assignment[i] == i){
+                if(assignment[i] == r){
                     assignedShops.add(shops.get(i)[0]);
                     tengesList.add(shops.get(i)[1]);
                 }
