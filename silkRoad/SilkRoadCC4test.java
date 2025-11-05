@@ -44,7 +44,6 @@ public class SilkRoadCC4test {
     public void setFighter() {
         
         SilkRoad silkRoad = new SilkRoad(200);
-        silkRoad.makeVisible();
         silkRoad.addFighter(25, "red", 10);
         
     }
@@ -53,7 +52,6 @@ public class SilkRoadCC4test {
     public void setAutonomous() {
         
         SilkRoad silkRoad = new SilkRoad(120);
-        silkRoad.makeVisible();
         silkRoad.addAutonomous(10, "green", 20);
         
     }
@@ -62,7 +60,6 @@ public class SilkRoadCC4test {
     public void setTender() {
         
         SilkRoad silkRoad = new SilkRoad(120);
-        silkRoad.makeVisible();
         silkRoad.addTender(30, "blue");
     
     }
@@ -71,7 +68,6 @@ public class SilkRoadCC4test {
     public void setNeverBack() {
         
         SilkRoad silkRoad = new SilkRoad(120);
-        silkRoad.makeVisible();
         silkRoad.addNeverBack(35, "white");
         
     }
@@ -80,7 +76,6 @@ public class SilkRoadCC4test {
     public void tenderToShop() {
         
         SilkRoad silkRoad = new SilkRoad(120);
-        silkRoad.makeVisible();
         silkRoad.addTender(30, "blue");
         silkRoad.addShop(40, 10);
         System.out.println(silkRoad.getRobots().get(30).getProfitsPerMove());

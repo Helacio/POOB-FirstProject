@@ -967,7 +967,7 @@ public class SilkRoad
         
         }
         
-        winBar = new ProgressBar(150, 650, 400, 50, possibleTenges);
+        winBar = new ProgressBar(115, 650, 400, 50, possibleTenges);
     
     }
     
