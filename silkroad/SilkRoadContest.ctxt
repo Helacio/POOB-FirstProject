@@ -1,0 +1,18 @@
+#BlueJ class context
+comment0.target=SilkRoadContest
+comment1.params=
+comment1.target=SilkRoadContest()
+comment1.text=\r\n\ Constructor\ class\r\n
+comment2.params=days
+comment2.target=java.util.ArrayList\ solve(int[][])
+comment2.text=\r\n\ Solve\ method\r\n\ @param\ int[][]\ days\ input\ type\ ICPC\ problem\r\n
+comment3.params=days\ slow
+comment3.target=void\ simulate(int[][],\ boolean)
+comment3.text=\r\n\ Simulates\ the\ problem\ SilkRoad\r\n\ @param\ int[][]\ days\ input\ type\ ICPC\ problem\r\n
+comment4.params=robots\ shops
+comment4.target=int\ findBestProfit(java.util.TreeSet,\ java.util.TreeMap)
+comment4.text=\r\n\ Preparation\ method\ before\ assign\ Shops\ -\ Robots\r\n
+comment5.params=robotPos\ shopsPosition
+comment5.target=int\ calculateMinTravelCost(int,\ java.util.List)
+comment5.text=\r\n\ Calculate\ the\ minimum\ cost\ of\ travel\ by\ shops\ assigned\ to\ a\ robot\r\n\ @return\ min\ cost\r\n\ The\ robot\ moves\ optimal\ to\ the\ right\ or\ left.\r\n
+numComments=6
